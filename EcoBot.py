@@ -1,9 +1,7 @@
-import pygame
-import random
+from Dependencias import *
 
 # Inicializar Pygame
 pygame.init()
-
 # Configuración de la pantalla completa
 pygame.display.set_caption("Proyecto Feria de Ciencias")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)

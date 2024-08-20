@@ -104,20 +104,21 @@ def game_loop():
                         Game_Over = False
                         game_started = True
                         bot_moving = False
+
                 else:
-                    if event.key == pygame.K_UP and Direccion != 'DOWN':
+                    if event.key in [pygame.K_UP, pygame.K_w] and Direccion != 'DOWN':
                         Direccion = 'UP'
                         Sprite_Actual = Sprite_EcoBot_Espalda
                         bot_moving = True
-                    elif event.key == pygame.K_DOWN and Direccion != 'UP':
+                    elif event.key in [pygame.K_DOWN, pygame.K_s] and Direccion != 'UP':
                         Direccion = 'DOWN'
                         Sprite_Actual = Sprite_EcoBot_Frente
                         bot_moving = True
-                    elif event.key == pygame.K_LEFT and Direccion != 'RIGHT':
+                    elif event.key in [pygame.K_LEFT, pygame.K_a] and Direccion != 'RIGHT':
                         Direccion = 'LEFT'
                         Sprite_Actual = Sprite_EcoBot_Izquierda  
                         bot_moving = True
-                    elif event.key == pygame.K_RIGHT and Direccion != 'LEFT':
+                    elif event.key in [pygame.K_RIGHT, pygame.K_d] and Direccion != 'LEFT':
                         Direccion = 'RIGHT'
                         Sprite_Actual = Sprite_EcoBot_Derecha  
                         bot_moving = True

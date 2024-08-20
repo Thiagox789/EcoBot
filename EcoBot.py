@@ -1,9 +1,15 @@
-from Dependencias import *
+import pygame
+import random
+import os
 
 # Inicializar Pygame
 pygame.init()
+
+# Configuración del reloj
+Reloj = pygame.time.Clock()
+
 # Configuración de la pantalla completa
-pygame.display.set_caption("Proyecto Feria de Ciencias")
+pygame.display.set_caption("EcoBot")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 Ancho_Pantalla, Alto_Pantalla = Pantalla.get_size()
 Centro_X = Ancho_Pantalla // 2
@@ -17,27 +23,26 @@ Color_Rojo = (200, 0, 0)
 Color_Fondo = (0, 200, 0)
 Color_Pared = (0, 150, 0)
 
-# Tamaño de los sprites
-Tamaño_Robot = 50
-Tamaño_Basura = Tamaño_Robot
-Grosor_Pared = Tamaño_Robot // 2
+# Función para cargar assets
+def cargar_asset(Carpeta_Asset, Nombre_Asset):
+    Ruta_Asset = os.path.join(os.path.dirname(os.path.abspath(__file__)), Carpeta_Asset, Nombre_Asset)
+    
+    if Carpeta_Asset == 'Sprites':  
+        return pygame.image.load(Ruta_Asset)
+    
+    elif Carpeta_Asset == 'Audios':  
+        return pygame.mixer.Sound(Ruta_Asset)
+    
+# Cargar sprites
+Sprite_EcoBot_Frente = cargar_asset('Sprites', 'EcoBot - Frente.png')
+Sprite_EcoBot_Espalda = cargar_asset('Sprites', 'EcoBot - Espalda.png')
+# Sprite_EcoBot_Izquierda = cargar_asset('Sprites', 'EcoBot - Izquierda.png')
+# Sprite_EcoBot_Derecha = cargar_asset('Sprites', 'EcoBot - Derecha.png')
 
-# Configuración del robot
-Posicion_Robot = [Centro_X, Centro_Y]
-Velocidad_Robot = 5  
-Direccion = None
-
-# Configuración de la basura
-def Generador_Basura():
-    x = random.randint(Grosor_Pared, Ancho_Pantalla - Grosor_Pared - Tamaño_Basura)
-    y = random.randint(Grosor_Pared, Alto_Pantalla - Grosor_Pared - Tamaño_Basura)
-    return [x, y]
-
-Posicion_Basura = Generador_Basura()
-Generar_Basura = True
-
-# Configuración del reloj
-Reloj = pygame.time.Clock()
+# Tamaño de los "colliders"
+Tamaño_EcoBot = 125
+Tamaño_Basura = 50
+Grosor_Pared = 25
 
 # Fuente para el texto
 Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200)
@@ -65,27 +70,42 @@ def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pant
 # Función para mostrar la pantalla de inicio
 def Mostrar_Pantalla_Inicio():
     Pantalla.fill(Color_Gris)
-    Renderizar_Texto('Nombre Juego', Fuente_Titulos, Color_Fondo, 10, Color_Negro, *Posicion_Titulos, Pantalla)
+    Renderizar_Texto('EcoBot', Fuente_Titulos, Color_Fondo, 10, Color_Negro, *Posicion_Titulos, Pantalla)
     Renderizar_Texto('Presiona "Enter" para Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, *Posicion_Texto, Pantalla)
     pygame.display.flip()
 
 # Función para mostrar el mensaje de "Game Over"
 def Mostrar_Pantalla_Game_Over():
-    # Pantalla.fill((Color_Blanco), 100, pygame.SRCALPHA)
     Renderizar_Texto('¡Perdiste!', Fuente_Titulos, Color_Rojo, 10, Color_Negro, *Posicion_Titulos, Pantalla)
     Renderizar_Texto('Presiona "R" para volver a Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, *Posicion_Texto, Pantalla)
     pygame.display.flip()
+    
+# Configuración del EcoBot
+Posicion_EcoBot = [Centro_X, Centro_Y]
+Velocidad_EcoBot = 5  
+Direccion = None
+Sprite_Actual = Sprite_EcoBot_Frente
+
+# Configuración de la basura
+def Generador_Basura():
+    x = random.randint(Grosor_Pared, Ancho_Pantalla - Grosor_Pared - Tamaño_Basura)
+    y = random.randint(Grosor_Pared, Alto_Pantalla - Grosor_Pared - Tamaño_Basura)
+    return [x, y]
+
+Posicion_Basura = Generador_Basura()
+Generar_Basura = True
 
 def Resetear_Juego():
-    global Posicion_Robot, Direccion, Posicion_Basura, Generar_Basura
-    Posicion_Robot = [Centro_X, Centro_Y]
+    global Posicion_EcoBot, Direccion, Posicion_Basura, Generar_Basura, Sprite_Actual
+    Posicion_EcoBot = [Centro_X, Centro_Y]
     Direccion = None  # No se mueve al inicio
     Posicion_Basura = Generador_Basura()
     Generar_Basura = True
+    Sprite_Actual = Sprite_EcoBot_Frente
 
 # Función principal del juego
 def game_loop():
-    global Posicion_Robot, Direccion, Posicion_Basura, Generar_Basura
+    global Posicion_EcoBot, Direccion, Posicion_Basura, Generar_Basura, Sprite_Actual
     Game_Over = False
     game_started = False
     bot_moving = False
@@ -113,37 +133,41 @@ def game_loop():
                 else:
                     if event.key == pygame.K_UP and Direccion != 'DOWN':
                         Direccion = 'UP'
+                        Sprite_Actual = Sprite_EcoBot_Espalda
                         bot_moving = True
                     elif event.key == pygame.K_DOWN and Direccion != 'UP':
                         Direccion = 'DOWN'
+                        Sprite_Actual = Sprite_EcoBot_Frente
                         bot_moving = True
                     elif event.key == pygame.K_LEFT and Direccion != 'RIGHT':
                         Direccion = 'LEFT'
+                        # Sprite_Actual = Sprite_EcoBot_Izquierda  # Comentar para futura implementación
                         bot_moving = True
                     elif event.key == pygame.K_RIGHT and Direccion != 'LEFT':
                         Direccion = 'RIGHT'
+                        # Sprite_Actual = Sprite_EcoBot_Derecha  # Comentar para futura implementación
                         bot_moving = True
 
         if not game_started:
             Mostrar_Pantalla_Inicio()
         else:
             if not Game_Over:
-                # Mover al robot suavemente
+                # Mover al EcoBot suavemente
                 if bot_moving:
                     if Direccion == 'UP':
-                        Posicion_Robot[1] -= Velocidad_Robot
+                        Posicion_EcoBot[1] -= Velocidad_EcoBot
                     if Direccion == 'DOWN':
-                        Posicion_Robot[1] += Velocidad_Robot
+                        Posicion_EcoBot[1] += Velocidad_EcoBot
                     if Direccion == 'LEFT':
-                        Posicion_Robot[0] -= Velocidad_Robot
+                        Posicion_EcoBot[0] -= Velocidad_EcoBot
                     if Direccion == 'RIGHT':
-                        Posicion_Robot[0] += Velocidad_Robot
+                        Posicion_EcoBot[0] += Velocidad_EcoBot
 
-                # Detectar si el robot toco la basura
-                if (Posicion_Robot[0] < Posicion_Basura[0] + Tamaño_Basura and
-                    Posicion_Robot[0] + Tamaño_Robot > Posicion_Basura[0] and
-                    Posicion_Robot[1] < Posicion_Basura[1] + Tamaño_Basura and
-                    Posicion_Robot[1] + Tamaño_Robot > Posicion_Basura[1]):
+                # Detectar si el EcoBot tocó la basura
+                if (Posicion_EcoBot[0] < Posicion_Basura[0] + Tamaño_Basura and
+                    Posicion_EcoBot[0] + Tamaño_EcoBot > Posicion_Basura[0] and
+                    Posicion_EcoBot[1] < Posicion_Basura[1] + Tamaño_Basura and
+                    Posicion_EcoBot[1] + Tamaño_EcoBot > Posicion_Basura[1]):
                     Generar_Basura = False
 
                 if not Generar_Basura:
@@ -152,29 +176,28 @@ def game_loop():
 
                 # Pantalla de juego
                 Pantalla.fill(Color_Fondo)
-                pygame.draw.rect(Pantalla, Color_Blanco, pygame.Rect(Posicion_Robot[0], Posicion_Robot[1], Tamaño_Robot, Tamaño_Robot))
+                # Dibuja los sprites
+                Pantalla.blit(Sprite_Actual, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
                 pygame.draw.rect(Pantalla, Color_Gris, pygame.Rect(Posicion_Basura[0], Posicion_Basura[1], Tamaño_Basura, Tamaño_Basura))
 
-                # Dibujar paredes alrededor de la pantalla
+                # Dibuja las paredes
                 pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Ancho_Pantalla, Grosor_Pared))
-                pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Grosor_Pared, Alto_Pantalla))
                 pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared, Ancho_Pantalla, Grosor_Pared))
+                pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Grosor_Pared, Alto_Pantalla))
                 pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - Grosor_Pared, 0, Grosor_Pared, Alto_Pantalla))
 
-                # Condiciones de fin de juego
-                if (Posicion_Robot[0] < Grosor_Pared or
-                    Posicion_Robot[0] > Ancho_Pantalla - Grosor_Pared - Tamaño_Robot or
-                    Posicion_Robot[1] < Grosor_Pared or
-                    Posicion_Robot[1] > Alto_Pantalla - Grosor_Pared - Tamaño_Robot):
+                # Revisa colisión con los bordes
+                if (Posicion_EcoBot[0] < Grosor_Pared or
+                    Posicion_EcoBot[0] > Ancho_Pantalla - Tamaño_EcoBot - Grosor_Pared or
+                    Posicion_EcoBot[1] < Grosor_Pared or
+                    Posicion_EcoBot[1] > Alto_Pantalla - Tamaño_EcoBot - Grosor_Pared):
                     Game_Over = True
 
             if Game_Over:
                 Mostrar_Pantalla_Game_Over()
 
-        # Actualizar la pantalla y el reloj
-        pygame.display.update()
-        Reloj.tick(60)
+            pygame.display.update()
+            Reloj.tick(60)
 
 # Ejecutar el juego
-if __name__ == "__main__":
-    game_loop()
+game_loop()

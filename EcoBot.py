@@ -1,6 +1,4 @@
-import pygame
-import random
-import os
+from Dependencias import *
 
 # Inicializar Pygame
 pygame.init()
@@ -15,17 +13,9 @@ Ancho_Pantalla, Alto_Pantalla = Pantalla.get_size()
 Centro_X = Ancho_Pantalla // 2
 Centro_Y = Alto_Pantalla // 2
 
-# Colores
-Color_Blanco = (225, 225, 225)
-Color_Negro = (0, 0, 0)
-Color_Gris = (50, 50, 50)
-Color_Rojo = (200, 0, 0)
-Color_Fondo = (0, 200, 0)
-Color_Pared = (0, 150, 0)
-
 # Función para cargar assets
 def cargar_asset(Carpeta_Asset, Nombre_Asset):
-    Ruta_Asset = os.path.join(os.path.dirname(os.path.abspath(__file__)), Carpeta_Asset, Nombre_Asset)
+    Ruta_Asset = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Assets', Carpeta_Asset, Nombre_Asset)
     
     if Carpeta_Asset == 'Sprites':  
         return pygame.image.load(Ruta_Asset)

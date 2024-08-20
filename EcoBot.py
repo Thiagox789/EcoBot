@@ -1,4 +1,4 @@
-from Dependencias import *
+from Assets_Librerias import *
 
 # Inicializar Pygame
 pygame.init()
@@ -12,22 +12,6 @@ Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 Ancho_Pantalla, Alto_Pantalla = Pantalla.get_size()
 Centro_X = Ancho_Pantalla // 2
 Centro_Y = Alto_Pantalla // 2
-
-# Función para cargar assets
-def cargar_asset(Carpeta_Asset, Nombre_Asset):
-    Ruta_Asset = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Assets', Carpeta_Asset, Nombre_Asset)
-    
-    if Carpeta_Asset == 'Sprites':  
-        return pygame.image.load(Ruta_Asset)
-    
-    elif Carpeta_Asset == 'Audios':  
-        return pygame.mixer.Sound(Ruta_Asset)
-    
-# Cargar sprites
-Sprite_EcoBot_Frente = cargar_asset('Sprites', 'EcoBot - Frente.png')
-Sprite_EcoBot_Espalda = cargar_asset('Sprites', 'EcoBot - Espalda.png')
-# Sprite_EcoBot_Izquierda = cargar_asset('Sprites', 'EcoBot - Izquierda.png')
-# Sprite_EcoBot_Derecha = cargar_asset('Sprites', 'EcoBot - Derecha.png')
 
 # Tamaño de los "colliders"
 Tamaño_EcoBot = 125
@@ -131,11 +115,11 @@ def game_loop():
                         bot_moving = True
                     elif event.key == pygame.K_LEFT and Direccion != 'RIGHT':
                         Direccion = 'LEFT'
-                        # Sprite_Actual = Sprite_EcoBot_Izquierda  # Comentar para futura implementación
+                        Sprite_Actual = Sprite_EcoBot_Izquierda  
                         bot_moving = True
                     elif event.key == pygame.K_RIGHT and Direccion != 'LEFT':
                         Direccion = 'RIGHT'
-                        # Sprite_Actual = Sprite_EcoBot_Derecha  # Comentar para futura implementación
+                        Sprite_Actual = Sprite_EcoBot_Derecha  
                         bot_moving = True
 
         if not game_started:

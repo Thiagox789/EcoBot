@@ -29,6 +29,11 @@ Sprite_EcoBot_Frente = cargar_asset('Sprites', 'EcoBot - Frente.png')
 Sprite_EcoBot_Espalda = cargar_asset('Sprites', 'EcoBot - Espalda.png')
 Sprite_EcoBot_Izquierda = cargar_asset('Sprites', 'EcoBot - Izquierda.png')
 Sprite_EcoBot_Derecha = cargar_asset('Sprites', 'EcoBot - Derecha.png')
+
+Sprite_Tacho_de_Basura = cargar_asset('Sprites', 'Tacho de Basura.png')
+
+Sprite_Basura_Metal_1 = cargar_asset('Sprites', 'Basura - Metal 1.png')
+
 # Cargar sonidos
 Agarrar_Papel = cargar_asset('Sonidos', 'Agarrar_Papel.mp3')
 Agarrar_Papel_Simple = cargar_asset('Sonidos', 'Agarrar_Papel_Simple.mp3')

@@ -1,4 +1,7 @@
 from Assets_Librerias import *
+import pygame
+import random
+import os
 
 # Inicializar Pygame
 pygame.init()
@@ -14,8 +17,8 @@ Centro_X = Ancho_Pantalla // 2
 Centro_Y = Alto_Pantalla // 2
 
 # Tamaño de los "colliders"
-Tamaño_EcoBot = 125
-Tamaño_Basura = 50
+Tamaño_Sprite_Grandes = 125
+Tamaño_Basura = 75
 Grosor_Pared = 25
 
 # Fuente para el texto
@@ -60,26 +63,51 @@ Velocidad_EcoBot = 5
 Direccion = None
 Sprite_Actual = Sprite_EcoBot_Frente
 
-# Configuración de la basura
-def Generador_Basura():
-    x = random.randint(Grosor_Pared, Ancho_Pantalla - Grosor_Pared - Tamaño_Basura)
-    y = random.randint(Grosor_Pared, Alto_Pantalla - Grosor_Pared - Tamaño_Basura)
+# Función para verificar si dos rectángulos colisionan
+def verificar_colision(rect1, rect2):
+    return rect1.colliderect(rect2)
+
+# Función para generar una posición de basura
+def Generador_Basura(basuras_existentes):
+    while True:
+        x = random.randint(Grosor_Pared, Ancho_Pantalla - Grosor_Pared - Tamaño_Basura)
+        y = random.randint(Grosor_Pared, Alto_Pantalla - Grosor_Pared - Tamaño_Basura)
+        nueva_basura = pygame.Rect(x, y, Tamaño_Basura, Tamaño_Basura)
+        
+        # Verificar si la nueva posición colisiona con alguna basura existente
+        if not any(verificar_colision(nueva_basura, pygame.Rect(b[0], b[1], Tamaño_Basura, Tamaño_Basura)) for b in basuras_existentes):
+            return [x, y]
+
+# Generar múltiples basuras
+def Generar_Basuras(num_basuras):
+    basuras = []
+    while len(basuras) < num_basuras:
+        nueva_basura = Generador_Basura(basuras)
+        basuras.append(nueva_basura)
+    return basuras
+
+# Inicializar las basuras
+Num_Basuras = 3
+Posiciones_Basura = Generar_Basuras(Num_Basuras)
+
+def Generador_Tacho():
+    x = random.randint(Grosor_Pared, Ancho_Pantalla - Grosor_Pared - Tamaño_Sprite_Grandes)
+    y = random.randint(Grosor_Pared, Alto_Pantalla - Grosor_Pared - Tamaño_Sprite_Grandes)
     return [x, y]
 
-Posicion_Basura = Generador_Basura()
-Generar_Basura = True
+Posicion_Tacho = Generador_Tacho()
 
 def Resetear_Juego():
-    global Posicion_EcoBot, Direccion, Posicion_Basura, Generar_Basura, Sprite_Actual
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posicion_Tacho, Sprite_Actual
     Posicion_EcoBot = [Centro_X, Centro_Y]
     Direccion = None  # No se mueve al inicio
-    Posicion_Basura = Generador_Basura()
-    Generar_Basura = True
+    Posiciones_Basura = Generar_Basuras(Num_Basuras)
+    Posicion_Tacho = Generador_Tacho()
     Sprite_Actual = Sprite_EcoBot_Frente
 
 # Función principal del juego
 def game_loop():
-    global Posicion_EcoBot, Direccion, Posicion_Basura, Generar_Basura, Sprite_Actual
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posicion_Tacho, Sprite_Actual
     Game_Over = False
     game_started = False
     bot_moving = False
@@ -138,22 +166,28 @@ def game_loop():
                     if Direccion == 'RIGHT':
                         Posicion_EcoBot[0] += Velocidad_EcoBot
 
-                # Detectar si el EcoBot tocó la basura
-                if (Posicion_EcoBot[0] < Posicion_Basura[0] + Tamaño_Basura and
-                    Posicion_EcoBot[0] + Tamaño_EcoBot > Posicion_Basura[0] and
-                    Posicion_EcoBot[1] < Posicion_Basura[1] + Tamaño_Basura and
-                    Posicion_EcoBot[1] + Tamaño_EcoBot > Posicion_Basura[1]):
-                    Generar_Basura = False
+                # Detectar si el EcoBot tocó alguna basura
+                Basura_Recogida = None
+                for i, basura in enumerate(Posiciones_Basura):
+                    if (Posicion_EcoBot[0] < basura[0] + Tamaño_Basura and
+                        Posicion_EcoBot[0] + Tamaño_Sprite_Grandes > basura[0] and
+                        Posicion_EcoBot[1] < basura[1] + Tamaño_Basura and
+                        Posicion_EcoBot[1] + Tamaño_Sprite_Grandes > basura[1]):
+                        Basura_Recogida = i
+                        break
 
-                if not Generar_Basura:
-                    Posicion_Basura = Generador_Basura()
-                Generar_Basura = True
+                if Basura_Recogida is not None:
+                    Posiciones_Basura[Basura_Recogida] = Generador_Basura(Posiciones_Basura)
 
                 # Pantalla de juego
                 Pantalla.fill(Color_Fondo)
+                
                 # Dibuja los sprites
                 Pantalla.blit(Sprite_Actual, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
-                pygame.draw.rect(Pantalla, Color_Gris, pygame.Rect(Posicion_Basura[0], Posicion_Basura[1], Tamaño_Basura, Tamaño_Basura))
+                Pantalla.blit(Sprite_Tacho_de_Basura, (Posicion_Tacho[0], Posicion_Tacho[1]))
+                
+                for basura in Posiciones_Basura:
+                    Pantalla.blit(Sprite_Basura_Metal_1, (basura[0], basura[1]))
 
                 # Dibuja las paredes
                 pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Ancho_Pantalla, Grosor_Pared))
@@ -163,9 +197,9 @@ def game_loop():
 
                 # Revisa colisión con los bordes
                 if (Posicion_EcoBot[0] < Grosor_Pared or
-                    Posicion_EcoBot[0] > Ancho_Pantalla - Tamaño_EcoBot - Grosor_Pared or
+                    Posicion_EcoBot[0] > Ancho_Pantalla - Tamaño_Sprite_Grandes - Grosor_Pared or
                     Posicion_EcoBot[1] < Grosor_Pared or
-                    Posicion_EcoBot[1] > Alto_Pantalla - Tamaño_EcoBot - Grosor_Pared):
+                    Posicion_EcoBot[1] > Alto_Pantalla - Tamaño_Sprite_Grandes - Grosor_Pared):
                     Game_Over = True
 
             if Game_Over:

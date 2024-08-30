@@ -24,8 +24,8 @@ Grosor_Pared = 25
 # Fuente para el texto
 Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200)
 Posicion_Titulos = Centro_X, Centro_Y - 75
-Posicion_Texto = Centro_X, Centro_Y + 125
 Fuente_Texto = pygame.font.SysFont('timesnewroman', 50)
+Posicion_Texto = Centro_X, Centro_Y + 125
 
 # Función auxiliar para dibujar texto con borde
 def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pantalla):
@@ -56,58 +56,71 @@ def Mostrar_Pantalla_Game_Over():
     Renderizar_Texto('¡Perdiste!', Fuente_Titulos, Color_Rojo, 10, Color_Negro, *Posicion_Titulos, Pantalla)
     Renderizar_Texto('Presiona "R" para volver a Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, *Posicion_Texto, Pantalla)
     pygame.display.flip()
-    
+
+def centrar_sprite(sprite, posicion):
+    ancho_sprite, alto_sprite = sprite.get_size()
+    posicion_centrada = [posicion[0] - ancho_sprite // 2, posicion[1] - alto_sprite // 2]
+    return posicion_centrada
+
 # Configuración del EcoBot
-Posicion_EcoBot = [Centro_X, Centro_Y]
-Velocidad_EcoBot = 5  
-Direccion = None
 Sprite_Actual = Sprite_EcoBot_Frente
+Ancho_Sprite, Alto_Sprite = Sprite_Actual.get_size()
+Direccion = None
+Velocidad_EcoBot = 5  
+Posicion_EcoBot = centrar_sprite(Sprite_Actual, [Centro_X, Centro_Y])
 
 # Función para verificar si dos rectángulos colisionan
 def verificar_colision(rect1, rect2):
     return rect1.colliderect(rect2)
 
-# Función para generar una posición de basura
-def Generador_Basura(basuras_existentes):
+# Función para generar una posición que no se superponga y esté dentro del marco
+def Generador_Posicion(sprite_tamano, objetos_existentes):
     while True:
-        x = random.randint(Grosor_Pared, Ancho_Pantalla - Grosor_Pared - Tamaño_Basura)
-        y = random.randint(Grosor_Pared, Alto_Pantalla - Grosor_Pared - Tamaño_Basura)
-        nueva_basura = pygame.Rect(x, y, Tamaño_Basura, Tamaño_Basura)
-        
-        # Verificar si la nueva posición colisiona con alguna basura existente
-        if not any(verificar_colision(nueva_basura, pygame.Rect(b[0], b[1], Tamaño_Basura, Tamaño_Basura)) for b in basuras_existentes):
+        x = random.randint(Grosor_Pared, Ancho_Pantalla - sprite_tamano - Grosor_Pared)
+        y = random.randint(Grosor_Pared, Alto_Pantalla - sprite_tamano - Grosor_Pared)
+        nueva_posicion = pygame.Rect(x, y, sprite_tamano, sprite_tamano)
+
+        # Verificar si la nueva posición no colisiona con ningún objeto existente
+        if not any(verificar_colision(nueva_posicion, pygame.Rect(o[0], o[1], sprite_tamano, sprite_tamano)) for o in objetos_existentes):
             return [x, y]
 
 # Generar múltiples basuras
-def Generar_Basuras(num_basuras):
+def Generar_Basuras(num_basuras, sprite_tamano, posiciones_tachos):
     basuras = []
     while len(basuras) < num_basuras:
-        nueva_basura = Generador_Basura(basuras)
+        nueva_basura = Generador_Posicion(sprite_tamano, basuras + posiciones_tachos)  # Asegura que no colisione con tachos de basura
         basuras.append(nueva_basura)
     return basuras
 
-# Inicializar las basuras
-Num_Basuras = 3
-Posiciones_Basura = Generar_Basuras(Num_Basuras)
-
-def Generador_Tacho():
-    x = random.randint(Grosor_Pared, Ancho_Pantalla - Grosor_Pared - Tamaño_Sprite_Grandes)
-    y = random.randint(Grosor_Pared, Alto_Pantalla - Grosor_Pared - Tamaño_Sprite_Grandes)
-    return [x, y]
-
-Posicion_Tacho = Generador_Tacho()
+# Generar múltiples tachos de basura
+def Generar_Tachos(num_tachos, sprite_tamano, posiciones_basura):
+    tachos = []
+    while len(tachos) < num_tachos:
+        nuevo_tacho = Generador_Posicion(sprite_tamano, tachos + posiciones_basura)  # Asegura que no colisione con basuras
+        tachos.append(nuevo_tacho)
+    return tachos
 
 def Resetear_Juego():
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posicion_Tacho, Sprite_Actual
-    Posicion_EcoBot = [Centro_X, Centro_Y]
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
+    Posicion_EcoBot = centrar_sprite(Sprite_Actual, [Centro_X, Centro_Y])
     Direccion = None  # No se mueve al inicio
-    Posiciones_Basura = Generar_Basuras(Num_Basuras)
-    Posicion_Tacho = Generador_Tacho()
+    Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
+    Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
     Sprite_Actual = Sprite_EcoBot_Frente
 
-# Función principal del juego
+# Inicializar las basuras y tachos
+Num_Basuras = 3
+Num_Tachos = 3
+
+Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
+Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
+
+Posiciones_Basura = [centrar_sprite(Sprite_Basura_Metal_1, pos) for pos in Posiciones_Basura]
+Posiciones_Tachos = [centrar_sprite(Sprite_Tacho_de_Basura, pos) for pos in Posiciones_Tachos]
+
+# Pantalla de juego (agregar el dibujo de los tachos)
 def game_loop():
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posicion_Tacho, Sprite_Actual
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
     Game_Over = False
     game_started = False
     bot_moving = False
@@ -177,15 +190,18 @@ def game_loop():
                         break
 
                 if Basura_Recogida is not None:
-                    Posiciones_Basura[Basura_Recogida] = Generador_Basura(Posiciones_Basura)
+                    Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
+                    Posiciones_Basura[Basura_Recogida] = centrar_sprite(Sprite_Basura_Metal_1, Posiciones_Basura[Basura_Recogida])
 
                 # Pantalla de juego
                 Pantalla.fill(Color_Fondo)
                 
                 # Dibuja los sprites
                 Pantalla.blit(Sprite_Actual, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
-                Pantalla.blit(Sprite_Tacho_de_Basura, (Posicion_Tacho[0], Posicion_Tacho[1]))
                 
+                for tacho in Posiciones_Tachos:
+                    Pantalla.blit(Sprite_Tacho_de_Basura, (tacho[0], tacho[1]))
+
                 for basura in Posiciones_Basura:
                     Pantalla.blit(Sprite_Basura_Metal_1, (basura[0], basura[1]))
 

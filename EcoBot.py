@@ -1,12 +1,18 @@
 from Assets_Librerias import *
+
+# Inicializar Pygame
+pygame.init()
+
 from Configs import *
 
-# Pantalla de juego (agregar el dibujo de los tachos)
 def game_loop():
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
     Game_Over = False
     game_started = False
     bot_moving = False
+
+    # Inicialización
+    inicializar_juego()
 
     while True:
         for event in pygame.event.get():
@@ -17,35 +23,42 @@ def game_loop():
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     quit()
+
+                # Manejo del inicio del juego
                 if not game_started:
                     if event.key == pygame.K_RETURN:
                         game_started = True
                         bot_moving = False
                     continue
+
+                # Manejo del reinicio del juego
                 if Game_Over:
                     if event.key == pygame.K_r:
-                        Resetear_Juego()
+                        print("Reiniciando juego...")
+                        inicializar_juego()  # Llamada a la función de reinicio
                         Game_Over = False
                         game_started = True
                         bot_moving = False
+                        print("Juego reiniciado con valores predeterminados")
+                    continue
 
-                else:
-                    if event.key in [pygame.K_UP, pygame.K_w] and Direccion != 'DOWN':
-                        Direccion = 'UP'
-                        Sprite_Actual = Sprite_EcoBot_Espalda
-                        bot_moving = True
-                    elif event.key in [pygame.K_DOWN, pygame.K_s] and Direccion != 'UP':
-                        Direccion = 'DOWN'
-                        Sprite_Actual = Sprite_EcoBot_Frente
-                        bot_moving = True
-                    elif event.key in [pygame.K_LEFT, pygame.K_a] and Direccion != 'RIGHT':
-                        Direccion = 'LEFT'
-                        Sprite_Actual = Sprite_EcoBot_Izquierda  
-                        bot_moving = True
-                    elif event.key in [pygame.K_RIGHT, pygame.K_d] and Direccion != 'LEFT':
-                        Direccion = 'RIGHT'
-                        Sprite_Actual = Sprite_EcoBot_Derecha  
-                        bot_moving = True
+                # Manejo de los controles del EcoBot
+                if event.key in [pygame.K_UP, pygame.K_w] and Direccion != 'DOWN':
+                    Direccion = 'UP'
+                    Sprite_Actual = Sprite_EcoBot_Espalda
+                    bot_moving = True
+                elif event.key in [pygame.K_DOWN, pygame.K_s] and Direccion != 'UP':
+                    Direccion = 'DOWN'
+                    Sprite_Actual = Sprite_EcoBot_Frente
+                    bot_moving = True
+                elif event.key in [pygame.K_LEFT, pygame.K_a] and Direccion != 'RIGHT':
+                    Direccion = 'LEFT'
+                    Sprite_Actual = Sprite_EcoBot_Izquierda  
+                    bot_moving = True
+                elif event.key in [pygame.K_RIGHT, pygame.K_d] and Direccion != 'LEFT':
+                    Direccion = 'RIGHT'
+                    Sprite_Actual = Sprite_EcoBot_Derecha  
+                    bot_moving = True
 
         if not game_started:
             Mostrar_Pantalla_Inicio()
@@ -104,8 +117,8 @@ def game_loop():
             if Game_Over:
                 Mostrar_Pantalla_Game_Over()
 
-            pygame.display.update()
-            Reloj.tick(60)
+        pygame.display.update()
+        Reloj.tick(60)
 
 # Ejecutar el juego
 game_loop()

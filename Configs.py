@@ -1,8 +1,4 @@
 from Assets_Librerias import *
-from EcoBot import *
-
-# Inicializar Pygame
-pygame.init()
 
 # Configuración del reloj
 Reloj = pygame.time.Clock()
@@ -98,13 +94,13 @@ def Generar_Tachos(num_tachos, sprite_tamano, posiciones_basura):
         tachos.append(nuevo_tacho)
     return tachos
 
-def Resetear_Juego():
+def inicializar_juego():
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
     Posicion_EcoBot = centrar_sprite(Sprite_Actual, [Centro_X, Centro_Y])
-    Direccion = None  # No se mueve al inicio
+    Direccion = None
+    Sprite_Actual = Sprite_EcoBot_Frente
     Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
     Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
-    Sprite_Actual = Sprite_EcoBot_Frente
 
 # Inicializar las basuras y tachos
 Num_Basuras = 3

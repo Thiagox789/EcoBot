@@ -39,6 +39,9 @@ Sprite_EcoBot_Izquierda = cargar_asset('Sprites', 'EcoBot - Izquierda.png')
 Sprite_EcoBot_Derecha = cargar_asset('Sprites', 'EcoBot - Derecha.png')
 
 Sprite_Tacho_de_Basura = cargar_asset('Sprites', 'Tacho de Basura.png')
+Sprite_Tacho_de_Reciclaje_1 = cargar_asset('Sprites', 'Tacho de Reciclaje - 1.png')
+Sprite_Tacho_de_Reciclaje_2 = cargar_asset('Sprites', 'Tacho de Reciclaje - 2.png')
+Sprite_Tacho_de_Reciclaje_3 = cargar_asset('Sprites', 'Tacho de Reciclaje - 3.png')
 
 Sprite_Basura_Metal_1 = cargar_asset('Sprites', 'Basura - Vidrio 1.png')
 

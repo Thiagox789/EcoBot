@@ -29,17 +29,22 @@ def game_loop():
     inicializar_juego()
 
     while True:
+
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+                
             elif event.type == pygame.KEYDOWN:
+
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     quit()
 
                 # Manejo del inicio del juego
                 if not game_started:
+
                     if event.key == pygame.K_RETURN:
                         game_started = True
                         bot_moving = False
@@ -47,6 +52,7 @@ def game_loop():
 
                 # Manejo del reinicio del juego
                 if Game_Over:
+
                     if event.key == pygame.K_r:
                         inicializar_juego()
                         game_started = True
@@ -57,14 +63,17 @@ def game_loop():
                     Direccion = 'UP'
                     Sprite_Actual = Sprite_EcoBot_Espalda
                     bot_moving = True
+
                 elif event.key in [pygame.K_DOWN, pygame.K_s] and Direccion != 'UP':
                     Direccion = 'DOWN'
                     Sprite_Actual = Sprite_EcoBot_Frente
                     bot_moving = True
+
                 elif event.key in [pygame.K_LEFT, pygame.K_a] and Direccion != 'RIGHT':
                     Direccion = 'LEFT'
                     Sprite_Actual = Sprite_EcoBot_Izquierda  
                     bot_moving = True
+
                 elif event.key in [pygame.K_RIGHT, pygame.K_d] and Direccion != 'LEFT':
                     Direccion = 'RIGHT'
                     Sprite_Actual = Sprite_EcoBot_Derecha  
@@ -72,22 +81,29 @@ def game_loop():
 
         if not game_started:
             Mostrar_Pantalla_Inicio()
+
         else:
+
             if not Game_Over:
                 # Mover al EcoBot suavemente
+
                 if bot_moving:
                     if Direccion == 'UP':
                         Posicion_EcoBot[1] -= Velocidad_EcoBot
+
                     if Direccion == 'DOWN':
                         Posicion_EcoBot[1] += Velocidad_EcoBot
+
                     if Direccion == 'LEFT':
                         Posicion_EcoBot[0] -= Velocidad_EcoBot
+
                     if Direccion == 'RIGHT':
                         Posicion_EcoBot[0] += Velocidad_EcoBot
 
                 # Detectar si el EcoBot tocó alguna basura
                 Basura_Recogida = None
                 for i, basura in enumerate(Posiciones_Basura):
+                    
                     if (Posicion_EcoBot[0] < basura[0] + Tamaño_Basura and
                         Posicion_EcoBot[0] + Tamaño_Sprite_Grandes > basura[0] and
                         Posicion_EcoBot[1] < basura[1] + Tamaño_Basura and
@@ -97,7 +113,7 @@ def game_loop():
 
                 if Basura_Recogida is not None:
                     Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
-                    Posiciones_Basura[Basura_Recogida] = centrar_sprite(Sprite_Basura_Metal_1, Posiciones_Basura[Basura_Recogida])
+                    # Posiciones_Basura[Basura_Recogida] = centrar_sprite(Sprite_Basura_Metal_1, Posiciones_Basura[Basura_Recogida])
 
                 # Pantalla de juego
                 Pantalla.fill(Color_Fondo)
@@ -111,17 +127,25 @@ def game_loop():
                 for basura in Posiciones_Basura:
                     Pantalla.blit(Sprite_Basura_Metal_1, (basura[0], basura[1]))
 
-                # Dibuja las paredes
-                pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Ancho_Pantalla, Grosor_Pared))
-                pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared, Ancho_Pantalla, Grosor_Pared))
-                pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Grosor_Pared, Alto_Pantalla))
-                pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - Grosor_Pared, 0, Grosor_Pared, Alto_Pantalla))
+                # Define áreas de colisión para las paredes
+                Pared_superior = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Ancho_Pantalla, Grosor_Pared))
+                Pared_inferior = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared, Ancho_Pantalla, Grosor_Pared))
+                Pared_izquierdo = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Grosor_Pared, Alto_Pantalla))
+                Pared_derecho = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - Grosor_Pared, 0, Grosor_Pared, Alto_Pantalla))
 
-                # Revisa colisión con los bordes
-                if (Posicion_EcoBot[0] < Grosor_Pared or
-                    Posicion_EcoBot[0] > Ancho_Pantalla - Tamaño_Sprite_Grandes - Grosor_Pared or
-                    Posicion_EcoBot[1] < Grosor_Pared or
-                    Posicion_EcoBot[1] > Alto_Pantalla - Tamaño_Sprite_Grandes - Grosor_Pared):
+                pared_gruesa_izquierda = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, (Ancho_Pantalla - 450) // 2, Grosor_Pared_Gruesa))
+                pared_gruesa_derecha = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - (Ancho_Pantalla - 450) // 2, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, (Ancho_Pantalla - 450) // 2, Grosor_Pared_Gruesa))
+
+                # Revisa colisión con los Pareds y las paredes gruesas
+                rect_ecobot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
+
+                if (rect_ecobot.colliderect(Pared_superior) or
+                    rect_ecobot.colliderect(Pared_inferior) or
+                    rect_ecobot.colliderect(Pared_izquierdo) or
+                    rect_ecobot.colliderect(Pared_derecho) or
+                    rect_ecobot.colliderect(pared_gruesa_izquierda) or
+                    rect_ecobot.colliderect(pared_gruesa_derecha)):
+                    
                     Game_Over = True
 
             if Game_Over:

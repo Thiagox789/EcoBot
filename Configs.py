@@ -16,6 +16,7 @@ Centro_Y = Alto_Pantalla // 2
 Tamaño_Sprite_Grandes = 125
 Tamaño_Basura = 75
 Grosor_Pared = 25
+Grosor_Pared_Gruesa = 125
 
 # Fuente para el texto
 Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200)

@@ -29,6 +29,9 @@ Velocidad_EcoBot = 5
 Num_Basuras = 3
 Num_Tachos = 3
 
+# Definir la zona de spawn
+Zona_Spawn = pygame.Rect(Grosor_Pared + 50, Grosor_Pared + 50, Ancho_Pantalla - 150 , Alto_Pantalla - 275)
+
 # Función auxiliar para dibujar texto con borde
 def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pantalla):
     Texto_a_Renderizar = Fuente.render(Texto, True, Color)
@@ -61,13 +64,14 @@ def Mostrar_Pantalla_Game_Over():
 def verificar_colision(rect1, rect2):
     return rect1.colliderect(rect2)
 
-# Función para generar una posición que no se superponga y esté dentro del marco
+# Función para generar una posición dentro de la zona de spawn
 def Generador_Posicion(sprite_tamano, objetos_existentes):
     while True:
-        x = random.randint(Grosor_Pared, Ancho_Pantalla - sprite_tamano - Grosor_Pared)
-        y = random.randint(Grosor_Pared, Alto_Pantalla - sprite_tamano - Grosor_Pared)
+        x = random.randint(Zona_Spawn.left, Zona_Spawn.right - sprite_tamano)
+        y = random.randint(Zona_Spawn.top, Zona_Spawn.bottom - sprite_tamano)
         nueva_posicion = pygame.Rect(x, y, sprite_tamano, sprite_tamano)
 
+        # Verificar que no colisiona con otras posiciones existentes
         if not any(verificar_colision(nueva_posicion, pygame.Rect(o[0], o[1], sprite_tamano, sprite_tamano)) for o in objetos_existentes):
             return [x, y]
 

@@ -5,13 +5,27 @@ pygame.init()
 
 from Configs import *
 
-def game_loop():
+# Inicializar el estado del juego
+def inicializar_juego():
+    global Game_Over, game_started, bot_moving
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
+
     Game_Over = False
     game_started = False
     bot_moving = False
 
-    # Inicialización
+    Sprite_Actual = Sprite_EcoBot_Frente
+    Posicion_EcoBot = centrar_sprite(Sprite_Actual, [Centro_X, Centro_Y])
+    Direccion = None
+
+    Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
+    Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
+
+def game_loop():
+    global Game_Over, game_started, bot_moving
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
+
+    # Inicialización del juego
     inicializar_juego()
 
     while True:
@@ -34,12 +48,8 @@ def game_loop():
                 # Manejo del reinicio del juego
                 if Game_Over:
                     if event.key == pygame.K_r:
-                        print("Reiniciando juego...")
-                        inicializar_juego()  # Llamada a la función de reinicio
-                        Game_Over = False
+                        inicializar_juego()
                         game_started = True
-                        bot_moving = False
-                        print("Juego reiniciado con valores predeterminados")
                     continue
 
                 # Manejo de los controles del EcoBot

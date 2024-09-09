@@ -1,4 +1,6 @@
 from Assets_Librerias import *
+import pygame
+import random
 
 # Configuración del reloj
 Reloj = pygame.time.Clock()
@@ -21,22 +23,25 @@ Posicion_Titulos = Centro_X, Centro_Y - 75
 Fuente_Texto = pygame.font.SysFont('timesnewroman', 50)
 Posicion_Texto = Centro_X, Centro_Y + 125
 
+# Configuración inicial del EcoBot
+Velocidad_EcoBot = 5
+Num_Basuras = 3
+Num_Tachos = 3
+
 # Función auxiliar para dibujar texto con borde
 def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pantalla):
-    Texto_a_Renderizar = Fuente.render(Texto, True, Color) # Renderizar el texto principal
-    
-    Ancho_Texto, Alto_Texto = Texto_a_Renderizar.get_size() # Obtener el tamaño del texto
-    Borde_Superficie = pygame.Surface((Ancho_Texto + Grosor_Borde * 2, Alto_Texto + Grosor_Borde * 2), pygame.SRCALPHA) # Crear una superficie temporal para dibujar el borde
-    Borde_Superficie.fill((0, 0, 0, 0))  # Fondo transparente
+    Texto_a_Renderizar = Fuente.render(Texto, True, Color)
+    Ancho_Texto, Alto_Texto = Texto_a_Renderizar.get_size()
+    Borde_Superficie = pygame.Surface((Ancho_Texto + Grosor_Borde * 2, Alto_Texto + Grosor_Borde * 2), pygame.SRCALPHA)
+    Borde_Superficie.fill((0, 0, 0, 0))
 
-    for dx in range(-Grosor_Borde, Grosor_Borde + 1): # Dibujar el texto principal con el color del borde en la superficie temporal
+    for dx in range(-Grosor_Borde, Grosor_Borde + 1):
         for dy in range(-Grosor_Borde, Grosor_Borde + 1):
             if dx**2 + dy**2 <= Grosor_Borde**2:
                 Borde_Superficie.blit(Fuente.render(Texto, True, Color_Borde), (Grosor_Borde + dx, Grosor_Borde + dy))
 
-    Borde_Superficie.blit(Texto_a_Renderizar, (Grosor_Borde, Grosor_Borde)) # Dibujar el texto principal en la superficie temporal
-    
-    Pantalla.blit(Borde_Superficie, (X - Ancho_Texto // 2 - Grosor_Borde, Y - Alto_Texto // 2 - Grosor_Borde)) # Dibujar la superficie temporal en la pantalla
+    Borde_Superficie.blit(Texto_a_Renderizar, (Grosor_Borde, Grosor_Borde))
+    Pantalla.blit(Borde_Superficie, (X - Ancho_Texto // 2 - Grosor_Borde, Y - Alto_Texto // 2 - Grosor_Borde))
 
 # Función para mostrar la pantalla de inicio
 def Mostrar_Pantalla_Inicio():
@@ -51,18 +56,6 @@ def Mostrar_Pantalla_Game_Over():
     Renderizar_Texto('Presiona "R" para volver a Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, *Posicion_Texto, Pantalla)
     pygame.display.flip()
 
-def centrar_sprite(sprite, posicion):
-    ancho_sprite, alto_sprite = sprite.get_size()
-    posicion_centrada = [posicion[0] - ancho_sprite // 2, posicion[1] - alto_sprite // 2]
-    return posicion_centrada
-
-# Configuración del EcoBot
-Sprite_Actual = Sprite_EcoBot_Frente
-Ancho_Sprite, Alto_Sprite = Sprite_Actual.get_size()
-Direccion = None
-Velocidad_EcoBot = 5  
-Posicion_EcoBot = centrar_sprite(Sprite_Actual, [Centro_X, Centro_Y])
-
 # Función para verificar si dos rectángulos colisionan
 def verificar_colision(rect1, rect2):
     return rect1.colliderect(rect2)
@@ -74,7 +67,6 @@ def Generador_Posicion(sprite_tamano, objetos_existentes):
         y = random.randint(Grosor_Pared, Alto_Pantalla - sprite_tamano - Grosor_Pared)
         nueva_posicion = pygame.Rect(x, y, sprite_tamano, sprite_tamano)
 
-        # Verificar si la nueva posición no colisiona con ningún objeto existente
         if not any(verificar_colision(nueva_posicion, pygame.Rect(o[0], o[1], sprite_tamano, sprite_tamano)) for o in objetos_existentes):
             return [x, y]
 
@@ -82,7 +74,7 @@ def Generador_Posicion(sprite_tamano, objetos_existentes):
 def Generar_Basuras(num_basuras, sprite_tamano, posiciones_tachos):
     basuras = []
     while len(basuras) < num_basuras:
-        nueva_basura = Generador_Posicion(sprite_tamano, basuras + posiciones_tachos)  # Asegura que no colisione con tachos de basura
+        nueva_basura = Generador_Posicion(sprite_tamano, basuras + posiciones_tachos)
         basuras.append(nueva_basura)
     return basuras
 
@@ -90,24 +82,6 @@ def Generar_Basuras(num_basuras, sprite_tamano, posiciones_tachos):
 def Generar_Tachos(num_tachos, sprite_tamano, posiciones_basura):
     tachos = []
     while len(tachos) < num_tachos:
-        nuevo_tacho = Generador_Posicion(sprite_tamano, tachos + posiciones_basura)  # Asegura que no colisione con basuras
+        nuevo_tacho = Generador_Posicion(sprite_tamano, tachos + posiciones_basura)
         tachos.append(nuevo_tacho)
     return tachos
-
-def inicializar_juego():
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
-    Posicion_EcoBot = centrar_sprite(Sprite_Actual, [Centro_X, Centro_Y])
-    Direccion = None
-    Sprite_Actual = Sprite_EcoBot_Frente
-    Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
-    Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
-
-# Inicializar las basuras y tachos
-Num_Basuras = 3
-Num_Tachos = 3
-
-Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
-Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
-
-Posiciones_Basura = [centrar_sprite(Sprite_Basura_Metal_1, pos) for pos in Posiciones_Basura]
-Posiciones_Tachos = [centrar_sprite(Sprite_Tacho_de_Basura, pos) for pos in Posiciones_Tachos]

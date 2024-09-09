@@ -27,6 +27,11 @@ def cargar_asset(Carpeta_Asset, Nombre_Asset):
     elif Carpeta_Asset == 'Sonidos':  
         return pygame.mixer.Sound(Ruta_Asset)
     
+def centrar_sprite(sprite, posicion):
+    ancho_sprite, alto_sprite = sprite.get_size()
+    posicion_centrada = [posicion[0] - ancho_sprite // 2, posicion[1] - alto_sprite // 2]
+    return posicion_centrada
+
 # Cargar sprites
 Sprite_EcoBot_Frente = cargar_asset('Sprites', 'EcoBot - Frente.png')
 Sprite_EcoBot_Espalda = cargar_asset('Sprites', 'EcoBot - Espalda.png')

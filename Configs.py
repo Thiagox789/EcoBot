@@ -2,6 +2,9 @@ from Assets_Librerias import *
 import pygame
 import random
 
+# Inicializar Pygame
+pygame.init()
+
 # Configuración del reloj
 Reloj = pygame.time.Clock()
 
@@ -46,6 +49,13 @@ def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pant
 
     Borde_Superficie.blit(Texto_a_Renderizar, (Grosor_Borde, Grosor_Borde))
     Pantalla.blit(Borde_Superficie, (X - Ancho_Texto // 2 - Grosor_Borde, Y - Alto_Texto // 2 - Grosor_Borde))
+
+def Mostrar_Temporizador(Tiempo_Juego):
+    minutos = int(Tiempo_Juego // 60)
+    decimas = int((Tiempo_Juego * 10) % 10)
+    tiempo_formateado = f"{minutos:02},{decimas}"
+    Renderizar_Texto(tiempo_formateado, Fuente_Titulos, Color_Blanco, 5, Color_Negro,
+                     Ancho_Pantalla - 200, Alto_Pantalla - Grosor_Pared_Gruesa - 100, Pantalla)
 
 # Función para mostrar la pantalla de inicio
 def Mostrar_Pantalla_Inicio():

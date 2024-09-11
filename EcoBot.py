@@ -1,15 +1,10 @@
 from Assets_Librerias import *
-
-# Inicializar Pygame
-pygame.init()
-
 from Configs import *
 
 # Inicializar el estado del juego
 def inicializar_juego():
-    global Game_Over, game_started, bot_moving
+    global Game_Over, game_started, bot_moving, Zona_Reciclaje_Tocada
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
-    global Zona_Reciclaje_Tocada
 
     Game_Over = False
     game_started = False
@@ -152,17 +147,18 @@ def game_loop():
                     # Definir la zona de los tachos de reciclaje
                     Zona_Reciclaje = pygame.Rect(0, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, Ancho_Pantalla // 2, Grosor_Pared_Gruesa)
 
-                    # Revisa colisión con los Pareds y las paredes gruesas
                     rect_ecobot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
 
-                    if (rect_ecobot.colliderect(Pared_superior) or
-                        rect_ecobot.colliderect(Pared_inferior) or
-                        rect_ecobot.colliderect(Pared_izquierdo) or
-                        rect_ecobot.colliderect(Pared_derecho) or
-                        rect_ecobot.colliderect(pared_gruesa_izquierda) or
-                        rect_ecobot.colliderect(pared_gruesa_derecha)):
-                        
+                    # Revisa colisión con los Pareds y las paredes gruesas
+                    if (rect_ecobot.colliderect(Pared_superior) or rect_ecobot.colliderect(Pared_inferior) or rect_ecobot.colliderect(Pared_izquierdo) or rect_ecobot.colliderect(Pared_derecho) or rect_ecobot.colliderect(pared_gruesa_izquierda) or rect_ecobot.colliderect(pared_gruesa_derecha)):
                         Game_Over = True
+                    
+                    # Verificar colisiones con los tachos de basura
+                    for tacho in Posiciones_Tachos:
+                        rect_tacho = pygame.Rect(tacho[0], tacho[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
+                        
+                        if rect_ecobot.colliderect(rect_tacho):
+                            Game_Over = True
 
                     # Detectar si el EcoBot está en la zona de reciclaje
                     if rect_ecobot.colliderect(Zona_Reciclaje):

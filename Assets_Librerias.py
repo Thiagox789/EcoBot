@@ -25,7 +25,6 @@ def Cargar_Assets(Carpeta_Asset, Nombre_Asset):
     elif Carpeta_Asset == 'Sonidos':  
         return pygame.mixer.Sound(Ruta_Asset)
 
-
 # Funcion para centrar assets (actualmente solo se usa para el ecobot)
 def Centrar_Sprite(Sprite, Posicion):
     Ancho_Sprite, Alto_Sprite = Sprite.get_size()

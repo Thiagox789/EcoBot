@@ -1,9 +1,4 @@
 from Assets_Librerias import *
-import pygame
-import random
-
-# Inicializar Pygame
-pygame.init()
 
 # Configuración del reloj
 Reloj = pygame.time.Clock()
@@ -12,30 +7,31 @@ Reloj = pygame.time.Clock()
 pygame.display.set_caption("EcoBot")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 Ancho_Pantalla, Alto_Pantalla = Pantalla.get_size()
-Centro_X = Ancho_Pantalla // 2
-Centro_Y = Alto_Pantalla // 2
+Centro_Pantalla_X = Ancho_Pantalla // 2
+Centro_Pantalla_Y = Alto_Pantalla // 2
 
-# Tamaño de los "colliders"
+# Tamaños de objetos
 Tamaño_Sprite_Grandes = 125
 Tamaño_Basura = 75
 Grosor_Pared = 25
-Grosor_Pared_Gruesa = 125
+Grosor_Pared_Gruesa = 150
 
-# Fuente para el texto
-Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200)
-Posicion_Titulos = Centro_X, Centro_Y - 75
-Fuente_Texto = pygame.font.SysFont('timesnewroman', 50)
-Posicion_Texto = Centro_X, Centro_Y + 125
-
-# Configuración inicial del EcoBot
+# Configuraciónes de objetos
 Velocidad_EcoBot = 5
 Num_Basuras = 3
 Num_Tachos = 3
 
-# Definir la zona de spawn
-Zona_Spawn = pygame.Rect(Grosor_Pared + 50, Grosor_Pared + 50, Ancho_Pantalla - 150 , Alto_Pantalla - 275)
+# Definicion de la zona donde los objetos pueden spawnear y la zona de los Tachos de reciclaje
+Zona_Spawneable = pygame.Rect(Grosor_Pared + 50, Grosor_Pared + 50, Ancho_Pantalla - 150 , Alto_Pantalla - 300)
+Zona_Reciclaje = pygame.Rect(480, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, 405, Grosor_Pared_Gruesa)
 
-# Función auxiliar para dibujar texto con borde
+# Fuente para el texto
+Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200) # Posibles fonts: timesnewroman, gillsans, rockwell (no me fije todas, despues se hara)
+Posicion_Titulos = Centro_Pantalla_X, Centro_Pantalla_Y - 75
+Fuente_Texto = pygame.font.SysFont('timesnewroman', 50)
+Posicion_Texto = Centro_Pantalla_X, Centro_Pantalla_Y + 125
+
+# Función auxiliar para dibujar texto con borde (full ChatGPT)
 def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pantalla):
     Texto_a_Renderizar = Fuente.render(Texto, True, Color)
     Ancho_Texto, Alto_Texto = Texto_a_Renderizar.get_size()
@@ -50,53 +46,42 @@ def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pant
     Borde_Superficie.blit(Texto_a_Renderizar, (Grosor_Borde, Grosor_Borde))
     Pantalla.blit(Borde_Superficie, (X - Ancho_Texto // 2 - Grosor_Borde, Y - Alto_Texto // 2 - Grosor_Borde))
 
-def Mostrar_Temporizador(Tiempo_Juego):
-    minutos = int(Tiempo_Juego // 60)
-    decimas = int((Tiempo_Juego * 10) % 10)
-    tiempo_formateado = f"{minutos:02},{decimas}"
-    Renderizar_Texto(tiempo_formateado, Fuente_Titulos, Color_Blanco, 5, Color_Negro,
-                     Ancho_Pantalla - 200, Alto_Pantalla - Grosor_Pared_Gruesa - 100, Pantalla)
-
-# Función para mostrar la pantalla de inicio
+# Muestra la pantalla de inicio
 def Mostrar_Pantalla_Inicio():
     Pantalla.fill(Color_Gris)
     Renderizar_Texto('EcoBot', Fuente_Titulos, Color_Fondo, 10, Color_Negro, *Posicion_Titulos, Pantalla)
     Renderizar_Texto('Presiona "Enter" para Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, *Posicion_Texto, Pantalla)
     pygame.display.flip()
 
-# Función para mostrar el mensaje de "Game Over"
+# Muestra el mensaje de "Game Over"
 def Mostrar_Pantalla_Game_Over():
     Renderizar_Texto('¡Perdiste!', Fuente_Titulos, Color_Rojo, 10, Color_Negro, *Posicion_Titulos, Pantalla)
     Renderizar_Texto('Presiona "R" para volver a Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, *Posicion_Texto, Pantalla)
     pygame.display.flip()
 
-# Función para verificar si dos rectángulos colisionan
-def verificar_colision(rect1, rect2):
-    return rect1.colliderect(rect2)
-
-# Función para generar una posición dentro de la zona de spawn
-def Generador_Posicion(sprite_tamano, objetos_existentes):
+# Genera una posición dentro de la zona spawneable
+def Generador_Posicion(Sprite_Tamano, Objetos_Existentes):
     while True:
-        x = random.randint(Zona_Spawn.left, Zona_Spawn.right - sprite_tamano)
-        y = random.randint(Zona_Spawn.top, Zona_Spawn.bottom - sprite_tamano)
-        nueva_posicion = pygame.Rect(x, y, sprite_tamano, sprite_tamano)
+        x = random.randint(Zona_Spawneable.left, Zona_Spawneable.right - Sprite_Tamano)
+        y = random.randint(Zona_Spawneable.top, Zona_Spawneable.bottom - Sprite_Tamano)
+        Nueva_Posicion = pygame.Rect(x, y, Sprite_Tamano, Sprite_Tamano)
 
-        # Verificar que no colisiona con otras posiciones existentes
-        if not any(verificar_colision(nueva_posicion, pygame.Rect(o[0], o[1], sprite_tamano, sprite_tamano)) for o in objetos_existentes):
+        # Verificar que no colisiona con otras Posiciones existentes (esto esta medio roto)
+        if not any(Nueva_Posicion.colliderect(pygame.Rect(o[0], o[1], Sprite_Tamano, Sprite_Tamano)) for o in Objetos_Existentes):
             return [x, y]
 
-# Generar múltiples basuras
-def Generar_Basuras(num_basuras, sprite_tamano, posiciones_tachos):
-    basuras = []
-    while len(basuras) < num_basuras:
-        nueva_basura = Generador_Posicion(sprite_tamano, basuras + posiciones_tachos)
-        basuras.append(nueva_basura)
-    return basuras
+# Generar múltiples Basuras
+def Generar_Basuras(Num_Basuras, Sprite_Tamano, Posiciones_Tachos):
+    Basuras = []
+    while len(Basuras) < Num_Basuras:
+        Nueva_Basura = Generador_Posicion(Sprite_Tamano, Basuras + Posiciones_Tachos)
+        Basuras.append(Nueva_Basura)
+    return Basuras
 
-# Generar múltiples tachos de basura
-def Generar_Tachos(num_tachos, sprite_tamano, posiciones_basura):
-    tachos = []
-    while len(tachos) < num_tachos:
-        nuevo_tacho = Generador_Posicion(sprite_tamano, tachos + posiciones_basura)
-        tachos.append(nuevo_tacho)
-    return tachos
+# Generar múltiples Tachos de Basura
+def Generar_Tachos(Num_Tachos, Sprite_Tamano, Posiciones_Basura):
+    Tachos = []
+    while len(Tachos) < Num_Tachos:
+        Nuevo_Tacho = Generador_Posicion(Sprite_Tamano, Tachos + Posiciones_Basura)
+        Tachos.append(Nuevo_Tacho)
+    return Tachos

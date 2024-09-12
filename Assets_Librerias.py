@@ -3,7 +3,8 @@ import pygame
 import random
 import os
 
-# Inicializar el mixer
+# Inicializacion Pygame y Pygame Mixer
+pygame.init()
 pygame.mixer.init()
 
 # Colores
@@ -14,8 +15,8 @@ Color_Rojo = (200, 0, 0)
 Color_Fondo = (0, 200, 0)
 Color_Pared = (0, 150, 0)
 
-# Función para cargar assets
-def cargar_asset(Carpeta_Asset, Nombre_Asset):
+# Funcion para cargar assets
+def Cargar_Assets(Carpeta_Asset, Nombre_Asset):
     Ruta_Asset = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Assets', Carpeta_Asset, Nombre_Asset)
     
     if Carpeta_Asset == 'Sprites':  
@@ -23,33 +24,35 @@ def cargar_asset(Carpeta_Asset, Nombre_Asset):
     
     elif Carpeta_Asset == 'Sonidos':  
         return pygame.mixer.Sound(Ruta_Asset)
-    
-def centrar_sprite(sprite, posicion):
-    ancho_sprite, alto_sprite = sprite.get_size()
-    posicion_centrada = [posicion[0] - ancho_sprite // 2, posicion[1] - alto_sprite // 2]
-    return posicion_centrada
 
-# Cargar sprites
-Sprite_EcoBot_Frente = cargar_asset('Sprites', 'EcoBot - Frente.png')
-Sprite_EcoBot_Espalda = cargar_asset('Sprites', 'EcoBot - Espalda.png')
-Sprite_EcoBot_Izquierda = cargar_asset('Sprites', 'EcoBot - Izquierda.png')
-Sprite_EcoBot_Derecha = cargar_asset('Sprites', 'EcoBot - Derecha.png')
 
-Sprite_Tacho_de_Basura = cargar_asset('Sprites', 'Tacho de Basura.png')
-Sprite_Tacho_de_Reciclaje_1 = cargar_asset('Sprites', 'Tacho de Reciclaje - 1.png')
-Sprite_Tacho_de_Reciclaje_2 = cargar_asset('Sprites', 'Tacho de Reciclaje - 2.png')
-Sprite_Tacho_de_Reciclaje_3 = cargar_asset('Sprites', 'Tacho de Reciclaje - 3.png')
+# Funcion para centrar assets (actualmente solo se usa para el ecobot)
+def Centrar_Sprite(Sprite, Posicion):
+    Ancho_Sprite, Alto_Sprite = Sprite.get_size()
+    Posicion_Centrada = [Posicion[0] - Ancho_Sprite // 2, Posicion[1] - Alto_Sprite // 2]
+    return Posicion_Centrada
 
-Sprite_Basura_Metal_1 = cargar_asset('Sprites', 'Basura - Vidrio 1.png')
+# Sprites Cargados
+Sprite_EcoBot_Frente = Cargar_Assets('Sprites', 'EcoBot - Frente.png')
+Sprite_EcoBot_Espalda = Cargar_Assets('Sprites', 'EcoBot - Espalda.png')
+Sprite_EcoBot_Izquierda = Cargar_Assets('Sprites', 'EcoBot - Izquierda.png')
+Sprite_EcoBot_Derecha = Cargar_Assets('Sprites', 'EcoBot - Derecha.png')
 
-# Cargar sonidos
-Agarrar_Papel = cargar_asset('Sonidos', 'Agarrar_Papel.mp3')
-Agarrar_Papel_Simple = cargar_asset('Sonidos', 'Agarrar_Papel_Simple.mp3')
-Agarrar_Plastico = cargar_asset('Sonidos', 'Agarrar_Plastico.mp3')
-Agarrar_Vidrio = cargar_asset('Sonidos', 'Agarrar_Vidrio.mp3')
-Agarrar_Vidrio2 = cargar_asset('Sonidos', 'Agarrar_Vidrio2.mp3')
+Sprite_Tacho_de_Basura = Cargar_Assets('Sprites', 'Tacho de Basura.png')
+Sprite_Tacho_de_Reciclaje_1 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 1.png')
+Sprite_Tacho_de_Reciclaje_2 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 2.png')
+Sprite_Tacho_de_Reciclaje_3 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 3.png')
 
-Abrir_Menu = cargar_asset('Sonidos', 'Abrir_Menu.mp3')
-Ganar_Tachos = cargar_asset('Sonidos', 'Ganar_Tachos.mp3')
-Perder_Partida = cargar_asset('Sonidos', 'Perder_Partida.mp3')
-Poner_Mal_Tacho = cargar_asset('Sonidos', 'Poner_Mal_Tacho.mp3')
+Sprite_Basura_Metal_1 = Cargar_Assets('Sprites', 'Basura - Vidrio 1.png')
+
+# Sonidos Cargados
+Agarrar_Papel = Cargar_Assets('Sonidos', 'Agarrar_Papel.mp3')
+Agarrar_Papel_Simple = Cargar_Assets('Sonidos', 'Agarrar_Papel_Simple.mp3')
+Agarrar_Plastico = Cargar_Assets('Sonidos', 'Agarrar_Plastico.mp3')
+Agarrar_Vidrio = Cargar_Assets('Sonidos', 'Agarrar_Vidrio.mp3')
+Agarrar_Vidrio2 = Cargar_Assets('Sonidos', 'Agarrar_Vidrio2.mp3')
+
+Abrir_Menu = Cargar_Assets('Sonidos', 'Abrir_Menu.mp3')
+Ganar_Tachos = Cargar_Assets('Sonidos', 'Ganar_Tachos.mp3')
+Perder_Partida = Cargar_Assets('Sonidos', 'Perder_Partida.mp3')
+Poner_Mal_Tacho = Cargar_Assets('Sonidos', 'Poner_Mal_Tacho.mp3')

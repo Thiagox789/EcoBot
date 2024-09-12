@@ -1,99 +1,98 @@
 from Assets_Librerias import *
 from Configs import *
 
-# Inicializar el estado del juego
-def inicializar_juego():
-    global Game_Over, game_started, bot_moving, Zona_Reciclaje_Tocada
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
+# Inicializar el estado del juego 
+def Inicializar_Juego():
+    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
 
     Game_Over = False
-    game_started = False
-    bot_moving = False
-    Zona_Reciclaje_Tocada = False  # Variable para detectar si la zona de reciclaje fue tocada
+    Juego_Iniciado = False
+    EcoBot_en_Movimiento = False
+    Zona_Reciclaje_Tocada = False
 
-    Sprite_Actual = Sprite_EcoBot_Frente
-    Posicion_EcoBot = centrar_sprite(Sprite_Actual, [Centro_X, Centro_Y])
+    Sprite_Actual_EcoBot = Sprite_EcoBot_Frente
+    Posicion_EcoBot = Centrar_Sprite(Sprite_Actual_EcoBot, [Centro_Pantalla_X, Centro_Pantalla_Y])
     Direccion = None
 
     Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
     Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
 
-def game_loop():
-    global Game_Over, game_started, bot_moving, Zona_Reciclaje_Tocada
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual
+# (la idea es despues hacer lo de inicializacio con todas las partes del Ciclo_Juego() para fragmentarlo, por ejemplo con manejar_Eventos(), actualizar_juego(), etc.)
+def Ciclo_Juego():
+    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
 
-    # Inicialización del juego
-    inicializar_juego()
+    Inicializar_Juego()
 
     while True:
 
-        for event in pygame.event.get():
+        for Event in pygame.event.get():
 
-            if event.type == pygame.QUIT:
+            if Event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
                 
-            elif event.type == pygame.KEYDOWN:
+            elif Event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_ESCAPE:
+                if Event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     quit()
 
                 # Manejo del inicio del juego
-                if not game_started:
+                if not Juego_Iniciado:
 
-                    if event.key == pygame.K_RETURN:
-                        game_started = True
-                        bot_moving = False
+                    if Event.key == pygame.K_RETURN:
+                        Juego_Iniciado = True
+                        EcoBot_en_Movimiento = False
                     continue
 
                 # Manejo del reinicio del juego
                 if Game_Over:
 
-                    if event.key == pygame.K_r:
-                        inicializar_juego()
-                        game_started = True
+                    if Event.key == pygame.K_r:
+                        Inicializar_Juego()
+                        Juego_Iniciado = True
                     continue
 
-                # Si la zona de reciclaje fue tocada, el juego está pausado
+                # Si la zona de reciclaje fue tocada, el juego se pausa y entra al minijuego
                 if Zona_Reciclaje_Tocada:
-                    if event.key == pygame.K_RETURN:  # Reanudar el juego al presionar "Enter"
+                    
+                    if Event.key == pygame.K_RETURN:
                         Zona_Reciclaje_Tocada = False
-                        Direccion = 'UP'  # El EcoBot ahora apunta hacia arriba
-                        Sprite_Actual = Sprite_EcoBot_Espalda
-                        bot_moving = True
+                        Direccion = 'UP'
+                        Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
+                        EcoBot_en_Movimiento = True
                     continue
 
                 # Manejo de los controles del EcoBot
-                if event.key in [pygame.K_UP, pygame.K_w] and Direccion != 'DOWN':
+                if Event.key in [pygame.K_UP, pygame.K_w] and Direccion != 'DOWN':
                     Direccion = 'UP'
-                    Sprite_Actual = Sprite_EcoBot_Espalda
-                    bot_moving = True
+                    Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
+                    EcoBot_en_Movimiento = True
 
-                elif event.key in [pygame.K_DOWN, pygame.K_s] and Direccion != 'UP':
+                elif Event.key in [pygame.K_DOWN, pygame.K_s] and Direccion != 'UP':
                     Direccion = 'DOWN'
-                    Sprite_Actual = Sprite_EcoBot_Frente
-                    bot_moving = True
+                    Sprite_Actual_EcoBot = Sprite_EcoBot_Frente
+                    EcoBot_en_Movimiento = True
 
-                elif event.key in [pygame.K_LEFT, pygame.K_a] and Direccion != 'RIGHT':
+                elif Event.key in [pygame.K_LEFT, pygame.K_a] and Direccion != 'RIGHT':
                     Direccion = 'LEFT'
-                    Sprite_Actual = Sprite_EcoBot_Izquierda  
-                    bot_moving = True
+                    Sprite_Actual_EcoBot = Sprite_EcoBot_Izquierda  
+                    EcoBot_en_Movimiento = True
 
-                elif event.key in [pygame.K_RIGHT, pygame.K_d] and Direccion != 'LEFT':
+                elif Event.key in [pygame.K_RIGHT, pygame.K_d] and Direccion != 'LEFT':
                     Direccion = 'RIGHT'
-                    Sprite_Actual = Sprite_EcoBot_Derecha  
-                    bot_moving = True
+                    Sprite_Actual_EcoBot = Sprite_EcoBot_Derecha  
+                    EcoBot_en_Movimiento = True
 
-        if not game_started:
+        if not Juego_Iniciado:
             Mostrar_Pantalla_Inicio()
 
         else:
-
             if not Game_Over:
-                # Mover al EcoBot suavemente
 
-                if bot_moving and not Zona_Reciclaje_Tocada:  # Solo mover si el juego no está pausado
+                if EcoBot_en_Movimiento and not Zona_Reciclaje_Tocada:
                     if Direccion == 'UP':
                         Posicion_EcoBot[1] -= Velocidad_EcoBot
 
@@ -106,62 +105,64 @@ def game_loop():
                     if Direccion == 'RIGHT':
                         Posicion_EcoBot[0] += Velocidad_EcoBot
 
-                # Detectar si el EcoBot tocó alguna basura
+                # Detectar si el EcoBot colisiono con alguna Basura
                 Basura_Recogida = None
-                for i, basura in enumerate(Posiciones_Basura):
+                for i, Basura in enumerate(Posiciones_Basura):
                     
-                    if (Posicion_EcoBot[0] < basura[0] + Tamaño_Basura and
-                        Posicion_EcoBot[0] + Tamaño_Sprite_Grandes > basura[0] and
-                        Posicion_EcoBot[1] < basura[1] + Tamaño_Basura and
-                        Posicion_EcoBot[1] + Tamaño_Sprite_Grandes > basura[1]):
+                    if (Posicion_EcoBot[0] < Basura[0] + Tamaño_Basura and Posicion_EcoBot[0] + Tamaño_Sprite_Grandes > Basura[0] and Posicion_EcoBot[1] < Basura[1] + Tamaño_Basura and Posicion_EcoBot[1] + Tamaño_Sprite_Grandes > Basura[1]): 
                         Basura_Recogida = i
                         break
 
                 if Basura_Recogida is not None:
                     Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
 
-                # Si la zona de reciclaje fue tocada, pantalla completamente blanca
+                # Si la zona de reciclaje fue tocada, simula entrar al minijuego
                 if Zona_Reciclaje_Tocada:
-                    Pantalla.fill((255, 255, 255))  # Pantalla completamente blanca
+                    Pantalla.fill(Color_Pared)
+
                 else:
+                    #  Rellena el fondo
                     Pantalla.fill(Color_Fondo)
-
-                    # Dibuja los sprites
-                    Pantalla.blit(Sprite_Actual, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
                     
-                    for tacho in Posiciones_Tachos:
-                        Pantalla.blit(Sprite_Tacho_de_Basura, (tacho[0], tacho[1]))
+                    # Dibuja y define las colisiones de EcoBot
+                    Pantalla.blit(Sprite_Actual_EcoBot, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
+                    Rect_EcoBot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)      
 
-                    for basura in Posiciones_Basura:
-                        Pantalla.blit(Sprite_Basura_Metal_1, (basura[0], basura[1]))
+                    #  Dibuja las Basuras
+                    for Basura in Posiciones_Basura:
+                        Pantalla.blit(Sprite_Basura_Metal_1, (Basura[0], Basura[1]))
 
-                    # Define áreas de colisión para las paredes
-                    Pared_superior = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Ancho_Pantalla, Grosor_Pared))
-                    Pared_inferior = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared, Ancho_Pantalla, Grosor_Pared))
-                    Pared_izquierdo = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Grosor_Pared, Alto_Pantalla))
-                    Pared_derecho = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - Grosor_Pared, 0, Grosor_Pared, Alto_Pantalla))
+                    # Dibuja los Tachos
+                    for Tacho in Posiciones_Tachos:
+                        Pantalla.blit(Sprite_Tacho_de_Basura, (Tacho[0], Tacho[1]))
+                  
+                    # Dibuja los Tachos de reciclaje
+                    Pantalla.blit(Sprite_Tacho_de_Reciclaje_1, (Centro_Pantalla_X - 62.5 - 125, Centro_Pantalla_Y + 215))
+                    Pantalla.blit(Sprite_Tacho_de_Reciclaje_2, (Centro_Pantalla_X - 62.5, Centro_Pantalla_Y + 215))
+                    Pantalla.blit(Sprite_Tacho_de_Reciclaje_3, (Centro_Pantalla_X - 62.5 + 125, Centro_Pantalla_Y + 215))
+                    
+                    # Dibuja y define las colisiones de las Paredes
+                    Pared_Arriba = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Ancho_Pantalla, Grosor_Pared))
+                    Pared_Abajo = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared, Ancho_Pantalla, Grosor_Pared))
+                    Pared_Izquierda = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, 0, Grosor_Pared, Alto_Pantalla))
+                    Pared_Derecha = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - Grosor_Pared, 0, Grosor_Pared, Alto_Pantalla))
 
-                    pared_gruesa_izquierda = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, (Ancho_Pantalla - 450) // 2, Grosor_Pared_Gruesa))
-                    pared_gruesa_derecha = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - (Ancho_Pantalla - 450) // 2, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, (Ancho_Pantalla - 450) // 2, Grosor_Pared_Gruesa))
+                    Pared_Gruesa_Izquierda = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(0, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, 480, Grosor_Pared_Gruesa))
+                    Pared_Gruesa_Derecha = pygame.draw.rect(Pantalla, Color_Pared, pygame.Rect(Ancho_Pantalla - 480, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, 480, Grosor_Pared_Gruesa))
 
-                    # Definir la zona de los tachos de reciclaje
-                    Zona_Reciclaje = pygame.Rect(0, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, Ancho_Pantalla // 2, Grosor_Pared_Gruesa)
-
-                    rect_ecobot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
-
-                    # Revisa colisión con los Pareds y las paredes gruesas
-                    if (rect_ecobot.colliderect(Pared_superior) or rect_ecobot.colliderect(Pared_inferior) or rect_ecobot.colliderect(Pared_izquierdo) or rect_ecobot.colliderect(Pared_derecho) or rect_ecobot.colliderect(pared_gruesa_izquierda) or rect_ecobot.colliderect(pared_gruesa_derecha)):
+                    # Revisa la colision con los Paredes
+                    if (Rect_EcoBot.colliderect(Pared_Arriba) or Rect_EcoBot.colliderect(Pared_Abajo) or Rect_EcoBot.colliderect(Pared_Izquierda) or Rect_EcoBot.colliderect(Pared_Derecha) or Rect_EcoBot.colliderect(Pared_Gruesa_Izquierda) or Rect_EcoBot.colliderect(Pared_Gruesa_Derecha)):
                         Game_Over = True
                     
-                    # Verificar colisiones con los tachos de basura
-                    for tacho in Posiciones_Tachos:
-                        rect_tacho = pygame.Rect(tacho[0], tacho[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
+                    # Verificar colisiones con los Tachos de Basura
+                    for Tacho in Posiciones_Tachos:
+                        Rect_Tacho = pygame.Rect(Tacho[0], Tacho[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
                         
-                        if rect_ecobot.colliderect(rect_tacho):
+                        if Rect_EcoBot.colliderect(Rect_Tacho):
                             Game_Over = True
 
                     # Detectar si el EcoBot está en la zona de reciclaje
-                    if rect_ecobot.colliderect(Zona_Reciclaje):
+                    if Rect_EcoBot.colliderect(Zona_Reciclaje):
                         Zona_Reciclaje_Tocada = True  # Pausa el juego y pone la pantalla en blanco
 
             if Game_Over:
@@ -171,4 +172,4 @@ def game_loop():
         Reloj.tick(60)
 
 # Ejecutar el juego
-game_loop()
+Ciclo_Juego()

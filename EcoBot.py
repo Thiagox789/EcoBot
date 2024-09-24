@@ -130,7 +130,7 @@ def Ciclo_Juego():
 
                     #  Dibuja las Basuras
                     for Basura in Posiciones_Basura:
-                        Pantalla.blit(Sprite_Basura_Metal_1, (Basura[0], Basura[1]))
+                        Pantalla.blit(Sprite_Basura_Metal, (Basura[0], Basura[1]))
 
                     # Dibuja los Tachos
                     for Tacho in Posiciones_Tachos:

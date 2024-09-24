@@ -42,8 +42,9 @@ Sprite_Tacho_de_Reciclaje_1 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 1.p
 Sprite_Tacho_de_Reciclaje_2 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 2.png')
 Sprite_Tacho_de_Reciclaje_3 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 3.png')
 
-Sprite_Basura_Metal_1 = Cargar_Assets('Sprites', 'Basura - Vidrio 1.png')
-
+Sprite_Basura_Metal = Cargar_Assets('Sprites', 'Basura - Metal.png')
+Sprite_Basura_Plastico = Cargar_Assets('Sprites', 'Basura - Vidrio.png')
+Sprite_Basura_Vidrio = Cargar_Assets('Sprites', 'Basura - Plastico.png')
 
 # Sonidos Cargados
 Agarrar_Papel = Cargar_Assets('Sonidos', 'Agarrar_Papel.mp3')

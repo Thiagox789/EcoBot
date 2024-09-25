@@ -111,6 +111,7 @@ def Ciclo_Juego():
                     
                     if (Posicion_EcoBot[0] < Basura[0] + Tamaño_Basura and Posicion_EcoBot[0] + Tamaño_Sprite_Grandes > Basura[0] and Posicion_EcoBot[1] < Basura[1] + Tamaño_Basura and Posicion_EcoBot[1] + Tamaño_Sprite_Grandes > Basura[1]): 
                         Basura_Recogida = i
+                        Agarrar_Metal.play()
                         break
 
                 if Basura_Recogida is not None:

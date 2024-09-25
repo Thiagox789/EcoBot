@@ -52,6 +52,7 @@ Agarrar_Papel_Simple = Cargar_Assets('Sonidos', 'Agarrar_Papel_Simple.mp3')
 Agarrar_Plastico = Cargar_Assets('Sonidos', 'Agarrar_Plastico.mp3')
 Agarrar_Vidrio = Cargar_Assets('Sonidos', 'Agarrar_Vidrio.mp3')
 Agarrar_Vidrio2 = Cargar_Assets('Sonidos', 'Agarrar_Vidrio2.mp3')
+Agarrar_Metal= Cargar_Assets('Sonidos', 'Metal.mp3')
 
 Abrir_Menu = Cargar_Assets('Sonidos', 'Abrir_Menu.mp3')
 Ganar_Tachos = Cargar_Assets('Sonidos', 'Ganar_Tachos.mp3')

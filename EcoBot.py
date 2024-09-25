@@ -119,6 +119,7 @@ def Ciclo_Juego():
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego
                 if Zona_Reciclaje_Tocada:
+                    Abrir_Menu.play()
                     Pantalla.fill(Color_Pared)
 
                 else:
@@ -153,6 +154,7 @@ def Ciclo_Juego():
 
                     # Revisa la colision con los Paredes
                     if (Rect_EcoBot.colliderect(Pared_Arriba) or Rect_EcoBot.colliderect(Pared_Abajo) or Rect_EcoBot.colliderect(Pared_Izquierda) or Rect_EcoBot.colliderect(Pared_Derecha) or Rect_EcoBot.colliderect(Pared_Gruesa_Izquierda) or Rect_EcoBot.colliderect(Pared_Gruesa_Derecha)):
+                        Perder_Partida.play()
                         Game_Over = True
                     
                     # Verificar colisiones con los Tachos de Basura
@@ -160,6 +162,7 @@ def Ciclo_Juego():
                         Rect_Tacho = pygame.Rect(Tacho[0], Tacho[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
                         
                         if Rect_EcoBot.colliderect(Rect_Tacho):
+                            Perder_Partida.play()
                             Game_Over = True
 
                     # Detectar si el EcoBot está en la zona de reciclaje

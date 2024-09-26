@@ -1,10 +1,12 @@
 from Assets_Librerias import *
 from Configs import *
+from Basuras import tipos_basura
 
 # Inicializar el estado del juego 
 def Inicializar_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
+    
 
     Game_Over = False
     Juego_Iniciado = False
@@ -128,11 +130,11 @@ def Ciclo_Juego():
                     
                     # Dibuja y define las colisiones de EcoBot
                     Pantalla.blit(Sprite_Actual_EcoBot, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
-                    Rect_EcoBot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)      
-
+                    Rect_EcoBot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)  
                     #  Dibuja las Basuras
                     for Basura in Posiciones_Basura:
-                        Pantalla.blit(Sprite_Basura_Metal, (Basura[0], Basura[1]))
+                        sprite_basura = random.choice(tipos_basura)
+                        Pantalla.blit(sprite_basura, (Basura[0], Basura[1]))  # Dibuja la basura en su posición
 
                     # Dibuja los Tachos
                     for Tacho in Posiciones_Tachos:

@@ -75,7 +75,8 @@ def Generar_Basuras(Num_Basuras, Sprite_Tamano, Posiciones_Tachos):
     Basuras = []
     while len(Basuras) < Num_Basuras:
         Nueva_Basura = Generador_Posicion(Sprite_Tamano, Basuras + Posiciones_Tachos)
-        Basuras.append(Nueva_Basura)
+        if Nueva_Basura not in Basuras and Nueva_Basura not in Posiciones_Tachos:
+            Basuras.append(Nueva_Basura)
     return Basuras
 
 # Generar múltiples Tachos de Basura

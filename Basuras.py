@@ -1,23 +1,23 @@
 from Assets_Librerias import *
-import pygame
-tipos_basura = [Sprite_Basura_Metal, Sprite_Basura_Plastico, Sprite_Basura_Vidrio]
+
+Tipos_Basura = [Sprite_Basura_Metal, Sprite_Basura_Plastico, Sprite_Basura_Vidrio]
 # Clase base para las basuras
 class Basura:
-    def __init__(self, sprite, sonido):
-        self.sprite = sprite
-        self.sonido = sonido
+    def __init__(self, Sprite, Sonido):
+        self.Sprite = Sprite
+        self.Sonido = Sonido
 
-# Subclase BasuraMetal
-class BasuraMetal(Basura):
+# Subclase Basura Metal
+class Basura_Metal(Basura):
     def __init__(self):
         super().__init__(Sprite_Basura_Metal, Agarrar_Metal)
 
-# Subclase BasuraPlastico
-class BasuraPlastico(Basura):
+# Subclase Basura Plastico
+class Basura_Plastico(Basura):
     def __init__(self):
         super().__init__(Sprite_Basura_Plastico, Agarrar_Plastico)
 
-# Subclase BasuraVidrio
-class BasuraVidrio(Basura):
+# Subclase Basura Vidrio
+class Basura_Vidrio(Basura):
     def __init__(self):
         super().__init__(Sprite_Basura_Vidrio, Agarrar_Vidrio)

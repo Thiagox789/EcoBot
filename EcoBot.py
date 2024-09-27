@@ -7,7 +7,6 @@ def Inicializar_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
     
-
     Game_Over = False
     Juego_Iniciado = False
     EcoBot_en_Movimiento = False
@@ -121,7 +120,7 @@ def Ciclo_Juego():
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego
                 if Zona_Reciclaje_Tocada:
-                    Abrir_Menu.play()
+                    # Abrir_Menu.play()
                     Pantalla.fill(Color_Pared)
 
                 else:
@@ -131,9 +130,10 @@ def Ciclo_Juego():
                     # Dibuja y define las colisiones de EcoBot
                     Pantalla.blit(Sprite_Actual_EcoBot, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
                     Rect_EcoBot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)  
+                    
                     #  Dibuja las Basuras
                     for Basura in Posiciones_Basura:
-                        sprite_basura = random.choice(tipos_basura)
+                        sprite_basura = Sprite_Basura_Metal #random.choice(tipos_basura)
                         Pantalla.blit(sprite_basura, (Basura[0], Basura[1]))  # Dibuja la basura en su posición
 
                     # Dibuja los Tachos

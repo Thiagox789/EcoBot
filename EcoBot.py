@@ -1,16 +1,24 @@
 from Assets_Librerias import *
 from Configs import *
-from Basuras import tipos_basura
+from Basuras import Tipos_Basura
+
+def Dibujar_Contador_Basura():
+    texto_basura = str(Contador_Basura)
+    Renderizar_Texto(texto_basura, Fuente_Texto, Color_Blanco, 5, Color_Negro, Ancho_Pantalla - 150, Alto_Pantalla - 40, Pantalla)  # Posiciona el texto en la esquina inferior derecha
+    Pantalla.blit(Sprite_Basura_Metal, (Ancho_Pantalla - 187.5, Alto_Pantalla - 150))  # Dibuja la imagen de la basura encima del contador
+
 
 # Inicializar el estado del juego 
 def Inicializar_Juego():
-    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada
+    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
-    
+
     Game_Over = False
     Juego_Iniciado = False
     EcoBot_en_Movimiento = False
     Zona_Reciclaje_Tocada = False
+
+    Contador_Basura = 0  # Inicializa el contador de basura
 
     Sprite_Actual_EcoBot = Sprite_EcoBot_Frente
     Posicion_EcoBot = Centrar_Sprite(Sprite_Actual_EcoBot, [Centro_Pantalla_X, Centro_Pantalla_Y])
@@ -21,7 +29,7 @@ def Inicializar_Juego():
 
 # (la idea es despues hacer lo de inicializacio con todas las partes del Ciclo_Juego() para fragmentarlo, por ejemplo con manejar_Eventos(), actualizar_juego(), etc.)
 def Ciclo_Juego():
-    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada
+    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
 
     Inicializar_Juego()
@@ -117,6 +125,7 @@ def Ciclo_Juego():
 
                 if Basura_Recogida is not None:
                     Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
+                    Contador_Basura += 1  # Incrementa el contador de basura
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego
                 if Zona_Reciclaje_Tocada:
@@ -126,7 +135,7 @@ def Ciclo_Juego():
                 else:
                     #  Rellena el fondo
                     Pantalla.fill(Color_Fondo)
-                    
+                  
                     # Dibuja y define las colisiones de EcoBot
                     Pantalla.blit(Sprite_Actual_EcoBot, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
                     Rect_EcoBot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)  
@@ -170,6 +179,8 @@ def Ciclo_Juego():
                     # Detectar si el EcoBot está en la zona de reciclaje
                     if Rect_EcoBot.colliderect(Zona_Reciclaje):
                         Zona_Reciclaje_Tocada = True  # Pausa el juego y pone la pantalla en blanco
+
+                    Dibujar_Contador_Basura() 
 
             if Game_Over:
                 Mostrar_Pantalla_Game_Over()

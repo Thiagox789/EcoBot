@@ -2,12 +2,6 @@ from Assets_Librerias import *
 from Configs import *
 from Basuras import Tipos_Basura
 
-def Dibujar_Contador_Basura():
-    texto_basura = str(Contador_Basura)
-    Renderizar_Texto(texto_basura, Fuente_Texto, Color_Blanco, 5, Color_Negro, Ancho_Pantalla - 150, Alto_Pantalla - 40, Pantalla)  # Posiciona el texto en la esquina inferior derecha
-    Pantalla.blit(Sprite_Basura_Metal, (Ancho_Pantalla - 187.5, Alto_Pantalla - 150))  # Dibuja la imagen de la basura encima del contador
-
-
 # Inicializar el estado del juego 
 def Inicializar_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura
@@ -72,6 +66,7 @@ def Ciclo_Juego():
                         Direccion = 'UP'
                         Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
                         EcoBot_en_Movimiento = True
+                        Contador_Basura = 0
                     continue
 
                 # Manejo de los controles del EcoBot
@@ -180,7 +175,7 @@ def Ciclo_Juego():
                     if Rect_EcoBot.colliderect(Zona_Reciclaje):
                         Zona_Reciclaje_Tocada = True  # Pausa el juego y pone la pantalla en blanco
 
-                    Dibujar_Contador_Basura() 
+                    Dibujar_Contador_Basura(Contador_Basura, Pantalla, Fuente_Texto, Sprite_Basura_Metal, Ancho_Pantalla, Alto_Pantalla)
 
             if Game_Over:
                 Mostrar_Pantalla_Game_Over()

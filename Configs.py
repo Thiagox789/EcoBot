@@ -46,6 +46,12 @@ def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pant
     Borde_Superficie.blit(Texto_a_Renderizar, (Grosor_Borde, Grosor_Borde))
     Pantalla.blit(Borde_Superficie, (X - Ancho_Texto // 2 - Grosor_Borde, Y - Alto_Texto // 2 - Grosor_Borde))
 
+# Función para dibujar el contador de basura y la imagen encima
+def Dibujar_Contador_Basura(Contador_Basura, Pantalla, Fuente_Texto, Sprite_Basura_Metal, Ancho_Pantalla, Alto_Pantalla):
+    texto_basura = str(Contador_Basura)
+    Renderizar_Texto(texto_basura, Fuente_Texto, Color_Blanco, 5, Color_Negro, Ancho_Pantalla - 150, Alto_Pantalla - 40, Pantalla)  # Posiciona el texto en la esquina inferior derecha
+    Pantalla.blit(Sprite_Basura_Metal, (Ancho_Pantalla - 187.5, Alto_Pantalla - 150))  # Dibuja la imagen de la basura encima del contador
+
 # Muestra la pantalla de inicio
 def Mostrar_Pantalla_Inicio():
     Pantalla.fill(Color_Gris)

@@ -43,16 +43,13 @@ Sprite_Tacho_de_Reciclaje_2 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 2.p
 Sprite_Tacho_de_Reciclaje_3 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 3.png')
 
 Sprite_Basura_Metal = Cargar_Assets('Sprites', 'Basura - Metal.png')
-Sprite_Basura_Plastico = Cargar_Assets('Sprites', 'Basura - Vidrio.png')
-Sprite_Basura_Vidrio = Cargar_Assets('Sprites', 'Basura - Plastico.png')
+Sprite_Basura_Plastico = Cargar_Assets('Sprites', 'Basura - Plastico.png')
+Sprite_Basura_Vidrio = Cargar_Assets('Sprites', 'Basura - Vidrio.png')
 
 # Sonidos Cargados
-Agarrar_Papel = Cargar_Assets('Sonidos', 'Agarrar_Papel.mp3')
-Agarrar_Papel_Simple = Cargar_Assets('Sonidos', 'Agarrar_Papel_Simple.mp3')
 Agarrar_Plastico = Cargar_Assets('Sonidos', 'Agarrar_Plastico.mp3')
 Agarrar_Vidrio = Cargar_Assets('Sonidos', 'Agarrar_Vidrio.mp3')
-Agarrar_Vidrio2 = Cargar_Assets('Sonidos', 'Agarrar_Vidrio2.mp3')
-Agarrar_Metal= Cargar_Assets('Sonidos', 'Metal.mp3')
+Agarrar_Metal= Cargar_Assets('Sonidos', 'Agarrar_Metal.mp3')
 
 Abrir_Menu = Cargar_Assets('Sonidos', 'Abrir_Menu.mp3')
 Ganar_Tachos = Cargar_Assets('Sonidos', 'Ganar_Tachos.mp3')

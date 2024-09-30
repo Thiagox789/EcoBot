@@ -1,41 +1,45 @@
 from Assets_Librerias import *
 from Configs import *
-from Basuras import Tipos_Basura
+from Basuras import *
 
 # Inicializar el estado del juego 
 def Inicializar_Juego():
-    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
+    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Sprite_Actual_EcoBot
 
     Game_Over = False
     Juego_Iniciado = False
     EcoBot_en_Movimiento = False
     Zona_Reciclaje_Tocada = False
 
-    Contador_Basura = 0  # Inicializa el contador de basura
+    Contador_Basura_Metal = 0
+    Contador_Basura_Vidrio = 0
+    Contador_Basura_Plastico = 0  
 
     Sprite_Actual_EcoBot = Sprite_EcoBot_Frente
     Posicion_EcoBot = Centrar_Sprite(Sprite_Actual_EcoBot, [Centro_Pantalla_X, Centro_Pantalla_Y])
     Direccion = None
 
+    # Genera las posiciones y tipos de basura iniciales
     Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
+    Tipos_Basuras_Generada = [random.choice(Tipos_Basuras)() for _ in range(Num_Basuras)]
+
     Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
 
-# (la idea es despues hacer lo de inicializacio con todas las partes del Ciclo_Juego() para fragmentarlo, por ejemplo con manejar_Eventos(), actualizar_juego(), etc.)
 def Ciclo_Juego():
-    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Posiciones_Tachos, Sprite_Actual_EcoBot
+    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
+
+    global Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Sprite_Actual_EcoBot
 
     Inicializar_Juego()
 
     while True:
 
         for Event in pygame.event.get():
-
             if Event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-                
+
             elif Event.type == pygame.KEYDOWN:
 
                 if Event.key == pygame.K_ESCAPE:
@@ -109,18 +113,34 @@ def Ciclo_Juego():
                     if Direccion == 'RIGHT':
                         Posicion_EcoBot[0] += Velocidad_EcoBot
 
-                # Detectar si el EcoBot colisiono con alguna Basura
-                Basura_Recogida = None
-                for i, Basura in enumerate(Posiciones_Basura):
-                    
-                    if (Posicion_EcoBot[0] < Basura[0] + Tamaño_Basura and Posicion_EcoBot[0] + Tamaño_Sprite_Grandes > Basura[0] and Posicion_EcoBot[1] < Basura[1] + Tamaño_Basura and Posicion_EcoBot[1] + Tamaño_Sprite_Grandes > Basura[1]): 
-                        Basura_Recogida = i
-                        Agarrar_Metal.play()
-                        break
+                    # Detectar si el EcoBot colisionó con alguna Basura
+                    Basura_Recogida = None
+                    for i, Basura_Pos in enumerate(Posiciones_Basura):
+                        if (Posicion_EcoBot[0] < Basura_Pos[0] + Tamaño_Basura and 
+                            Posicion_EcoBot[0] + Tamaño_Sprite_Grandes > Basura_Pos[0] and 
+                            Posicion_EcoBot[1] < Basura_Pos[1] + Tamaño_Basura and 
+                            Posicion_EcoBot[1] + Tamaño_Sprite_Grandes > Basura_Pos[1]):
+                            Basura_Recogida = i
+                            Tipos_Basuras_Generada[i].Sonido.play()
+                            break
 
-                if Basura_Recogida is not None:
-                    Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
-                    Contador_Basura += 1  # Incrementa el contador de basura
+                    if Basura_Recogida is not None:
+                        # Genera una nueva posición y rotación para la basura recogida
+                        Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
+                        nueva_rotacion = random.randint(-60, 60)
+                        Posiciones_Basura[Basura_Recogida] = (Posiciones_Basura[Basura_Recogida][0], Posiciones_Basura[Basura_Recogida][1], nueva_rotacion)
+
+                        # Genera un nuevo tipo de basura aleatoriamente
+                        nuevo_tipo_basura = random.choice(Tipos_Basuras)()
+                        Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
+
+                        # Incrementa el contador correspondiente
+                        if isinstance(nuevo_tipo_basura, Tipos_Basuras[0]):
+                            Contador_Basura_Metal += 1
+                        elif isinstance(nuevo_tipo_basura, Tipos_Basuras[1]):
+                            Contador_Basura_Plastico += 1
+                        elif isinstance(nuevo_tipo_basura, Tipos_Basuras[2]):
+                            Contador_Basura_Vidrio += 1
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego
                 if Zona_Reciclaje_Tocada:
@@ -135,10 +155,16 @@ def Ciclo_Juego():
                     Pantalla.blit(Sprite_Actual_EcoBot, (Posicion_EcoBot[0], Posicion_EcoBot[1]))
                     Rect_EcoBot = pygame.Rect(Posicion_EcoBot[0], Posicion_EcoBot[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)  
                     
-                    #  Dibuja las Basuras
-                    for Basura in Posiciones_Basura:
-                        sprite_basura = Sprite_Basura_Metal #random.choice(tipos_basura)
-                        Pantalla.blit(sprite_basura, (Basura[0], Basura[1]))  # Dibuja la basura en su posición
+                # Dibuja las basuras con la rotación guardada
+                for i, Basura in enumerate(Posiciones_Basura):
+                    sprite_basura = Tipos_Basuras_Generada[i].Sprite  # Usa el sprite correspondiente al tipo de basura
+                    
+                    # Usa la rotación almacenada
+                    angulo_rotacion = Basura[2]  # El tercer elemento es el ángulo
+                    sprite_basura_rotado = pygame.transform.rotate(sprite_basura, angulo_rotacion)  # Rota el sprite
+                    
+                    # Dibuja la basura rotada
+                    Pantalla.blit(sprite_basura_rotado, (Basura[0], Basura[1]))
 
                     # Dibuja los Tachos
                     for Tacho in Posiciones_Tachos:
@@ -165,7 +191,7 @@ def Ciclo_Juego():
                     
                     # Verificar colisiones con los Tachos de Basura
                     for Tacho in Posiciones_Tachos:
-                        Rect_Tacho = pygame.Rect(Tacho[0], Tacho[1], Tamaño_Sprite_Grandes, Tamaño_Sprite_Grandes)
+                        Rect_Tacho = pygame.Rect(Tacho[0] + 20, Tacho[1], 90, Tamaño_Sprite_Grandes)
                         
                         if Rect_EcoBot.colliderect(Rect_Tacho):
                             Perder_Partida.play()
@@ -175,7 +201,8 @@ def Ciclo_Juego():
                     if Rect_EcoBot.colliderect(Zona_Reciclaje):
                         Zona_Reciclaje_Tocada = True  # Pausa el juego y pone la pantalla en blanco
 
-                    Dibujar_Contador_Basura(Contador_Basura, Pantalla, Fuente_Texto, Sprite_Basura_Metal, Ancho_Pantalla, Alto_Pantalla)
+                    # Dentro de la sección que dibuja la pantalla
+                    Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico)
 
             if Game_Over:
                 Mostrar_Pantalla_Game_Over()

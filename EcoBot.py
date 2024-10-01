@@ -71,7 +71,9 @@ def Ciclo_Juego():
                         Direccion = 'UP'
                         Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
                         EcoBot_en_Movimiento = True
-                        Contador_Basura = 0
+                        Contador_Basura_Metal = 0
+                        Contador_Basura_Vidrio = 0
+                        Contador_Basura_Plastico = 0  
                     continue
 
                 # Manejo de los controles del EcoBot
@@ -136,11 +138,11 @@ def Ciclo_Juego():
                         Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
 
                         # Incrementa el contador correspondiente usando el atributo tipo
-                        if nuevo_tipo_basura.Tipo == "Metal":
+                        if Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Metal":
                             Contador_Basura_Metal += 1
-                        elif nuevo_tipo_basura.Tipo == "Plastico":
+                        elif Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Plastico":
                             Contador_Basura_Plastico += 1
-                        elif nuevo_tipo_basura.Tipo == "Vidrio":
+                        elif Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Vidrio":
                             Contador_Basura_Vidrio += 1
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego

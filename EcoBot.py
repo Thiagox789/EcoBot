@@ -134,12 +134,12 @@ def Ciclo_Juego():
                         nuevo_tipo_basura = random.choice(Tipos_Basuras)()
                         Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
 
-                        # Incrementa el contador correspondiente
-                        if isinstance(nuevo_tipo_basura, Tipos_Basuras[0]):
+                        # Incrementa el contador correspondiente usando el atributo tipo
+                        if nuevo_tipo_basura.Tipo == "Metal":
                             Contador_Basura_Metal += 1
-                        elif isinstance(nuevo_tipo_basura, Tipos_Basuras[1]):
+                        elif nuevo_tipo_basura.Tipo == "Plastico":
                             Contador_Basura_Plastico += 1
-                        elif isinstance(nuevo_tipo_basura, Tipos_Basuras[2]):
+                        elif nuevo_tipo_basura.Tipo == "Vidrio":
                             Contador_Basura_Vidrio += 1
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego

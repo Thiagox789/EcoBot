@@ -56,11 +56,12 @@ def Ciclo_Juego():
 
                 # Manejo del reinicio del juego
                 if Game_Over:
-
-                    if Event.key == pygame.K_r:
+                    
+                    if Event.key == pygame.K_r or Event.key == pygame.K_RETURN:  # K_RETURN es la tecla "Enter"
                         Inicializar_Juego()
                         Juego_Iniciado = True
                     continue
+
 
                 # Si la zona de reciclaje fue tocada, el juego se pausa y entra al minijuego
                 if Zona_Reciclaje_Tocada:

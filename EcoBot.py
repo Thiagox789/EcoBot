@@ -6,6 +6,7 @@ from Basuras import *
 def Inicializar_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Sprite_Actual_EcoBot
+    global Ultima_Generacion_Tacho, Contador_Tachos_Generados
 
     Game_Over = False
     Juego_Iniciado = False
@@ -24,12 +25,14 @@ def Inicializar_Juego():
     Posiciones_Basura = Generar_Basuras(Num_Basuras, Tamaño_Basura, [])
     Tipos_Basuras_Generada = [random.choice(Tipos_Basuras)() for _ in range(Num_Basuras)]
 
-    Posiciones_Tachos = Generar_Tachos(Num_Tachos, Tamaño_Sprite_Grandes, Posiciones_Basura)
+    Posiciones_Tachos = []
+    Ultima_Generacion_Tacho = pygame.time.get_ticks()
+    Contador_Tachos_Generados = 0
 
 def Ciclo_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
-
     global Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Sprite_Actual_EcoBot
+    global Ultima_Generacion_Tacho, Contador_Tachos_Generados
 
     Inicializar_Juego()
 
@@ -62,7 +65,6 @@ def Ciclo_Juego():
                         Juego_Iniciado = True
                     continue
 
-
                 # Si la zona de reciclaje fue tocada, el juego se pausa y entra al minijuego
                 if Zona_Reciclaje_Tocada:
                     
@@ -80,22 +82,30 @@ def Ciclo_Juego():
                 if Event.key in [pygame.K_UP, pygame.K_w] and Direccion != 'DOWN':
                     Direccion = 'UP'
                     Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
-                    EcoBot_en_Movimiento = True
+                    if not EcoBot_en_Movimiento:
+                        EcoBot_en_Movimiento = True
+                        Ultima_Generacion_Tacho = pygame.time.get_ticks()  # Inicializa el temporizador al primer movimiento
 
                 elif Event.key in [pygame.K_DOWN, pygame.K_s] and Direccion != 'UP':
                     Direccion = 'DOWN'
                     Sprite_Actual_EcoBot = Sprite_EcoBot_Frente
-                    EcoBot_en_Movimiento = True
+                    if not EcoBot_en_Movimiento:
+                        EcoBot_en_Movimiento = True
+                        Ultima_Generacion_Tacho = pygame.time.get_ticks()
 
                 elif Event.key in [pygame.K_LEFT, pygame.K_a] and Direccion != 'RIGHT':
                     Direccion = 'LEFT'
-                    Sprite_Actual_EcoBot = Sprite_EcoBot_Izquierda  
-                    EcoBot_en_Movimiento = True
+                    Sprite_Actual_EcoBot = Sprite_EcoBot_Izquierda
+                    if not EcoBot_en_Movimiento:
+                        EcoBot_en_Movimiento = True
+                        Ultima_Generacion_Tacho = pygame.time.get_ticks()
 
                 elif Event.key in [pygame.K_RIGHT, pygame.K_d] and Direccion != 'LEFT':
                     Direccion = 'RIGHT'
-                    Sprite_Actual_EcoBot = Sprite_EcoBot_Derecha  
-                    EcoBot_en_Movimiento = True
+                    Sprite_Actual_EcoBot = Sprite_EcoBot_Derecha
+                    if not EcoBot_en_Movimiento:
+                        EcoBot_en_Movimiento = True
+                        Ultima_Generacion_Tacho = pygame.time.get_ticks()
 
         if not Juego_Iniciado:
             Mostrar_Pantalla_Inicio()
@@ -144,6 +154,15 @@ def Ciclo_Juego():
                             Contador_Basura_Plastico += 1
                         elif Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Vidrio":
                             Contador_Basura_Vidrio += 1
+                
+                tiempo_actual = pygame.time.get_ticks()
+                # Verifica si ha pasado el tiempo para generar un nuevo tacho y si el EcoBot está en movimiento
+                if EcoBot_en_Movimiento and tiempo_actual - Ultima_Generacion_Tacho > Tiempo_Para_Generar_Tachos and Contador_Tachos_Generados < Num_Tachos:
+                    # Genera un solo nuevo tacho
+                    nuevo_tacho = Generar_Tachos(1, Tamaño_Sprite_Grandes, Posiciones_Basura)
+                    Posiciones_Tachos.append(nuevo_tacho[0])  # Agrega el nuevo tacho a la lista
+                    Contador_Tachos_Generados += 1  # Incrementa el contador de tachos generados
+                    Ultima_Generacion_Tacho = tiempo_actual  # Actualiza el tiempo de última generación
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego
                 if Zona_Reciclaje_Tocada:

@@ -2,6 +2,7 @@
 import pygame
 import random
 import os
+import time
 
 # Inicializacion Pygame y Pygame Mixer
 pygame.init()

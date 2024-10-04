@@ -1,14 +1,17 @@
 from Assets_Librerias import *
 
-# Configuración del reloj
-Reloj = pygame.time.Clock()
-
 # Configuración de la pantalla completa
 pygame.display.set_caption("EcoBot")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 Ancho_Pantalla, Alto_Pantalla = Pantalla.get_size()
 Centro_Pantalla_X = Ancho_Pantalla // 2
 Centro_Pantalla_Y = Alto_Pantalla // 2
+
+# Configuración del reloj
+Reloj = pygame.time.Clock()
+
+# Agrega un temporizador
+Tiempo_Para_Generar_Tachos = 5000  # 20 segundos en milisegundos
 
 # Tamaños de objetos
 Tamaño_Sprite_Grandes = 125
@@ -46,10 +49,6 @@ def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pant
     Borde_Superficie.blit(Texto_a_Renderizar, (Grosor_Borde, Grosor_Borde))
     Pantalla.blit(Borde_Superficie, (X - Ancho_Texto // 2 - Grosor_Borde, Y - Alto_Texto // 2 - Grosor_Borde))
 
-
-
-
-
 # Función para dibujar los contadores de basura
 def Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico):
     # Espaciado horizontal entre los contadores
@@ -69,9 +68,6 @@ def Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantall
     # Contador de Plástico
     Renderizar_Texto(str(Contador_Basura_Plastico), Fuente_Texto, Color_Blanco, 5, Color_Negro, Ancho_Pantalla - 370 + espaciado * 2, posicion_y, Pantalla)
     Pantalla.blit(Sprite_Basura_Plastico, (Ancho_Pantalla - 407.5 + espaciado * 2, Alto_Pantalla - 150))  # Imagen debajo del contador
-
-
-
 
 # Muestra la pantalla de inicio
 def Mostrar_Pantalla_Inicio():

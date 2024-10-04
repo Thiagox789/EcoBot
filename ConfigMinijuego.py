@@ -1,5 +1,4 @@
 import pygame
-import os
 import random
 
 # Función para dibujar texto
@@ -9,6 +8,14 @@ def draw_text(text, font, color, surface, x, y):
     text_rect.topleft = (x, y)
     surface.blit(text_obj, text_rect)
 
+# Tamaño de la pantalla
+SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption('Minijuego de Reciclaje')
+
+# Colores
+WHITE = (255, 255, 255)
+
 # Variables del juego
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, 36)
@@ -17,15 +24,6 @@ score = 0
 game_active = True
 selected_tacho = None
 previous_tacho = None
-
-# Colores
-WHITE = (255, 255, 255)
-# Tamaño de la pantalla
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Minijuego de Reciclaje')
-
-
 
 # Definimos los tipos de desechos
 TYPES_OF_WASTE = ["plástico", "vidrio", "metal"]
@@ -46,9 +44,6 @@ player_tachos = {
     "metal": pygame.Rect(initial_positions["metal"][0], initial_positions["metal"][1], 100, 100)
 }
 
-# Inicialización de los desechos
-current_waste = None
-
 # Función para generar un desecho aleatorio
 def generate_random_waste():
     waste_type = random.choice(TYPES_OF_WASTE)
@@ -58,12 +53,3 @@ def generate_random_waste():
 
 # Generar el primer desecho al inicio
 current_waste = generate_random_waste()
-
-# Variables del juego
-clock = pygame.time.Clock()
-font = pygame.font.Font(None, 36)
-lives = 3
-score = 0
-game_active = True
-selected_tacho = None
-previous_tacho = None

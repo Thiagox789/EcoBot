@@ -1,68 +1,9 @@
 import pygame
 import random
-from Assets_Librerias import *  
+from Assets_Librerias import * 
+from ConfigMinijuego import *
 # Inicializamos pygame
 pygame.init()
-
-# Tamaño de la pantalla
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Minijuego de Reciclaje')
-
-# Colores
-WHITE = (255, 255, 255)
-
-# Cargar sprites
-Sprite_Tacho_de_Basura = Cargar_Assets('Sprites', 'Tacho de Basura.png')
-Sprite_Tacho_de_Reciclaje_1 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 1.png')
-Sprite_Tacho_de_Reciclaje_2 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 2.png')
-Sprite_Tacho_de_Reciclaje_3 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 3.png')
-
-Sprite_Basura_Metal = Cargar_Assets('Sprites', 'Basura - Metal.png')
-Sprite_Basura_Plastico = Cargar_Assets('Sprites', 'Basura - Plastico.png')
-Sprite_Basura_Vidrio = Cargar_Assets('Sprites', 'Basura - Vidrio.png')
-
-# Definimos los tipos de desechos
-TYPES_OF_WASTE = ["plástico", "vidrio", "metal"]
-
-# Configuraciones del jugador y los tachos
-tacho_y_position = SCREEN_HEIGHT - 100  # Ajusta esto según el tamaño de tus imágenes
-
-# Inicialización de los tachos (posiciones y sprites)
-initial_positions = {
-    "plástico": (150, tacho_y_position),
-    "vidrio": (350, tacho_y_position),
-    "metal": (550, tacho_y_position)
-}
-
-player_tachos = {
-    "plástico": pygame.Rect(initial_positions["plástico"][0], initial_positions["plástico"][1], 100, 100),
-    "vidrio": pygame.Rect(initial_positions["vidrio"][0], initial_positions["vidrio"][1], 100, 100),
-    "metal": pygame.Rect(initial_positions["metal"][0], initial_positions["metal"][1], 100, 100)
-}
-
-# Inicialización de los desechos
-current_waste = None
-
-# Función para generar un desecho aleatorio
-def generate_random_waste():
-    waste_type = random.choice(TYPES_OF_WASTE)
-    x_position = random.randint(50, SCREEN_WIDTH - 50)
-    waste_rect = pygame.Rect(x_position, 0, 30, 30)  # Un rectángulo que representa el desecho
-    return {"type": waste_type, "rect": waste_rect}
-
-# Generar el primer desecho al inicio
-current_waste = generate_random_waste()
-
-# Variables del juego
-clock = pygame.time.Clock()
-font = pygame.font.Font(None, 36)
-lives = 3
-score = 0
-game_active = True
-selected_tacho = None
-previous_tacho = None
-
 # Función principal del minijuego
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
@@ -94,7 +35,7 @@ def play_minigame():
         if previous_tacho and previous_tacho != selected_tacho:
             player_tachos[previous_tacho].topleft = initial_positions[previous_tacho]  # Volver a la posición inicial
         if selected_tacho:
-            player_tachos[selected_tacho].y = tacho_y_position - 20  # Elevar el tacho seleccionado
+            player_tachos[selected_tacho].y = tacho_y_position - 150  # Elevar el tacho seleccionado
 
         # Dibujar los tachos
         for waste_type in player_tachos:
@@ -143,13 +84,6 @@ def play_minigame():
 
         pygame.display.flip()
         clock.tick(60)
-
-# Función para dibujar texto
-def draw_text(text, font, color, surface, x, y):
-    text_obj = font.render(text, True, color)
-    text_rect = text_obj.get_rect()
-    text_rect.topleft = (x, y)
-    surface.blit(text_obj, text_rect)
 
 # Correr el minijuego
 play_minigame()

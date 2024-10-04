@@ -1,6 +1,6 @@
 import pygame
 import random
-
+from Assets_Librerias import *
 # Inicializamos pygame
 pygame.init()
 
@@ -20,13 +20,7 @@ BLUE = (0, 0, 255)
 TYPES_OF_WASTE = ["plástico", "vidrio", "metal"]
 TRASH_COLOR = {"plástico": GREEN, "vidrio": BLUE, "metal": RED}
 
-# Cargar los assets (reemplazar con los nombres de tus archivos)
-# Por ejemplo:
-# plastic_image = pygame.image.load("assets/imagenes/plastico.png")
-# glass_image = pygame.image.load("assets/imagenes/vidrio.png")
-# metal_image = pygame.image.load("assets/imagenes/metal.png")
 
-# Configuraciones del jugador y los tachos
 tacho_width = 100
 tacho_height = 50
 tacho_y_position = SCREEN_HEIGHT - tacho_height - 10

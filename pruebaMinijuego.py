@@ -39,11 +39,12 @@ def play_minigame():
 
         # Dibujar los tachos
         for waste_type in player_tachos:
-            if waste_type == "plástico":
+            
+            if waste_type == "vidrio":
                 screen.blit(Sprite_Tacho_de_Reciclaje_1, player_tachos[waste_type].topleft)
-            elif waste_type == "vidrio":
-                screen.blit(Sprite_Tacho_de_Reciclaje_2, player_tachos[waste_type].topleft)
             elif waste_type == "metal":
+                screen.blit(Sprite_Tacho_de_Reciclaje_2, player_tachos[waste_type].topleft)
+            elif waste_type == "plástico":
                 screen.blit(Sprite_Tacho_de_Reciclaje_3, player_tachos[waste_type].topleft)
 
         # Mover y dibujar el desecho
@@ -77,6 +78,7 @@ def play_minigame():
 
         # Fin del juego si se quedan sin vidas
         if lives <= 0:
+            Perder_Partida.play()
             draw_text("Game Over", font, (255, 0, 0), screen, SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2)
             pygame.display.flip()
             pygame.time.delay(2000)

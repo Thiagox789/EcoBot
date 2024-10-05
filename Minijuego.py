@@ -1,16 +1,19 @@
 import pygame
 import random
-from Assets_Librerias import * 
+from Assets_Librerias import *
 from ConfigMinijuego import *
 
 # Inicializamos pygame
 pygame.init()
 
-# Función para dibujar bordes redondeados en los tachos
-def draw_rounded_rect(surface, rect, color, radius=10):
-    pygame.draw.rect(surface, color, rect, border_radius=radius)
+# Configurar música
+pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.1)
 
-# Función principal del minijuego
+mostrar_pantalla_inicio()
+
+
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
 
@@ -34,7 +37,7 @@ def play_minigame():
         if selected_tacho:
             if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
                 player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
-            if keys[pygame.K_d] and player_tachos[selected_tacho].x < SCREEN_WIDTH - 100:
+            if keys[pygame.K_d] and player_tachos[selected_tacho].x < Screen_Width - 100:
                 player_tachos[selected_tacho].x += 5  # Mover a la derecha
 
         # Elevar el tacho seleccionado
@@ -43,18 +46,13 @@ def play_minigame():
         if selected_tacho:
             player_tachos[selected_tacho].y = tacho_y_position - 150  # Elevar el tacho seleccionado
 
-        # Dibujar los tachos con bordes redondeados
+        # Dibujar los tachos
         for waste_type in player_tachos:
-            tacho_rect = pygame.Rect(player_tachos[waste_type].topleft, (100, 150))
-            
             if waste_type == "vidrio":
-                draw_rounded_rect(screen, tacho_rect, (0, 200, 255))  # Azul para vidrio
                 screen.blit(Sprite_Tacho_de_Reciclaje_1, player_tachos[waste_type].topleft)
             elif waste_type == "metal":
-                draw_rounded_rect(screen, tacho_rect, (255, 215, 0))  # Dorado para metal
                 screen.blit(Sprite_Tacho_de_Reciclaje_2, player_tachos[waste_type].topleft)
             elif waste_type == "plástico":
-                draw_rounded_rect(screen, tacho_rect, (0, 255, 127))  # Verde para plástico
                 screen.blit(Sprite_Tacho_de_Reciclaje_3, player_tachos[waste_type].topleft)
 
         # Mover y dibujar el desecho
@@ -81,7 +79,7 @@ def play_minigame():
                 break  # Salir del bucle tras detectar colisión
 
         # Eliminar desechos que caen fuera de la pantalla
-        if current_waste["rect"].y > SCREEN_HEIGHT:
+        if current_waste["rect"].y > Screen_Height:
             current_waste = generate_random_waste()  # Generar nuevo desecho si se cae fuera
 
         # Dibujar la interfaz (puntuación y vidas)
@@ -91,13 +89,15 @@ def play_minigame():
         # Fin del juego si se quedan sin vidas
         if lives <= 0:
             Perder_Partida.play()
-            draw_text("Game Over", font, (255, 0, 0), screen, SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2)
-            pygame.display.flip()
+            Mostrar_Pantalla_Game_Over()  # Llama a la función para mostrar la pantalla de Game Over
             pygame.time.delay(2000)
             game_active = False
 
         pygame.display.flip()
         clock.tick(60)
+
+# Mostrar la pantalla de inicio antes de comenzar el minijuego
+mostrar_pantalla_inicio()
 
 # Correr el minijuego
 play_minigame()

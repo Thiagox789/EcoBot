@@ -120,8 +120,8 @@ def mostrar_pantalla_inicio():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:  # Comienza el minijuego al presionar ENTER
-                    Abrir_Menu.play()
+                if event.key == pygame.K_RETURN:
+                    Abrir_Menu.play()  # Comienza el minijuego al presionar ENTER
                     waiting = False
                 if event.key == pygame.K_r:  # Salir del juego al presionar R
                     pygame.quit()

@@ -2,18 +2,6 @@ import pygame
 import random
 from Assets_Librerias import *
 
-
-
-# Función para dibujar texto
-def draw_text(text, font, color, surface, x, y):
-    text_obj = font.render(text, True, color)
-    text_rect = text_obj.get_rect()
-    text_rect.topleft = (x, y)
-    surface.blit(text_obj, text_rect)
-
-
-
-
 # Fullscreen configuration
 pygame.display.set_caption("EcoBot")
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -21,6 +9,25 @@ Screen_Width, Screen_Height = screen.get_size()  # Changed 'Pantalla' to 'screen
 Centro_Pantalla_X = Screen_Width // 2
 Centro_Pantalla_Y = Screen_Height // 2
 
+# Ajustar volumen
+Ganar_Tachos.set_volume(0.2)  # Volumen al 20%
+Poner_Mal_Tacho.set_volume(0.2)  # Volumen al 20%
+Perder_Partida.set_volume(0.3)  # Volumen al 30%
+
+# Configuración de la pantalla completa
+Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+Ancho_Pantalla, Alto_Pantalla = Pantalla.get_size()
+Centro_Pantalla_X = Ancho_Pantalla // 2
+Centro_Pantalla_Y = Alto_Pantalla // 2
+
+# Fuente para el texto
+Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200)
+Fuente_Texto = pygame.font.SysFont('timesnewroman', 50)
+
+# Posiciones del texto
+Posicion_Titulos = Centro_Pantalla_X, Centro_Pantalla_Y - 75
+Posicion_Texto = Centro_Pantalla_X, Centro_Pantalla_Y + 125
+Posicion_Texto2 = Centro_Pantalla_X, Centro_Pantalla_Y + 200
 
 # Colores
 WHITE = (255, 255, 255)
@@ -57,7 +64,13 @@ player_tachos = {
     "metal": pygame.Rect(initial_positions["metal"][0], initial_positions["metal"][1], 100, 100)
 }
 
-# Función para generar un desecho aleatorio
+# Función para dibujar texto
+def draw_text(text, font, color, surface, x, y):
+    text_obj = font.render(text, True, color)
+    text_rect = text_obj.get_rect()
+    text_rect.topleft = (x, y)
+    surface.blit(text_obj, text_rect)
+
 # Función para generar un desecho aleatorio
 def generate_random_waste():
     waste_type = random.choice(TYPES_OF_WASTE)
@@ -68,26 +81,6 @@ def generate_random_waste():
 
 # Generar el primer desecho al inicio
 current_waste = generate_random_waste()
-
-# Ajustar volumen
-Ganar_Tachos.set_volume(0.2)  # Volumen al 20%
-Poner_Mal_Tacho.set_volume(0.2)  # Volumen al 20%
-Perder_Partida.set_volume(0.3)  # Volumen al 30%
-
-# Configuración de la pantalla completa
-Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-Ancho_Pantalla, Alto_Pantalla = Pantalla.get_size()
-Centro_Pantalla_X = Ancho_Pantalla // 2
-Centro_Pantalla_Y = Alto_Pantalla // 2
-
-# Fuente para el texto
-Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200)
-Fuente_Texto = pygame.font.SysFont('timesnewroman', 50)
-
-# Posiciones del texto
-Posicion_Titulos = Centro_Pantalla_X, Centro_Pantalla_Y - 75
-Posicion_Texto = Centro_Pantalla_X, Centro_Pantalla_Y + 125
-Posicion_Texto2 = Centro_Pantalla_X, Centro_Pantalla_Y + 200
 
 # Función para dibujar texto con borde
 def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pantalla):

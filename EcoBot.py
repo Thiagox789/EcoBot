@@ -53,6 +53,7 @@ def Ciclo_Juego():
                 if not Juego_Iniciado:
 
                     if Event.key == pygame.K_RETURN:
+                        Abrir_Menu.play()
                         Juego_Iniciado = True
                         EcoBot_en_Movimiento = False
                     continue

@@ -1,5 +1,11 @@
 from Assets_Librerias import *
 
+# Ajustar volumen
+Agarrar_Metal.set_volume(0.1)  # Volumen al 20%
+Agarrar_Plastico.set_volume(0.2)  # Volumen al 20%
+Agarrar_Vidrio.set_volume(0.2)
+Perder_Partida.set_volume(0.3)  # Volumen al 30%
+
 # Configuración de la pantalla completa
 pygame.display.set_caption("EcoBot")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)

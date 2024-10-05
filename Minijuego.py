@@ -1,64 +1,22 @@
 import pygame
 import random
-from Assets_Librerias import *
+from Assets_Librerias import * 
+from ConfigMinijuego import *
+
 # Inicializamos pygame
 pygame.init()
 
-# Tamaño de la pantalla
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Minijuego de Reciclaje')
-
-# Colores
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-
-# Definimos los tipos de desechos y colores
-TYPES_OF_WASTE = ["plástico", "vidrio", "metal"]
-TRASH_COLOR = {"plástico": GREEN, "vidrio": BLUE, "metal": RED}
-
-
-tacho_width = 100
-tacho_height = 50
-tacho_y_position = SCREEN_HEIGHT - tacho_height - 10
-
-# Inicialización de los tachos (posiciones)
-player_tachos = {
-    "plástico": pygame.Rect(150, tacho_y_position, tacho_width, tacho_height),
-    "vidrio": pygame.Rect(350, tacho_y_position, tacho_width, tacho_height),
-    "metal": pygame.Rect(550, tacho_y_position, tacho_width, tacho_height)
-}
-
-# Inicialización de los desechos
-current_waste = None
-
-# Función para generar un desecho aleatorio
-def generate_random_waste():
-    waste_type = random.choice(TYPES_OF_WASTE)
-    x_position = random.randint(50, SCREEN_WIDTH - 50)
-    waste_rect = pygame.Rect(x_position, 0, 30, 30)  # Un rectángulo que representa el desecho
-    return {"type": waste_type, "rect": waste_rect}
-
-# Generar el primer desecho al inicio
-current_waste = generate_random_waste()
-
-# Variables del juego
-clock = pygame.time.Clock()
-font = pygame.font.Font(None, 36)
-lives = 3
-score = 0
-game_active = True
+# Función para dibujar bordes redondeados en los tachos
+def draw_rounded_rect(surface, rect, color, radius=10):
+    pygame.draw.rect(surface, color, rect, border_radius=radius)
 
 # Función principal del minijuego
 def play_minigame():
-    global lives, score, game_active, current_waste
+    global lives, score, game_active, current_waste, selected_tacho, previous_tacho
 
     while game_active:
         screen.fill(WHITE)
-        
+
         # Manejo de eventos
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -66,41 +24,58 @@ def play_minigame():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:  # Salir del minijuego
                     game_active = False
+                if event.key in (pygame.K_1, pygame.K_2, pygame.K_3):
+                    previous_tacho = selected_tacho  # Guardar el tacho anterior
+                    selected_tacho = TYPES_OF_WASTE[event.key - pygame.K_1]  # Selecciona el tacho correspondiente
 
-        # Movimiento de los tachos con el mouse
-        mouse_x, _ = pygame.mouse.get_pos()
+        # Movimiento de los tachos con el teclado
+        keys = pygame.key.get_pressed()
         
-        # Controlar cada tacho de forma independiente
-        if pygame.mouse.get_pressed()[0]:  # Si se presiona el botón izquierdo del mouse
-            # Mover el tacho correspondiente al mouse según el área
-            if player_tachos["plástico"].collidepoint(mouse_x, tacho_y_position + tacho_height // 2):
-                player_tachos["plástico"].x = mouse_x - player_tachos["plástico"].width // 2
-            elif player_tachos["vidrio"].collidepoint(mouse_x, tacho_y_position + tacho_height // 2):
-                player_tachos["vidrio"].x = mouse_x - player_tachos["vidrio"].width // 2
-            elif player_tachos["metal"].collidepoint(mouse_x, tacho_y_position + tacho_height // 2):
-                player_tachos["metal"].x = mouse_x - player_tachos["metal"].width // 2
+        if selected_tacho:
+            if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
+                player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
+            if keys[pygame.K_d] and player_tachos[selected_tacho].x < SCREEN_WIDTH - 100:
+                player_tachos[selected_tacho].x += 5  # Mover a la derecha
 
-        # Asegurarse de que los tachos no salgan de la pantalla
-        for tacho in player_tachos.values():
-            if tacho.x < 0:
-                tacho.x = 0
-            if tacho.x > SCREEN_WIDTH - tacho_width:
-                tacho.x = SCREEN_WIDTH - tacho_width
+        # Elevar el tacho seleccionado
+        if previous_tacho and previous_tacho != selected_tacho:
+            player_tachos[previous_tacho].topleft = initial_positions[previous_tacho]  # Volver a la posición inicial
+        if selected_tacho:
+            player_tachos[selected_tacho].y = tacho_y_position - 150  # Elevar el tacho seleccionado
 
-        # Dibujar los tachos
-        for waste_type, tacho in player_tachos.items():
-            pygame.draw.rect(screen, TRASH_COLOR[waste_type], tacho)
+        # Dibujar los tachos con bordes redondeados
+        for waste_type in player_tachos:
+            tacho_rect = pygame.Rect(player_tachos[waste_type].topleft, (100, 150))
+            
+            if waste_type == "vidrio":
+                draw_rounded_rect(screen, tacho_rect, (0, 200, 255))  # Azul para vidrio
+                screen.blit(Sprite_Tacho_de_Reciclaje_1, player_tachos[waste_type].topleft)
+            elif waste_type == "metal":
+                draw_rounded_rect(screen, tacho_rect, (255, 215, 0))  # Dorado para metal
+                screen.blit(Sprite_Tacho_de_Reciclaje_2, player_tachos[waste_type].topleft)
+            elif waste_type == "plástico":
+                draw_rounded_rect(screen, tacho_rect, (0, 255, 127))  # Verde para plástico
+                screen.blit(Sprite_Tacho_de_Reciclaje_3, player_tachos[waste_type].topleft)
 
         # Mover y dibujar el desecho
+        if current_waste["type"] == "plástico":
+            waste_sprite = Sprite_Basura_Plastico
+        elif current_waste["type"] == "vidrio":
+            waste_sprite = Sprite_Basura_Vidrio
+        else:
+            waste_sprite = Sprite_Basura_Metal
+        
         current_waste["rect"].y += 5  # Velocidad de caída del desecho
-        pygame.draw.rect(screen, TRASH_COLOR[current_waste["type"]], current_waste["rect"])
+        screen.blit(waste_sprite, current_waste["rect"].topleft)  # Dibuja el sprite del desecho
 
         # Detectar colisiones entre el desecho y los tachos
         for waste_type, tacho in player_tachos.items():
             if current_waste["rect"].colliderect(tacho):
                 if current_waste["type"] == waste_type:
+                    Ganar_Tachos.play()
                     score += 1  # Sumar puntos si el desecho cayó en el tacho correcto
                 else:
+                    Poner_Mal_Tacho.play()
                     lives -= 1  # Restar vidas si cayó en el tacho incorrecto
                 current_waste = generate_random_waste()  # Generar nuevo desecho
                 break  # Salir del bucle tras detectar colisión
@@ -110,25 +85,19 @@ def play_minigame():
             current_waste = generate_random_waste()  # Generar nuevo desecho si se cae fuera
 
         # Dibujar la interfaz (puntuación y vidas)
-        draw_text(f"Score: {score}", font, BLACK, screen, 10, 10)
-        draw_text(f"Lives: {lives}", font, BLACK, screen, 10, 50)
+        draw_text(f"Score: {score}", font, (0, 0, 0), screen, 10, 10)
+        draw_text(f"Lives: {lives}", font, (0, 0, 0), screen, 10, 50)
 
         # Fin del juego si se quedan sin vidas
         if lives <= 0:
-            draw_text("Game Over", font, RED, screen, SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2)
+            Perder_Partida.play()
+            draw_text("Game Over", font, (255, 0, 0), screen, SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2)
             pygame.display.flip()
             pygame.time.delay(2000)
             game_active = False
 
         pygame.display.flip()
         clock.tick(60)
-
-# Función para dibujar texto
-def draw_text(text, font, color, surface, x, y):
-    text_obj = font.render(text, True, color)
-    text_rect = text_obj.get_rect()
-    text_rect.topleft = (x, y)
-    surface.blit(text_obj, text_rect)
 
 # Correr el minijuego
 play_minigame()

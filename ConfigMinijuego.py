@@ -1,6 +1,6 @@
 import pygame
 import random
-
+from Assets_Librerias import *
 # Función para dibujar texto
 def draw_text(text, font, color, surface, x, y):
     text_obj = font.render(text, True, color)
@@ -53,3 +53,7 @@ def generate_random_waste():
 
 # Generar el primer desecho al inicio
 current_waste = generate_random_waste()
+#Ajustar volumen
+Ganar_Tachos.set_volume(0.2)  # Volumen al 30%
+Poner_Mal_Tacho.set_volume(0.2)  # Volumen al 30%
+Perder_Partida.set_volume(0.3)  # Volumen al 30%

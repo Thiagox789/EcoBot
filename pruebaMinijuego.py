@@ -5,6 +5,11 @@ from ConfigMinijuego import *
 # Inicializamos pygame
 pygame.init()
 # Función principal del minijuego
+
+pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.1)
+
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
 
@@ -62,8 +67,10 @@ def play_minigame():
         for waste_type, tacho in player_tachos.items():
             if current_waste["rect"].colliderect(tacho):
                 if current_waste["type"] == waste_type:
+                    Ganar_Tachos.play()
                     score += 1  # Sumar puntos si el desecho cayó en el tacho correcto
                 else:
+                    Poner_Mal_Tacho.play()
                     lives -= 1  # Restar vidas si cayó en el tacho incorrecto
                 current_waste = generate_random_waste()  # Generar nuevo desecho
                 break  # Salir del bucle tras detectar colisión

@@ -1,14 +1,18 @@
 import pygame
 import random
-from Assets_Librerias import * 
+from Assets_Librerias import *
 from ConfigMinijuego import *
+
 # Inicializamos pygame
 pygame.init()
-# Función principal del minijuego
 
+# Configurar música
 pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.1)
+
+mostrar_pantalla_inicio()
+
 
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
@@ -44,7 +48,6 @@ def play_minigame():
 
         # Dibujar los tachos
         for waste_type in player_tachos:
-            
             if waste_type == "vidrio":
                 screen.blit(Sprite_Tacho_de_Reciclaje_1, player_tachos[waste_type].topleft)
             elif waste_type == "metal":
@@ -86,13 +89,15 @@ def play_minigame():
         # Fin del juego si se quedan sin vidas
         if lives <= 0:
             Perder_Partida.play()
-            draw_text("Game Over", font, (255, 0, 0), screen, SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2)
-            pygame.display.flip()
+            Mostrar_Pantalla_Game_Over()  # Llama a la función para mostrar la pantalla de Game Over
             pygame.time.delay(2000)
             game_active = False
 
         pygame.display.flip()
         clock.tick(60)
+
+# Mostrar la pantalla de inicio antes de comenzar el minijuego
+mostrar_pantalla_inicio()
 
 # Correr el minijuego
 play_minigame()

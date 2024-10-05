@@ -37,7 +37,7 @@ def play_minigame():
         if selected_tacho:
             if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
                 player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
-            if keys[pygame.K_d] and player_tachos[selected_tacho].x < SCREEN_WIDTH - 100:
+            if keys[pygame.K_d] and player_tachos[selected_tacho].x < Screen_Width - 100:
                 player_tachos[selected_tacho].x += 5  # Mover a la derecha
 
         # Elevar el tacho seleccionado
@@ -79,7 +79,7 @@ def play_minigame():
                 break  # Salir del bucle tras detectar colisión
 
         # Eliminar desechos que caen fuera de la pantalla
-        if current_waste["rect"].y > SCREEN_HEIGHT:
+        if current_waste["rect"].y > Screen_Height:
             current_waste = generate_random_waste()  # Generar nuevo desecho si se cae fuera
 
         # Dibujar la interfaz (puntuación y vidas)

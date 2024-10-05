@@ -14,10 +14,13 @@ def draw_text(text, font, color, surface, x, y):
 
 
 
-# Tamaño de la pantalla
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Minijuego de Reciclaje')
+# Fullscreen configuration
+pygame.display.set_caption("EcoBot")
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+Screen_Width, Screen_Height = screen.get_size()  # Changed 'Pantalla' to 'screen'
+Centro_Pantalla_X = Screen_Width // 2
+Centro_Pantalla_Y = Screen_Height // 2
+
 
 # Colores
 WHITE = (255, 255, 255)
@@ -39,13 +42,13 @@ previous_tacho = None
 TYPES_OF_WASTE = ["plástico", "vidrio", "metal"]
 
 # Configuraciones del jugador y los tachos
-tacho_y_position = SCREEN_HEIGHT - 125  # Ajusta esto según el tamaño de tus imágenes
+tacho_y_position = Screen_Height - 125  # Ajusta esto según el tamaño de tus imágenes
 
 # Inicialización de los tachos (posiciones y sprites)
 initial_positions = {
-    "plástico": (150, tacho_y_position),
-    "vidrio": (350, tacho_y_position),
-    "metal": (550, tacho_y_position)
+    "plástico": (Screen_Width // 4, tacho_y_position),  # 1/4 de la pantalla
+    "vidrio": (Screen_Width // 2, tacho_y_position),    # Centro de la pantalla
+    "metal": (Screen_Width * 3 // 4, tacho_y_position)  # 3/4 de la pantalla
 }
 
 player_tachos = {
@@ -55,9 +58,11 @@ player_tachos = {
 }
 
 # Función para generar un desecho aleatorio
+# Función para generar un desecho aleatorio
 def generate_random_waste():
     waste_type = random.choice(TYPES_OF_WASTE)
-    x_position = random.randint(50, SCREEN_WIDTH - 50)
+    # Cambiar el rango de generación para que caiga en toda la pantalla
+    x_position = random.randint(0, Screen_Width - 30)  # 30 es el ancho del rectángulo de desecho
     waste_rect = pygame.Rect(x_position, 0, 30, 30)  # Un rectángulo que representa el desecho
     return {"type": waste_type, "rect": waste_rect}
 

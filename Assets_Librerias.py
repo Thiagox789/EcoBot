@@ -49,6 +49,7 @@ Sprite_Basura_Vidrio = Cargar_Assets('Sprites', 'Basura - Vidrio.png')
 
 Sprite_Reloj = Cargar_Assets('Sprites', 'Reloj.png')
 Sprite_Corazon = Cargar_Assets('Sprites', 'Corazon.png')
+Cartel_Peligro = Cargar_Assets('Sprites', 'Cartel Peligro.png')
 
 # Sonidos Cargados
 Agarrar_Plastico = Cargar_Assets('Sonidos', 'Agarrar_Plastico.mp3')

@@ -1,11 +1,5 @@
 from Assets_Librerias import *
 
-# Ajustar volumen
-Agarrar_Metal.set_volume(0.1)  # Volumen al 20%
-Agarrar_Plastico.set_volume(0.2)  # Volumen al 20%
-Agarrar_Vidrio.set_volume(0.2)
-Perder_Partida.set_volume(0.3)  # Volumen al 30%
-
 # Configuración de la pantalla completa
 pygame.display.set_caption("EcoBot")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -78,8 +72,9 @@ def Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantall
 # Muestra la pantalla de inicio
 def Mostrar_Pantalla_Inicio():
     Pantalla.fill(Color_Gris)
-    Renderizar_Texto('EcoBot', Fuente_Titulos, Color_Fondo, 10, Color_Negro, *Posicion_Titulos, Pantalla)
-    Renderizar_Texto('Presiona "Enter" para Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, *Posicion_Texto, Pantalla)
+    Renderizar_Texto('EcoBot', Fuente_Titulos, Color_Fondo, 10, Color_Negro, Posicion_Titulos[0] - 250, Posicion_Titulos[1], Pantalla)
+    Renderizar_Texto('Presiona "Enter" para Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, Posicion_Texto[0] - 250, Posicion_Texto[1], Pantalla)
+    Pantalla.blit(Sprite_EcoBot_Frente, (Posicion_Titulos[0] + 250, Posicion_Titulos[1]))
     pygame.display.flip()
 
 # Muestra el mensaje de "Game Over"

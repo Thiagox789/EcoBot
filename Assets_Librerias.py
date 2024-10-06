@@ -47,6 +47,9 @@ Sprite_Basura_Metal = Cargar_Assets('Sprites', 'Basura - Metal.png')
 Sprite_Basura_Plastico = Cargar_Assets('Sprites', 'Basura - Plastico.png')
 Sprite_Basura_Vidrio = Cargar_Assets('Sprites', 'Basura - Vidrio.png')
 
+Sprite_Reloj = Cargar_Assets('Sprites', 'Reloj.png')
+Sprite_Corazon = Cargar_Assets('Sprites', 'Corazon.png')
+
 # Sonidos Cargados
 Agarrar_Plastico = Cargar_Assets('Sonidos', 'Agarrar_Plastico.mp3')
 Agarrar_Vidrio = Cargar_Assets('Sonidos', 'Agarrar_Vidrio.mp3')
@@ -56,3 +59,9 @@ Abrir_Menu = Cargar_Assets('Sonidos', 'Abrir_Menu.mp3')
 Ganar_Tachos = Cargar_Assets('Sonidos', 'Ganar_Tachos.mp3')
 Perder_Partida = Cargar_Assets('Sonidos', 'Perder_Partida.mp3')
 Poner_Mal_Tacho = Cargar_Assets('Sonidos', 'Poner_Mal_Tacho.mp3')
+
+# Ajustar Volumen Sonidos
+Agarrar_Metal.set_volume(0.1)  # Volumen al 10%
+Agarrar_Plastico.set_volume(0.2)  # Volumen al 20%
+Agarrar_Vidrio.set_volume(0.2)
+Perder_Partida.set_volume(0.3)  # Volumen al 30%

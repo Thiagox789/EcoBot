@@ -14,10 +14,6 @@ pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.1)
 
-def dibujar_vidas(pantalla, vidas, sprite_corazon):
-    # Dibujar los corazones en la parte superior izquierda de la pantalla
-    for i in range(vidas):
-        pantalla.blit(sprite_corazon, (10 + i * 40, 10))  # Los corazones se dibujan con un espacio entre ellos
 
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
@@ -91,7 +87,9 @@ def play_minigame():
 
         # Dibujar las vidas en la pantalla
         dibujar_vidas(Pantalla, lives, Sprite_Corazon)
-
+        
+        # Dibujar el puntaje en la parte inferior derecha
+        dibujar_puntaje(Pantalla, score)
         # Fin del juego si se quedan sin vidas
         if lives <= 0:
             Perder_Partida.play()

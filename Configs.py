@@ -173,7 +173,18 @@ player_tachos = {
 #     text_rect = text_obj.get_rect()
 #     text_rect.topleft = (x, y)
 #     surface.blit(text_obj, text_rect)
+def dibujar_vidas(pantalla, vidas, sprite_corazon):
+    # Dibujar los corazones en la parte superior izquierda de la pantalla
+    for i in range(vidas):
+        pantalla.blit(sprite_corazon, (10 + i * 40, 10))  # Los corazones se dibujan con un espacio entre ellos
 
+def dibujar_puntaje(pantalla, puntaje):
+    # Crear el texto del puntaje
+    texto_puntaje = font.render(f"Puntaje: {puntaje}", True, (0, 0, 0))  # Texto en negro
+    # Obtener el rectángulo del texto para posicionarlo en la parte inferior derecha
+    rect_texto = texto_puntaje.get_rect(bottomright=(Ancho_Pantalla - 10, Alto_Pantalla - 10))
+    # Dibujar el texto en la pantalla
+    pantalla.blit(texto_puntaje, rect_texto)
 # Función para generar un desecho aleatorio
 def generate_random_waste():
     waste_type = random.choice(TYPES_OF_WASTE)

@@ -7,17 +7,28 @@ from Configs import *
 pygame.init()
 
 # Cargar el asset del corazón
-
+sprite_corazon = pygame.image.load('Assets/Sprites/Corazon.png')
 
 # Configurar música
 pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.1)
 
+# Fuente para mostrar el puntaje
+font = pygame.font.Font(None, 36)  # Fuente predeterminada, tamaño 36
+
 def dibujar_vidas(pantalla, vidas, sprite_corazon):
     # Dibujar los corazones en la parte superior izquierda de la pantalla
     for i in range(vidas):
         pantalla.blit(sprite_corazon, (10 + i * 40, 10))  # Los corazones se dibujan con un espacio entre ellos
+
+def dibujar_puntaje(pantalla, puntaje):
+    # Crear el texto del puntaje
+    texto_puntaje = font.render(f"Puntaje: {puntaje}", True, (0, 0, 0))  # Texto en negro
+    # Obtener el rectángulo del texto para posicionarlo en la parte inferior derecha
+    rect_texto = texto_puntaje.get_rect(bottomright=(Ancho_Pantalla - 10, Alto_Pantalla - 10))
+    # Dibujar el texto en la pantalla
+    pantalla.blit(texto_puntaje, rect_texto)
 
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
@@ -90,7 +101,10 @@ def play_minigame():
             current_waste = generate_random_waste()  # Generar nuevo desecho si se cae fuera
 
         # Dibujar las vidas en la pantalla
-        dibujar_vidas(Pantalla, lives, Sprite_Corazon)
+        dibujar_vidas(Pantalla, lives, sprite_corazon)
+
+        # Dibujar el puntaje en la parte inferior derecha
+        dibujar_puntaje(Pantalla, score)
 
         # Fin del juego si se quedan sin vidas
         if lives <= 0:

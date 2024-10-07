@@ -6,10 +6,18 @@ from Configs import *
 # Inicializamos pygame
 pygame.init()
 
+# Cargar el asset del corazón
+
+
 # Configurar música
 pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.1)
+
+def dibujar_vidas(pantalla, vidas, sprite_corazon):
+    # Dibujar los corazones en la parte superior izquierda de la pantalla
+    for i in range(vidas):
+        pantalla.blit(sprite_corazon, (10 + i * 40, 10))  # Los corazones se dibujan con un espacio entre ellos
 
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
@@ -23,6 +31,8 @@ def play_minigame():
                 game_active = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:  # Salir del minijuego
+                    pygame.quit()
+                    quit()  
                     game_active = False
                 if event.key in (pygame.K_1, pygame.K_2, pygame.K_3):
                     previous_tacho = selected_tacho  # Guardar el tacho anterior
@@ -30,7 +40,7 @@ def play_minigame():
 
         # Movimiento de los tachos con el teclado
         keys = pygame.key.get_pressed()
-        
+
         if selected_tacho:
             if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
                 player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
@@ -59,8 +69,8 @@ def play_minigame():
             waste_sprite = Sprite_Basura_Vidrio
         else:
             waste_sprite = Sprite_Basura_Metal
-        
-        current_waste["rect"].y += 5  # Velocidad de caída del desecho
+
+        current_waste["rect"].y += 3  # Velocidad de caída del desecho
         Pantalla.blit(waste_sprite, current_waste["rect"].topleft)  # Dibuja el sprite del desecho
 
         # Detectar colisiones entre el desecho y los tachos
@@ -74,11 +84,13 @@ def play_minigame():
                     lives -= 1  # Restar vidas si cayó en el tacho incorrecto
                 current_waste = generate_random_waste()  # Generar nuevo desecho
                 break  # Salir del bucle tras detectar colisión
+
         # Eliminar desechos que caen fuera de la pantalla
         if current_waste["rect"].y > Ancho_Pantalla:
             current_waste = generate_random_waste()  # Generar nuevo desecho si se cae fuera
 
-
+        # Dibujar las vidas en la pantalla
+        dibujar_vidas(Pantalla, lives, Sprite_Corazon)
 
         # Fin del juego si se quedan sin vidas
         if lives <= 0:

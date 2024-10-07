@@ -6,34 +6,18 @@ from Configs import *
 # Inicializamos pygame
 pygame.init()
 
-# Configuración de la pantalla
-Ancho_Pantalla = 800
-Alto_Pantalla = 600
-Pantalla = pygame.display.set_mode((Ancho_Pantalla, Alto_Pantalla))
-Color_Blanco = (255, 255, 255)
+# Cargar el asset del corazón
 
-# Configuración del rectángulo central para la caída de basura
-rect_area = pygame.Rect(Ancho_Pantalla // 2 - 100, Alto_Pantalla // 2, 200, 400)  # (x, y, width, height)
 
-# Cargar música
+# Configurar música
 pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.1)
 
-def generate_random_waste():
-    # Generar un tipo de basura aleatorio y establecer su rectángulo inicial dentro del área definida
-    waste_types = ["plástico", "vidrio", "metal"]
-    waste_type = random.choice(waste_types)
-    waste_rect = pygame.Rect(random.randint(rect_area.x, rect_area.x + rect_area.width - 50),  # 50 es el ancho del sprite
-                             rect_area.y,  # Comienza en la parte superior del área
-                             50,  # Ancho del sprite de basura
-                             50)  # Alto del sprite de basura
-    return {"type": waste_type, "rect": waste_rect}
 
 def play_minigame():
     global lives, score, game_active, current_waste, selected_tacho, previous_tacho
 
-    current_waste = generate_random_waste()  # Inicializa la basura
     while game_active:
         Pantalla.fill(Color_Blanco)
 
@@ -53,9 +37,15 @@ def play_minigame():
         # Movimiento de los tachos con el teclado
         keys = pygame.key.get_pressed()
         if selected_tacho:
+            # Movimiento con las teclas A y D
             if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
                 player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
             if keys[pygame.K_d] and player_tachos[selected_tacho].x < Ancho_Pantalla - 100:
+                player_tachos[selected_tacho].x += 5  # Mover a la derecha
+            # Movimiento con las teclas de flecha izquierda y derecha
+            if keys[pygame.K_LEFT] and player_tachos[selected_tacho].x > 0:
+                player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
+            if keys[pygame.K_RIGHT] and player_tachos[selected_tacho].x < Ancho_Pantalla - 100:
                 player_tachos[selected_tacho].x += 5  # Mover a la derecha
 
         # Elevar el tacho seleccionado
@@ -96,16 +86,14 @@ def play_minigame():
                 current_waste = generate_random_waste()  # Generar nuevo desecho
                 break  # Salir del bucle tras detectar colisión
 
-        # Eliminar desechos que caen fuera del área definida
-        if current_waste["rect"].y > rect_area.y + rect_area.height:
+        # Eliminar desechos que caen fuera de la pantalla
+        if current_waste["rect"].y > Ancho_Pantalla:
             current_waste = generate_random_waste()  # Generar nuevo desecho si se cae fuera
-
-        # Dibujar el rectángulo donde caen las basuras
-        pygame.draw.rect(Pantalla, (0, 0, 255, 50), rect_area, 2)  # Rectángulo azul de contorno
 
         # Dibujar las vidas en la pantalla
         dibujar_vidas(Pantalla, lives, Sprite_Corazon)
 
+        
         # Fin del juego si se quedan sin vidas
         if lives <= 0:
             Perder_Partida.play()

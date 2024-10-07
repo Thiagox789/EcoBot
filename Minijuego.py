@@ -36,11 +36,16 @@ def play_minigame():
 
         # Movimiento de los tachos con el teclado
         keys = pygame.key.get_pressed()
-
         if selected_tacho:
+            # Movimiento con las teclas A y D
             if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
                 player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
             if keys[pygame.K_d] and player_tachos[selected_tacho].x < Ancho_Pantalla - 100:
+                player_tachos[selected_tacho].x += 5  # Mover a la derecha
+            # Movimiento con las teclas de flecha izquierda y derecha
+            if keys[pygame.K_LEFT] and player_tachos[selected_tacho].x > 0:
+                player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
+            if keys[pygame.K_RIGHT] and player_tachos[selected_tacho].x < Ancho_Pantalla - 100:
                 player_tachos[selected_tacho].x += 5  # Mover a la derecha
 
         # Elevar el tacho seleccionado

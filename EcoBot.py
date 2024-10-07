@@ -67,7 +67,7 @@ def Ciclo_Juego():
 
                 # Si la zona de reciclaje fue tocada, el juego se pausa y entra al minijuego
                 if Zona_Reciclaje_Tocada:
-                    
+                   
                     if Event.key == pygame.K_RETURN:
                         Zona_Reciclaje_Tocada = False
                         Direccion = 'UP'

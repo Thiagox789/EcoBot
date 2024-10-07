@@ -70,7 +70,3 @@ Ganar_Tachos.set_volume(0.2)  # Volumen al 20%
 Poner_Mal_Tacho.set_volume(0.2)  # Volumen al 20%
 Perder_Partida.set_volume(0.3)  # Volumen al 30%
 
-# Configurar música
-Minijuego_Musica = pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
-Minijuego_Musica.play(-1)
-Minijuego_Musica.set_volume(0.1)

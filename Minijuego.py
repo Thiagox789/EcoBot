@@ -87,9 +87,8 @@ def play_minigame():
 
         # Dibujar las vidas en la pantalla
         dibujar_vidas(Pantalla, lives, Sprite_Corazon)
+
         
-        # Dibujar el puntaje en la parte inferior derecha
-        dibujar_puntaje(Pantalla, score)
         # Fin del juego si se quedan sin vidas
         if lives <= 0:
             Perder_Partida.play()

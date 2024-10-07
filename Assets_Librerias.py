@@ -20,7 +20,7 @@ Color_Pared = (0, 150, 0)
 
 
 # Funcion para cargar assets
-def Cargar_Assets(Carpeta_Asset, Nombre_Asset):
+def Cargar_Asset(Carpeta_Asset, Nombre_Asset):
     Ruta_Asset = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Assets', Carpeta_Asset, Nombre_Asset)
     
     if Carpeta_Asset == 'Sprites':  
@@ -33,7 +33,7 @@ def Cargar_Assets(Carpeta_Asset, Nombre_Asset):
         return Ruta_Asset
 
 
-# Funcion para centrar assets (actualmente solo se usa para el EcoBot)
+# Funcion para centrar sprites (actualmente solo se usa para el EcoBot)
 def Centrar_Sprite(Sprite, Posicion):
     Ancho_Sprite, Alto_Sprite = Sprite.get_size()
     Posicion_Centrada = [Posicion[0] - Ancho_Sprite // 2, Posicion[1] - Alto_Sprite // 2]
@@ -48,46 +48,46 @@ def Reproducir_Musica(Ruta_Musica, Volumen):
 
 
 # Sprites Cargados
-Sprite_EcoBot_Frente = Cargar_Assets('Sprites', 'EcoBot - Frente.png')
-Sprite_EcoBot_Espalda = Cargar_Assets('Sprites', 'EcoBot - Espalda.png')
-Sprite_EcoBot_Izquierda = Cargar_Assets('Sprites', 'EcoBot - Izquierda.png')
-Sprite_EcoBot_Derecha = Cargar_Assets('Sprites', 'EcoBot - Derecha.png')
+Sprite_EcoBot_Frente = Cargar_Asset('Sprites', 'EcoBot - Frente.png')
+Sprite_EcoBot_Espalda = Cargar_Asset('Sprites', 'EcoBot - Espalda.png')
+Sprite_EcoBot_Izquierda = Cargar_Asset('Sprites', 'EcoBot - Izquierda.png')
+Sprite_EcoBot_Derecha = Cargar_Asset('Sprites', 'EcoBot - Derecha.png')
 
-Sprite_Tacho_de_Basura = Cargar_Assets('Sprites', 'Tacho de Basura.png')
-Sprite_Tacho_de_Reciclaje_1 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 1.png')
-Sprite_Tacho_de_Reciclaje_2 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 2.png')
-Sprite_Tacho_de_Reciclaje_3 = Cargar_Assets('Sprites', 'Tacho de Reciclaje - 3.png')
+Sprite_Tacho_de_Basura = Cargar_Asset('Sprites', 'Tacho de Basura.png')
+Sprite_Tacho_de_Reciclaje_1 = Cargar_Asset('Sprites', 'Tacho de Reciclaje - 1.png')
+Sprite_Tacho_de_Reciclaje_2 = Cargar_Asset('Sprites', 'Tacho de Reciclaje - 2.png')
+Sprite_Tacho_de_Reciclaje_3 = Cargar_Asset('Sprites', 'Tacho de Reciclaje - 3.png')
 
-Sprite_Basura_Metal = Cargar_Assets('Sprites', 'Basura - Metal.png')
-Sprite_Basura_Plastico = Cargar_Assets('Sprites', 'Basura - Plastico.png')
-Sprite_Basura_Vidrio = Cargar_Assets('Sprites', 'Basura - Vidrio.png')
+Sprite_Basura_Metal = Cargar_Asset('Sprites', 'Basura - Metal.png')
+Sprite_Basura_Plastico = Cargar_Asset('Sprites', 'Basura - Plastico.png')
+Sprite_Basura_Vidrio = Cargar_Asset('Sprites', 'Basura - Vidrio.png')
 
-Sprite_Reloj = Cargar_Assets('Sprites', 'Reloj.png')
-Sprite_Corazon = Cargar_Assets('Sprites', 'Corazon.png')
-Cartel_Peligro = Cargar_Assets('Sprites', 'Cartel Peligro.png')
+Sprite_Reloj = Cargar_Asset('Sprites', 'Reloj.png')
+Sprite_Corazon = Cargar_Asset('Sprites', 'Corazon.png')
+Cartel_Peligro = Cargar_Asset('Sprites', 'Cartel Peligro.png')
 
 
 # Sonidos Cargados
-Agarrar_Plastico = Cargar_Assets('Sonidos', 'Agarrar_Plastico.mp3')
-Agarrar_Vidrio = Cargar_Assets('Sonidos', 'Agarrar_Vidrio.mp3')
-Agarrar_Metal= Cargar_Assets('Sonidos', 'Agarrar_Metal.mp3')
+Agarrar_Plastico = Cargar_Asset('Sonidos', 'Agarrar_Plastico.mp3')
+Agarrar_Vidrio = Cargar_Asset('Sonidos', 'Agarrar_Vidrio.mp3')
+Agarrar_Metal= Cargar_Asset('Sonidos', 'Agarrar_Metal.mp3')
 
-Abrir_Menu = Cargar_Assets('Sonidos', 'Abrir_Menu.mp3')
-Ganar_Tachos = Cargar_Assets('Sonidos', 'Ganar_Tachos.mp3')
-Perder_Partida = Cargar_Assets('Sonidos', 'Perder_Partida.mp3')
-Poner_Mal_Tacho = Cargar_Assets('Sonidos', 'Poner_Mal_Tacho.mp3')
+Abrir_Menu = Cargar_Asset('Sonidos', 'Abrir_Menu.mp3')
+Perder_Partida = Cargar_Asset('Sonidos', 'Perder_Partida.mp3')
+Ganar_Tachos = Cargar_Asset('Sonidos', 'Ganar_Tachos.mp3')
+Poner_Mal_Tacho = Cargar_Asset('Sonidos', 'Poner_Mal_Tacho.mp3')
 
 
 # Musica Cargada
-Musica_EcoBot = Cargar_Assets('Musica', 'Musica_EcoBot.mp3')
-Musica_Minijuego = Cargar_Assets('Musica', 'Musica_Minijuego.mp3')
+Musica_EcoBot = Cargar_Asset('Musica', 'Musica_EcoBot.mp3')
+Musica_Minijuego = Cargar_Asset('Musica', 'Musica_Minijuego.mp3')
 
 
 # Ajustar Volumen Sonidos
-Agarrar_Metal.set_volume(0.1)  # Volumen al 10%
-Agarrar_Plastico.set_volume(0.2)  # Volumen al 20%
+Agarrar_Plastico.set_volume(0.2)  
 Agarrar_Vidrio.set_volume(0.2)
+Agarrar_Metal.set_volume(0.1) 
 
-Ganar_Tachos.set_volume(0.2)  # Volumen al 20%
-Poner_Mal_Tacho.set_volume(0.2)  # Volumen al 20%
-Perder_Partida.set_volume(0.3)  # Volumen al 30%
+Perder_Partida.set_volume(0.3)
+Ganar_Tachos.set_volume(0.2)  
+Poner_Mal_Tacho.set_volume(0.2) 

@@ -60,7 +60,7 @@ def play_minigame():
         else:
             waste_sprite = Sprite_Basura_Metal
         
-        current_waste["rect"].y += 5  # Velocidad de caída del desecho
+        current_waste["rect"].y += 3  # Velocidad de caída del desecho
         Pantalla.blit(waste_sprite, current_waste["rect"].topleft)  # Dibuja el sprite del desecho
 
         # Detectar colisiones entre el desecho y los tachos

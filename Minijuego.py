@@ -22,7 +22,9 @@ def play_minigame():
             if event.type == pygame.QUIT:
                 game_active = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:  # Salir del minijuego
+                if event.key == pygame.K_ESCAPE:# Salir del minijuego
+                    pygame.quit()
+                    quit()  
                     game_active = False
                 if event.key in (pygame.K_1, pygame.K_2, pygame.K_3):
                     previous_tacho = selected_tacho  # Guardar el tacho anterior

@@ -142,29 +142,29 @@ def Generar_Tachos(Num_Tachos, Sprite_Tamano, Posiciones_Basura):
 # Variables del juego
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, 36)
-lives = 3
-score = 0
+vida = 3
+puntaje = 0
 game_active = True
 selected_tacho = None
 previous_tacho = None
 
 # Definimos los tipos de desechos
-TYPES_OF_WASTE = ["plástico", "vidrio", "metal"]
+tipos_de_basura = ["plástico", "vidrio", "metal"]
 
 # Configuraciones del jugador y los tachos
 tacho_y_position = Alto_Pantalla - 125  # Ajusta esto según el tamaño de tus imágenes
 
 # Inicialización de los tachos (posiciones y sprites)
-initial_positions = {
+posicion_inicial = {
     "plástico": (Ancho_Pantalla // 4, tacho_y_position),  # 1/4 de la pantalla
     "vidrio": (Ancho_Pantalla // 2, tacho_y_position),    # Centro de la pantalla
     "metal": (Ancho_Pantalla * 3 // 4, tacho_y_position)  # 3/4 de la pantalla
 }
 
-player_tachos = {
-    "plástico": pygame.Rect(initial_positions["plástico"][0], initial_positions["plástico"][1], 100, 100),
-    "vidrio": pygame.Rect(initial_positions["vidrio"][0], initial_positions["vidrio"][1], 100, 100),
-    "metal": pygame.Rect(initial_positions["metal"][0], initial_positions["metal"][1], 100, 100)
+tachos_jugadores = {
+    "plástico": pygame.Rect(posicion_inicial["plástico"][0], posicion_inicial["plástico"][1], 100, 100),
+    "vidrio": pygame.Rect(posicion_inicial["vidrio"][0], posicion_inicial["vidrio"][1], 100, 100),
+    "metal": pygame.Rect(posicion_inicial["metal"][0], posicion_inicial["metal"][1], 100, 100)
 }
 
 # # Función para dibujar texto (essssssssssssssssssssssssssssssssssssssssssta no deberia existir)
@@ -186,15 +186,15 @@ def dibujar_puntaje(pantalla, puntaje):
     # Dibujar el texto en la pantalla
     pantalla.blit(texto_puntaje, rect_texto)
 # Función para generar un desecho aleatorio
-def generate_random_waste():
-    waste_type = random.choice(TYPES_OF_WASTE)
+def Generar_Basura_random():
+    tipo_basura = random.choice(tipos_de_basura)
     # Cambiar el rango de generación para que caiga en toda la pantalla
     x_position = random.randint(0, Ancho_Pantalla - 30)  # 30 es el ancho del rectángulo de desecho
     waste_rect = pygame.Rect(x_position, 0, 30, 30)  # Un rectángulo que representa el desecho
-    return {"type": waste_type, "rect": waste_rect}
+    return {"type": tipo_basura, "rect": waste_rect}
 
 # Generar el primer desecho al inicio
-current_waste = generate_random_waste()
+basura_actual = Generar_Basura_random()
 
 
 # -------------------------------------------------------------------------------------------------------------

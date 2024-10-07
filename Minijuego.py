@@ -14,7 +14,7 @@ pygame.mixer.music.set_volume(0.1)
 
 
 def play_minigame():
-    global lives, score, game_active, current_waste, selected_tacho, previous_tacho
+    global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
 
     while game_active:
         Pantalla.fill(Color_Blanco)
@@ -30,70 +30,70 @@ def play_minigame():
                     game_active = False
                 if event.key in (pygame.K_1, pygame.K_2, pygame.K_3):
                     previous_tacho = selected_tacho  # Guardar el tacho anterior
-                    selected_tacho = TYPES_OF_WASTE[event.key - pygame.K_1]  # Selecciona el tacho correspondiente
+                    selected_tacho = tipos_de_basura[event.key - pygame.K_1]  # Selecciona el tacho correspondiente
 
         # Movimiento de los tachos con el teclado
-        keys = pygame.key.get_pressed()
+        tecla = pygame.key.get_pressed()
         if selected_tacho:
             # Movimiento con las teclas A y D
-            if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
-                player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
-            if keys[pygame.K_d] and player_tachos[selected_tacho].x < Ancho_Pantalla - 100:
-                player_tachos[selected_tacho].x += 5  # Mover a la derecha
+            if tecla[pygame.K_a] and tachos_jugadores[selected_tacho].x > 0:
+                tachos_jugadores[selected_tacho].x -= 5  # Mover a la izquierda
+            if tecla[pygame.K_d] and tachos_jugadores[selected_tacho].x < Ancho_Pantalla - 100:
+                tachos_jugadores[selected_tacho].x += 5  # Mover a la derecha
             # Movimiento con las teclas de flecha izquierda y derecha
-            if keys[pygame.K_LEFT] and player_tachos[selected_tacho].x > 0:
-                player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
-            if keys[pygame.K_RIGHT] and player_tachos[selected_tacho].x < Ancho_Pantalla - 100:
-                player_tachos[selected_tacho].x += 5  # Mover a la derecha
+            if tecla[pygame.K_LEFT] and tachos_jugadores[selected_tacho].x > 0:
+                tachos_jugadores[selected_tacho].x -= 5  # Mover a la izquierda
+            if tecla[pygame.K_RIGHT] and tachos_jugadores[selected_tacho].x < Ancho_Pantalla - 100:
+                tachos_jugadores[selected_tacho].x += 5  # Mover a la derecha
 
         # Elevar el tacho seleccionado
         if previous_tacho and previous_tacho != selected_tacho:
-            player_tachos[previous_tacho].topleft = initial_positions[previous_tacho]  # Volver a la posición inicial
+            tachos_jugadores[previous_tacho].topleft = posicion_inicial[previous_tacho]  # Volver a la posición inicial
         if selected_tacho:
-            player_tachos[selected_tacho].y = tacho_y_position - 150  # Elevar el tacho seleccionado
+            tachos_jugadores[selected_tacho].y = tacho_y_position - 150  # Elevar el tacho seleccionado
 
         # Dibujar los tachos
-        for waste_type in player_tachos:
-            if waste_type == "vidrio":
-                Pantalla.blit(Sprite_Tacho_de_Reciclaje_1, player_tachos[waste_type].topleft)
-            elif waste_type == "metal":
-                Pantalla.blit(Sprite_Tacho_de_Reciclaje_2, player_tachos[waste_type].topleft)
-            elif waste_type == "plástico":
-                Pantalla.blit(Sprite_Tacho_de_Reciclaje_3, player_tachos[waste_type].topleft)
+        for tipo_basura in tachos_jugadores:
+            if tipo_basura == "vidrio":
+                Pantalla.blit(Sprite_Tacho_de_Reciclaje_1, tachos_jugadores[tipo_basura].topleft)
+            elif tipo_basura == "metal":
+                Pantalla.blit(Sprite_Tacho_de_Reciclaje_2, tachos_jugadores[tipo_basura].topleft)
+            elif tipo_basura == "plástico":
+                Pantalla.blit(Sprite_Tacho_de_Reciclaje_3, tachos_jugadores[tipo_basura].topleft)
 
         # Mover y dibujar el desecho
-        if current_waste["type"] == "plástico":
+        if basura_actual["type"] == "plástico":
             waste_sprite = Sprite_Basura_Plastico
-        elif current_waste["type"] == "vidrio":
+        elif basura_actual["type"] == "vidrio":
             waste_sprite = Sprite_Basura_Vidrio
         else:
             waste_sprite = Sprite_Basura_Metal
 
-        current_waste["rect"].y += 3  # Velocidad de caída del desecho
-        Pantalla.blit(waste_sprite, current_waste["rect"].topleft)  # Dibuja el sprite del desecho
+        basura_actual["rect"].y += 3  # Velocidad de caída del desecho
+        Pantalla.blit(waste_sprite, basura_actual["rect"].topleft)  # Dibuja el sprite del desecho
 
         # Detectar colisiones entre el desecho y los tachos
-        for waste_type, tacho in player_tachos.items():
-            if current_waste["rect"].colliderect(tacho):
-                if current_waste["type"] == waste_type:
+        for tipo_basura, tacho in tachos_jugadores.items():
+            if basura_actual["rect"].colliderect(tacho):
+                if basura_actual["type"] == tipo_basura:
                     Ganar_Tachos.play()
-                    score += 1  # Sumar puntos si el desecho cayó en el tacho correcto
+                    puntaje += 1  # Sumar puntos si el desecho cayó en el tacho correcto
                 else:
                     Poner_Mal_Tacho.play()
-                    lives -= 1  # Restar vidas si cayó en el tacho incorrecto
-                current_waste = generate_random_waste()  # Generar nuevo desecho
+                    vida -= 1  # Restar vidas si cayó en el tacho incorrecto
+                basura_actual = Generar_Basura_random()  # Generar nuevo desecho
                 break  # Salir del bucle tras detectar colisión
 
         # Eliminar desechos que caen fuera de la pantalla
-        if current_waste["rect"].y > Ancho_Pantalla:
-            current_waste = generate_random_waste()  # Generar nuevo desecho si se cae fuera
+        if basura_actual["rect"].y > Ancho_Pantalla:
+            basura_actual = Generar_Basura_random()  # Generar nuevo desecho si se cae fuera
 
         # Dibujar las vidas en la pantalla
-        dibujar_vidas(Pantalla, lives, Sprite_Corazon)
+        dibujar_vidas(Pantalla, vida, Sprite_Corazon)
 
         
         # Fin del juego si se quedan sin vidas
-        if lives <= 0:
+        if vida <= 0:
             Perder_Partida.play()
             Mostrar_Pantalla_Game_Over()  # Llama a la función para mostrar la pantalla de Game Over
             pygame.time.delay(2000)

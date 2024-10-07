@@ -1,7 +1,7 @@
 import pygame
 import random
 from Assets_Librerias import *
-from ConfigMinijuego import *
+from Configs import *
 
 # Inicializamos pygame
 pygame.init()

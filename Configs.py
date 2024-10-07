@@ -1,5 +1,10 @@
 from Assets_Librerias import *
 
+
+# -------------------------------------------------------------------------------------------------------------
+# Configuraciones para el juego
+# -------------------------------------------------------------------------------------------------------------
+
 # Configuración de la pantalla completa
 pygame.display.set_caption("EcoBot")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -113,8 +118,6 @@ def Generar_Tachos(Num_Tachos, Sprite_Tamano, Posiciones_Basura):
         Tachos.append(Nuevo_Tacho)
     return Tachos
 
-
-
 # parte de la solucion para los contadores
 
 # def recoger_basura(Posiciones_Basura, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico):
@@ -130,3 +133,84 @@ def Generar_Tachos(Num_Tachos, Sprite_Tamano, Posiciones_Basura):
             
 #             Basuras.remove(basura)  # Elimina la basura recogida
 #             break  # Sale del bucle después de recoger una basura
+
+
+# -------------------------------------------------------------------------------------------------------------
+# Configuraciones para el Minijuego
+# -------------------------------------------------------------------------------------------------------------
+
+# Variables del juego
+clock = pygame.time.Clock()
+font = pygame.font.Font(None, 36)
+lives = 3
+score = 0
+game_active = True
+selected_tacho = None
+previous_tacho = None
+
+# Definimos los tipos de desechos
+TYPES_OF_WASTE = ["plástico", "vidrio", "metal"]
+
+# Configuraciones del jugador y los tachos
+tacho_y_position = Alto_Pantalla - 125  # Ajusta esto según el tamaño de tus imágenes
+
+# Inicialización de los tachos (posiciones y sprites)
+initial_positions = {
+    "plástico": (Ancho_Pantalla // 4, tacho_y_position),  # 1/4 de la pantalla
+    "vidrio": (Ancho_Pantalla // 2, tacho_y_position),    # Centro de la pantalla
+    "metal": (Ancho_Pantalla * 3 // 4, tacho_y_position)  # 3/4 de la pantalla
+}
+
+player_tachos = {
+    "plástico": pygame.Rect(initial_positions["plástico"][0], initial_positions["plástico"][1], 100, 100),
+    "vidrio": pygame.Rect(initial_positions["vidrio"][0], initial_positions["vidrio"][1], 100, 100),
+    "metal": pygame.Rect(initial_positions["metal"][0], initial_positions["metal"][1], 100, 100)
+}
+
+# # Función para dibujar texto (essssssssssssssssssssssssssssssssssssssssssta no deberia existir)
+# def draw_text(text, font, color, surface, x, y):
+#     text_obj = font.render(text, True, color)
+#     text_rect = text_obj.get_rect()
+#     text_rect.topleft = (x, y)
+#     surface.blit(text_obj, text_rect)
+
+# Función para generar un desecho aleatorio
+def generate_random_waste():
+    waste_type = random.choice(TYPES_OF_WASTE)
+    # Cambiar el rango de generación para que caiga en toda la pantalla
+    x_position = random.randint(0, Ancho_Pantalla - 30)  # 30 es el ancho del rectángulo de desecho
+    waste_rect = pygame.Rect(x_position, 0, 30, 30)  # Un rectángulo que representa el desecho
+    return {"type": waste_type, "rect": waste_rect}
+
+# Generar el primer desecho al inicio
+current_waste = generate_random_waste()
+
+
+# -------------------------------------------------------------------------------------------------------------
+# Clases para las Basuras
+# -------------------------------------------------------------------------------------------------------------
+
+# Clase Madre para las basuras
+class Basura:
+    def __init__(self, Sprite, Sonido, Tipo):
+        self.Sprite = Sprite
+        self.Sonido = Sonido
+        self.Tipo = Tipo
+
+# Subclase Basura Metal
+class Basura_Metal(Basura):
+    def __init__(self):
+        super().__init__(Sprite_Basura_Metal, Agarrar_Metal, "Metal")
+
+# Subclase Basura Plastico
+class Basura_Plastico(Basura):
+    def __init__(self):
+        super().__init__(Sprite_Basura_Plastico, Agarrar_Plastico , "Plastico")
+
+# Subclase Basura Vidrio
+class Basura_Vidrio(Basura):
+    def __init__(self):
+        super().__init__(Sprite_Basura_Vidrio, Agarrar_Vidrio, "Vidrio")
+
+# Define la lista de Tipos_Basura después de definir las clases
+Tipos_Basuras = [Basura_Metal, Basura_Plastico, Basura_Vidrio]

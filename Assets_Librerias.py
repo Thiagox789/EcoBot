@@ -65,4 +65,7 @@ Poner_Mal_Tacho = Cargar_Assets('Sonidos', 'Poner_Mal_Tacho.mp3')
 Agarrar_Metal.set_volume(0.1)  # Volumen al 10%
 Agarrar_Plastico.set_volume(0.2)  # Volumen al 20%
 Agarrar_Vidrio.set_volume(0.2)
+
+Ganar_Tachos.set_volume(0.2)  # Volumen al 20%
+Poner_Mal_Tacho.set_volume(0.2)  # Volumen al 20%
 Perder_Partida.set_volume(0.3)  # Volumen al 30%

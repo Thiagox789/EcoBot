@@ -1,6 +1,5 @@
 from Assets_Librerias import *
 from Configs import *
-from Basuras import *
 
 # Inicializar el estado del juego 
 def Inicializar_Juego():

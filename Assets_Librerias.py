@@ -25,12 +25,21 @@ def Cargar_Assets(Carpeta_Asset, Nombre_Asset):
     
     elif Carpeta_Asset == 'Sonidos':  
         return pygame.mixer.Sound(Ruta_Asset)
+    
+    elif Carpeta_Asset == 'Musica':
+        return Ruta_Asset
 
-# Funcion para centrar assets (actualmente solo se usa para el ecobot)
+# Funcion para centrar assets (actualmente solo se usa para el EcoBot)
 def Centrar_Sprite(Sprite, Posicion):
     Ancho_Sprite, Alto_Sprite = Sprite.get_size()
     Posicion_Centrada = [Posicion[0] - Ancho_Sprite // 2, Posicion[1] - Alto_Sprite // 2]
     return Posicion_Centrada
+
+# Función para reproducir música
+def Reproducir_Musica(Ruta_Musica, Volumen = 0.1):
+    pygame.mixer.music.load(Ruta_Musica)
+    pygame.mixer.music.set_volume(Volumen)
+    pygame.mixer.music.play(-1)
 
 # Sprites Cargados
 Sprite_EcoBot_Frente = Cargar_Assets('Sprites', 'EcoBot - Frente.png')
@@ -61,6 +70,10 @@ Ganar_Tachos = Cargar_Assets('Sonidos', 'Ganar_Tachos.mp3')
 Perder_Partida = Cargar_Assets('Sonidos', 'Perder_Partida.mp3')
 Poner_Mal_Tacho = Cargar_Assets('Sonidos', 'Poner_Mal_Tacho.mp3')
 
+# Musica Cargada
+Musica_EcoBot = Cargar_Assets('Musica', 'Musica_EcoBot.mp3')
+Musica_Minijuego = Cargar_Assets('Musica', 'Musica_Minijuego.mp3')
+
 # Ajustar Volumen Sonidos
 Agarrar_Metal.set_volume(0.1)  # Volumen al 10%
 Agarrar_Plastico.set_volume(0.2)  # Volumen al 20%
@@ -70,7 +83,7 @@ Ganar_Tachos.set_volume(0.2)  # Volumen al 20%
 Poner_Mal_Tacho.set_volume(0.2)  # Volumen al 20%
 Perder_Partida.set_volume(0.3)  # Volumen al 30%
 
-# Configurar música
-Minijuego_Musica = pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
-Minijuego_Musica.play(-1)
-Minijuego_Musica.set_volume(0.1)
+# # Configurar música
+# Minijuego_Musica = pygame.mixer.music.load('Assets/Sonidos/Minijuego_Musica.mp3')
+# Minijuego_Musica.play(-1)
+# Minijuego_Musica.set_volume(0.1)

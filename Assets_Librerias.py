@@ -41,7 +41,7 @@ def Centrar_Sprite(Sprite, Posicion):
 
 
 # Función para reproducir música
-def Reproducir_Musica(Ruta_Musica, Volumen = 0.1):
+def Reproducir_Musica(Ruta_Musica, Volumen):
     pygame.mixer.music.load(Ruta_Musica)
     pygame.mixer.music.set_volume(Volumen)
     pygame.mixer.music.play(-1)

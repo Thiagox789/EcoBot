@@ -34,7 +34,7 @@ def play_minigame():
         if selected_tacho:
             if keys[pygame.K_a] and player_tachos[selected_tacho].x > 0:
                 player_tachos[selected_tacho].x -= 5  # Mover a la izquierda
-            if keys[pygame.K_d] and player_tachos[selected_tacho].x < Centro_Pantalla_X - 100:
+            if keys[pygame.K_d] and player_tachos[selected_tacho].x < Centro_Pantalla_Y - 100:
                 player_tachos[selected_tacho].x += 5  # Mover a la derecha
 
         # Elevar el tacho seleccionado

@@ -22,10 +22,6 @@ cuadro_y = 0  # Pegado al borde superior de la pantalla
 cuadro_ancho = Ancho_Pantalla - cuadro_x - margen_derecha  # Desde cuadro_x hasta el borde derecho
 cuadro_alto = 600  # Altura total del cuadro
 
-# Inicializar el puntaje
-puntaje = 0
-font = pygame.font.Font(None, 36)  # Fuente para el puntaje
-
 # Función para dibujar las vidas fuera del área del minijuego
 def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
     for i in range(vida):
@@ -75,30 +71,30 @@ def play_minigame():
         if selected_tacho:
             # Movimiento con las teclas A y D
             if tecla[pygame.K_a] and tachos_jugadores[selected_tacho].x > cuadro_x:
-                tachos_jugadores[selected_tacho].x -= 5  # Mover a la izquierda
+                tachos_jugadores[selected_tacho].x -= 7  # Aumentar la velocidad de movimiento
             if tecla[pygame.K_d] and tachos_jugadores[selected_tacho].x < cuadro_x + cuadro_ancho - 100:
-                tachos_jugadores[selected_tacho].x += 5  # Mover a la derecha
+                tachos_jugadores[selected_tacho].x += 7  # Aumentar la velocidad de movimiento
             # Movimiento con las teclas de flecha izquierda y derecha
             if tecla[pygame.K_LEFT] and tachos_jugadores[selected_tacho].x > cuadro_x:
-                tachos_jugadores[selected_tacho].x -= 5  # Mover a la izquierda
+                tachos_jugadores[selected_tacho].x -= 7  # Aumentar la velocidad de movimiento
             if tecla[pygame.K_RIGHT] and tachos_jugadores[selected_tacho].x < cuadro_x + cuadro_ancho - 100:
-                tachos_jugadores[selected_tacho].x += 5  # Mover a la derecha
+                tachos_jugadores[selected_tacho].x += 7  # Aumentar la velocidad de movimiento
 
         # Elevar el tacho seleccionado
         if previous_tacho and previous_tacho != selected_tacho:
             tachos_jugadores[previous_tacho].topleft = posicion_inicial[previous_tacho]  # Volver a la posición inicial
         if selected_tacho:
-            tachos_jugadores[selected_tacho].y = cuadro_y + cuadro_alto - 150  # Ajustar la elevación del tacho
+            tachos_jugadores[selected_tacho].y = cuadro_y + cuadro_alto - 110  # Ajustar la elevación del tacho (subir más)
 
         # Dibujar los tachos dentro del cuadro
         for tipo_basura, tacho in tachos_jugadores.items():
             Pantalla.blit(Sprite_Tacho_de_Reciclaje_1 if tipo_basura == "vidrio" else
                           Sprite_Tacho_de_Reciclaje_2 if tipo_basura == "metal" else
-                          Sprite_Tacho_de_Reciclaje_3, (tacho.x, cuadro_y + cuadro_alto - 150))
+                          Sprite_Tacho_de_Reciclaje_3, (tacho.x, cuadro_y + cuadro_alto - 50))  # Tachoes pegados al cuadro
 
             # Dibujar el sprite del desecho correspondiente debajo de cada tacho
             waste_sprite = obtener_sprite_basura(tipo_basura)  # Obtener el sprite del desecho correspondiente
-            Pantalla.blit(waste_sprite, (250, cuadro_y + cuadro_alto + 75))  # Dibuja el sprite del desecho
+            Pantalla.blit(waste_sprite, (tacho.x + 25, cuadro_y + cuadro_alto + 75))  # Dibuja el sprite del desecho
 
         # Mover y dibujar el desecho que cae
         basura_actual["rect"].y += 3  # Velocidad de caída del desecho
@@ -122,10 +118,6 @@ def play_minigame():
 
         # Dibujar las vidas en la pantalla (fuera del área de juego)
         dibujar_vidas(Pantalla, vida, Sprite_Corazon, 50, cuadro_y + 10)  # Mostrar en el centro del espacio fuera del cuadro
-
-        # Dibujar el contador de puntaje
-        texto_puntaje = font.render(f"Puntaje: {puntaje}", True, (0, 0, 0))  # Texto en negro
-        Pantalla.blit(texto_puntaje, (cuadro_x + 10, cuadro_y + 10))  # Posición del contador
 
         # Fin del juego si se quedan sin vidas
         if vida <= 0:

@@ -14,9 +14,6 @@ Centro_Pantalla_Y = Alto_Pantalla // 2
 # Configuración del reloj
 Reloj = pygame.time.Clock()
 
-# Agrega un temporizador
-Tiempo_Para_Generar_Tachos = 5000  # 20 segundos en milisegundos
-
 # Tamaños de objetos
 Tamaño_Sprite_Grandes = 125
 Tamaño_Basura = 75
@@ -27,6 +24,7 @@ Grosor_Pared_Gruesa = 150
 Velocidad_EcoBot = 5
 Num_Basuras = 3
 Num_Tachos = 3
+Tiempo_Para_Generar_Tachos = 20000
 
 # Definicion de la zona donde los objetos pueden spawnear y la zona de los Tachos de reciclaje
 Zona_Spawneable = pygame.Rect(Grosor_Pared + 50, Grosor_Pared + 50, Ancho_Pantalla - 150 , Alto_Pantalla - 300)

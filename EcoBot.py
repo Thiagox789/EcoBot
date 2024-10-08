@@ -144,8 +144,8 @@ def Ciclo_Juego():
                         Posiciones_Basura[Basura_Recogida] = (Posiciones_Basura[Basura_Recogida][0], Posiciones_Basura[Basura_Recogida][1], nueva_rotacion)
 
                         # Genera un nuevo tipo de basura aleatoriamente
-                        nuevo_tipo_basura = random.choice(Tipos_Basuras)()
-                        Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
+                       # nuevo_tipo_basura = random.choice(Tipos_Basuras)()
+                        #Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
 
                         # Incrementa el contador correspondiente usando el atributo tipo
                         if Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Metal":

@@ -1,6 +1,4 @@
-from Assets_Librerias import *
-from Configs import *
-#from Minijuego import *
+from pruebaMinijuego import *
 
 #Poner musica
 Reproducir_Musica(Musica_EcoBot, 0.4)
@@ -168,9 +166,8 @@ def Ciclo_Juego():
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego
                 if Zona_Reciclaje_Tocada == True:
-                    #play_minijuego()
-                    Pantalla.fill(Color_Pared)
-
+                    play_minijuego()
+                    
                 else:
                     #  Rellena el fondo
                     Pantalla.fill(Color_Fondo)

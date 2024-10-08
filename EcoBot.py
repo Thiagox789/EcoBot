@@ -1,4 +1,4 @@
-from pruebaMinijuego import *
+from Minijuego import *
 
 #Poner musica
 Reproducir_Musica(Musica_EcoBot, 0.4)

@@ -1,8 +1,4 @@
-from Assets_Librerias import *
 from Configs import *
-
-# Inicializamos pygame
-pygame.init()
 
 # Configurar música
 Reproducir_Musica(Musica_Minijuego, 0.1)
@@ -198,7 +194,6 @@ def play_minijuego():
                 game_active = False
 
             pygame.display.flip()
-            Reloj.tick(60)
 
         # Reiniciar al presionar 'R'
         for event in pygame.event.get():
@@ -208,7 +203,3 @@ def play_minijuego():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 reiniciar_juego()
                 break
-
-# Correr el minijuego
-play_minijuego()
-pygame.quit()

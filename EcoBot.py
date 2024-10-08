@@ -1,5 +1,6 @@
 from Assets_Librerias import *
 from Configs import *
+#from Minijuego import *
 
 #Poner musica
 Reproducir_Musica(Musica_EcoBot, 0.4)
@@ -166,8 +167,8 @@ def Ciclo_Juego():
                     Ultima_Generacion_Tacho = tiempo_actual  # Actualiza el tiempo de última generación
 
                 # Si la zona de reciclaje fue tocada, simula entrar al minijuego
-                if Zona_Reciclaje_Tocada:
-                    # Abrir_Menu.play()
+                if Zona_Reciclaje_Tocada == True:
+                    #play_minijuego()
                     Pantalla.fill(Color_Pared)
 
                 else:

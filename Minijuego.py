@@ -1,5 +1,3 @@
-import pygame
-import random
 from Assets_Librerias import *
 from Configs import *
 
@@ -103,7 +101,6 @@ def play_minijuego():
         pygame.display.flip()
         clock.tick(60)
 
-# Mostrar la pantalla de inicio antes de comenzar el minijuego
 # Correr el minijuego
 play_minijuego()
 pygame.quit()

@@ -48,6 +48,8 @@ def Reproducir_Musica(Ruta_Musica, Volumen):
 
 
 # Sprites Cargados
+Sprite_EcoBot_Menu = Cargar_Asset('Sprites', 'EcoBot - Menu.png')
+
 Sprite_EcoBot_Frente = Cargar_Asset('Sprites', 'EcoBot - Frente.png')
 Sprite_EcoBot_Espalda = Cargar_Asset('Sprites', 'EcoBot - Espalda.png')
 Sprite_EcoBot_Izquierda = Cargar_Asset('Sprites', 'EcoBot - Izquierda.png')

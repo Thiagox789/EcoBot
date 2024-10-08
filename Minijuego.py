@@ -1,3 +1,5 @@
+import pygame
+import random
 from Assets_Librerias import *
 from Configs import *
 
@@ -5,7 +7,6 @@ from Configs import *
 pygame.init()
 
 # Cargar el asset del corazón
-
 # Configurar música
 pygame.mixer.music.load('Assets/Musica/Musica_Minijuego.mp3')
 pygame.mixer.music.play(-1)
@@ -101,6 +102,7 @@ def play_minijuego():
         pygame.display.flip()
         clock.tick(60)
 
+# Mostrar la pantalla de inicio antes de comenzar el minijuego
 # Correr el minijuego
 play_minijuego()
 pygame.quit()

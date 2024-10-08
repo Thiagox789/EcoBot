@@ -116,11 +116,10 @@ def play_minijuego():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    quit()
+                    return  # Cambiar quit() por return para salir del bucle
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        quit()
+                        return  # Cambiar quit() por return para salir del bucle
                     if event.key in (pygame.K_1, pygame.K_2, pygame.K_3):
                         previous_tacho = selected_tacho
                         selected_tacho = tipos_de_basura[event.key - pygame.K_1]
@@ -202,8 +201,7 @@ def play_minijuego():
         # Reiniciar al presionar 'R'
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                return  # Cambiar quit() por return para salir del bucle
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 reiniciar_juego()
                 break

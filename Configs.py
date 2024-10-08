@@ -1,6 +1,5 @@
 from Assets_Librerias import *
 
-
 # -------------------------------------------------------------------------------------------------------------
 # Configuraciones para el juego
 # -------------------------------------------------------------------------------------------------------------
@@ -34,9 +33,9 @@ Zona_Spawneable = pygame.Rect(Grosor_Pared + 50, Grosor_Pared + 50, Ancho_Pantal
 Zona_Reciclaje = pygame.Rect(480, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, 405, Grosor_Pared_Gruesa)
 
 # Fuente para el texto
-Fuente_Titulos = pygame.font.SysFont('timesnewroman', 200) # Posibles fonts: timesnewroman, gillsans, rockwell (no me fije todas, despues se hara)
+Fuente_Titulos = pygame.font.SysFont('rockwell', 200) 
 Posicion_Titulos = Centro_Pantalla_X, Centro_Pantalla_Y - 75
-Fuente_Texto = pygame.font.SysFont('timesnewroman', 50)
+Fuente_Texto = pygame.font.SysFont('rockwell', 50)
 Posicion_Texto = Centro_Pantalla_X, Centro_Pantalla_Y + 125
 
 # Función auxiliar para dibujar texto con borde (full ChatGPT)
@@ -79,7 +78,7 @@ def Mostrar_Pantalla_Inicio():
     Pantalla.fill(Color_Gris)
     Renderizar_Texto('EcoBot', Fuente_Titulos, Color_Fondo, 10, Color_Negro, Posicion_Titulos[0] - 250, Posicion_Titulos[1], Pantalla)
     Renderizar_Texto('Presiona "Enter" para Jugar', Fuente_Texto, Color_Blanco, 5, Color_Negro, Posicion_Texto[0] - 250, Posicion_Texto[1], Pantalla)
-    Pantalla.blit(Sprite_EcoBot_Frente, (Posicion_Titulos[0] + 250, Posicion_Titulos[1]))
+    Pantalla.blit(Sprite_EcoBot_Menu, (Posicion_Titulos[0] + 125, Posicion_Titulos[1] - 175))
     pygame.display.flip()
 
 # Muestra el mensaje de "Game Over"

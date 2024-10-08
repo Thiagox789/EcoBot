@@ -1,5 +1,3 @@
-import pygame
-import random
 from Assets_Librerias import *
 from Configs import *
 
@@ -14,7 +12,7 @@ pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.1)
 
 
-def play_minigame():
+def play_minijuego():
     global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
 
     while game_active:
@@ -103,7 +101,6 @@ def play_minigame():
         pygame.display.flip()
         clock.tick(60)
 
-# Mostrar la pantalla de inicio antes de comenzar el minijuego
 # Correr el minijuego
-play_minigame()
+play_minijuego()
 pygame.quit()

@@ -22,10 +22,19 @@ cuadro_y = 0  # Pegado al borde superior de la pantalla
 cuadro_ancho = Ancho_Pantalla - cuadro_x - margen_derecha  # Desde cuadro_x hasta el borde derecho
 cuadro_alto = 600  # Altura total del cuadro
 
+# Definir la fuente para el puntaje
+fuente_puntaje = pygame.font.Font(None, 50)  # Tamaño 50 para el número
+
 # Función para dibujar las vidas fuera del área del minijuego
 def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
     for i in range(vida):
         Pantalla.blit(Sprite_Corazon, (x + i * 40, y))  # Dibujar cada corazón con un pequeño espacio entre ellos
+
+# Función para dibujar la corona con el puntaje al lado
+def dibujar_corona_con_puntaje(Pantalla, puntaje, Sprite_Corona, x, y):
+    Pantalla.blit(Sprite_Corona, (x, y))  # Dibujar la corona
+    texto_puntaje = fuente_puntaje.render(str(puntaje), True, (0, 0, 0))  # Dibujar el puntaje en negro
+    Pantalla.blit(texto_puntaje, (x + Sprite_Corona.get_width() + 10, y + 10))  # Colocar el número al lado de la corona
 
 def Generar_Basura_random():
     tipos = ["plástico", "vidrio", "metal"]
@@ -117,7 +126,10 @@ def play_minigame():
             basura_actual = Generar_Basura_random()  # Generar nuevo desecho si se cae fuera
 
         # Dibujar las vidas en la pantalla (fuera del área de juego)
-        dibujar_vidas(Pantalla, vida, Sprite_Corazon, 50, cuadro_y + 10)  # Mostrar en el centro del espacio fuera del cuadro
+        dibujar_vidas(Pantalla, vida, Sprite_Corazon, 50, cuadro_y + 50)  # Mostrar en el centro del espacio fuera del cuadro
+
+        # Dibujar la corona con el puntaje
+        dibujar_corona_con_puntaje(Pantalla, puntaje, Sprite_Corona, 50, cuadro_y + 250)  # Mostrar una corona con el puntaje al lado
 
         # Fin del juego si se quedan sin vidas
         if vida <= 0:

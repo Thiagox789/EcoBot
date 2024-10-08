@@ -1,5 +1,3 @@
-import pygame
-import random
 from Assets_Librerias import *
 from Configs import *
 
@@ -7,9 +5,26 @@ from Configs import *
 pygame.init()
 
 # Configurar música
-pygame.mixer.music.load('Assets/Musica/Musica_Minijuego.mp3')
-pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.1)
+Reproducir_Musica(Musica_Minijuego, 0.1)
+
+# Definimos los tipos de desechos
+tipos_de_basura = ["plástico", "vidrio", "metal"]
+
+# # Configuraciones del jugador y los tachos
+tacho_y_position = Alto_Pantalla - 125  # Ajusta esto según el tamaño de tus imágenes
+
+# Inicialización de los tachos (posiciones y sprites)
+posicion_inicial = {
+    "plástico": (Ancho_Pantalla // 4, tacho_y_position),  # 1/4 de la pantalla
+    "vidrio": (Ancho_Pantalla // 2, tacho_y_position),    # Centro de la pantalla
+    "metal": (Ancho_Pantalla * 3 // 4, tacho_y_position)  # 3/4 de la pantalla
+}
+
+tachos_jugadores = {
+    "plástico": pygame.Rect(posicion_inicial["plástico"][0], posicion_inicial["plástico"][1], 100, 100),
+    "vidrio": pygame.Rect(posicion_inicial["vidrio"][0], posicion_inicial["vidrio"][1], 100, 100),
+    "metal": pygame.Rect(posicion_inicial["metal"][0], posicion_inicial["metal"][1], 100, 100)
+}
 
 # Definir márgenes y área de juego
 margen_derecha = 50
@@ -183,7 +198,7 @@ def play_minijuego():
                 game_active = False
 
             pygame.display.flip()
-            clock.tick(60)
+            Reloj.tick(60)
 
         # Reiniciar al presionar 'R'
         for event in pygame.event.get():

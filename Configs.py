@@ -117,68 +117,6 @@ def Generar_Tachos(Num_Tachos, Sprite_Tamano, Posiciones_Basura):
 
 
 # -------------------------------------------------------------------------------------------------------------
-# Configuraciones para el Minijuego
-# -------------------------------------------------------------------------------------------------------------
-
-# Variables del juego
-clock = pygame.time.Clock()
-font = pygame.font.Font(None, 36)
-vida = 3
-puntaje = 0
-game_active = True
-selected_tacho = None
-previous_tacho = None
-
-# Definimos los tipos de desechos
-tipos_de_basura = ["plástico", "vidrio", "metal"]
-
-# Configuraciones del jugador y los tachos
-tacho_y_position = Alto_Pantalla - 125  # Ajusta esto según el tamaño de tus imágenes
-
-# Inicialización de los tachos (posiciones y sprites)
-posicion_inicial = {
-    "plástico": (Ancho_Pantalla // 4, tacho_y_position),  # 1/4 de la pantalla
-    "vidrio": (Ancho_Pantalla // 2, tacho_y_position),    # Centro de la pantalla
-    "metal": (Ancho_Pantalla * 3 // 4, tacho_y_position)  # 3/4 de la pantalla
-}
-
-tachos_jugadores = {
-    "plástico": pygame.Rect(posicion_inicial["plástico"][0], posicion_inicial["plástico"][1], 100, 100),
-    "vidrio": pygame.Rect(posicion_inicial["vidrio"][0], posicion_inicial["vidrio"][1], 100, 100),
-    "metal": pygame.Rect(posicion_inicial["metal"][0], posicion_inicial["metal"][1], 100, 100)
-}
-
-# # Función para dibujar texto (essssssssssssssssssssssssssssssssssssssssssta no deberia existir)
-# def draw_text(text, font, color, surface, x, y):
-#     text_obj = font.render(text, True, color)
-#     text_rect = text_obj.get_rect()
-#     text_rect.topleft = (x, y)
-#     surface.blit(text_obj, text_rect)
-def dibujar_vidas(pantalla, vidas, sprite_corazon, x, y):
-    # Dibujar los corazones en la parte superior izquierda de la pantalla
-    for i in range(vidas):
-        pantalla.blit(sprite_corazon, (10 + i * 40, 10))  # Los corazones se dibujan con un espacio entre ellos
-
-def dibujar_puntaje(pantalla, puntaje):
-    # Crear el texto del puntaje
-    texto_puntaje = font.render(f"Puntaje: {puntaje}", True, (0, 0, 0))  # Texto en negro
-    # Obtener el rectángulo del texto para posicionarlo en la parte inferior derecha
-    rect_texto = texto_puntaje.get_rect(bottomright=(Ancho_Pantalla - 10, Alto_Pantalla - 10))
-    # Dibujar el texto en la pantalla
-    pantalla.blit(texto_puntaje, rect_texto)
-# Función para generar un desecho aleatorio
-def Generar_Basura_random():
-    tipo_basura = random.choice(tipos_de_basura)
-    # Cambiar el rango de generación para que caiga en toda la pantalla
-    x_position = random.randint(0, Ancho_Pantalla - 30)  # 30 es el ancho del rectángulo de desecho
-    waste_rect = pygame.Rect(x_position, 0, 30, 30)  # Un rectángulo que representa el desecho
-    return {"type": tipo_basura, "rect": waste_rect}
-
-# Generar el primer desecho al inicio
-basura_actual = Generar_Basura_random()
-
-
-# -------------------------------------------------------------------------------------------------------------
 # Clases para las Basuras
 # -------------------------------------------------------------------------------------------------------------
 

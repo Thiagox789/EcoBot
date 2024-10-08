@@ -173,7 +173,7 @@ tachos_jugadores = {
 #     text_rect = text_obj.get_rect()
 #     text_rect.topleft = (x, y)
 #     surface.blit(text_obj, text_rect)
-def dibujar_vidas(pantalla, vidas, sprite_corazon):
+def dibujar_vidas(pantalla, vidas, sprite_corazon, x, y):
     # Dibujar los corazones en la parte superior izquierda de la pantalla
     for i in range(vidas):
         pantalla.blit(sprite_corazon, (10 + i * 40, 10))  # Los corazones se dibujan con un espacio entre ellos

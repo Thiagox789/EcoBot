@@ -7,6 +7,7 @@ from Configs import *
 pygame.init()
 
 # Cargar el asset del corazón
+
 # Configurar música
 pygame.mixer.music.load('Assets/Musica/Musica_Minijuego.mp3')
 pygame.mixer.music.play(-1)

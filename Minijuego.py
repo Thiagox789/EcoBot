@@ -3,6 +3,8 @@ from Configs import *
 # Configurar música
 Reproducir_Musica(Musica_Minijuego, 0.1)
 
+
+##Configs
 # Definimos los tipos de desechos
 tipos_de_basura = ["plástico", "vidrio", "metal"]
 
@@ -39,6 +41,8 @@ fuente_puntaje = pygame.font.Font(None, 50)
 contador_plastico = 0
 contador_vidrio = 0
 contador_metal = 0
+##Configs
+
 
 # Función para dibujar vidas
 def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):

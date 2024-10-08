@@ -18,7 +18,7 @@ primer_tacho_x = min(tacho.x for tacho in tachos_jugadores.values())  # Posició
 
 # Definir las dimensiones del cuadro del área de juego
 cuadro_x = primer_tacho_x - 50  # Un poco más a la izquierda que el primer tacho
-cuadro_y = 100  # Espacio superior
+cuadro_y = 0  # Pegado al borde superior de la pantalla
 cuadro_ancho = Ancho_Pantalla - cuadro_x - margen_derecha  # Desde cuadro_x hasta el borde derecho
 cuadro_alto = 600  # Altura total del cuadro
 
@@ -27,8 +27,25 @@ def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
     for i in range(vida):
         Pantalla.blit(Sprite_Corazon, (x + i * 40, y))  # Dibujar cada corazón con un pequeño espacio entre ellos
 
+def Generar_Basura_random():
+    tipos = ["plástico", "vidrio", "metal"]
+    tipo_basura = random.choice(tipos)
+    rect = pygame.Rect(random.randint(cuadro_x + 10, cuadro_x + cuadro_ancho - 10), cuadro_y + 10, 30, 30)  # Generar en el cuadro
+    return {"type": tipo_basura, "rect": rect}
+
+def obtener_sprite_basura(tipo):
+    """ Devuelve el sprite correspondiente según el tipo de basura """
+    if tipo == "plástico":
+        return Sprite_Basura_Plastico
+    elif tipo == "vidrio":
+        return Sprite_Basura_Vidrio
+    elif tipo == "metal":
+        return Sprite_Basura_Metal
+
 def play_minigame():
     global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
+
+    basura_actual = Generar_Basura_random()  # Generar el primer desecho
 
     while game_active:
         Pantalla.fill(Color_Gris)  # Color de fondo fuera del área del minijuego
@@ -69,27 +86,21 @@ def play_minigame():
         if selected_tacho:
             tachos_jugadores[selected_tacho].y = cuadro_y + cuadro_alto - 150  # Ajustar la elevación del tacho
 
-        # Dibujar los tachos
-        for tipo_basura in tachos_jugadores:
-            if tipo_basura == "vidrio":
-                Pantalla.blit(Sprite_Tacho_de_Reciclaje_1, tachos_jugadores[tipo_basura].topleft)
-            elif tipo_basura == "metal":
-                Pantalla.blit(Sprite_Tacho_de_Reciclaje_2, tachos_jugadores[tipo_basura].topleft)
-            elif tipo_basura == "plástico":
-                Pantalla.blit(Sprite_Tacho_de_Reciclaje_3, tachos_jugadores[tipo_basura].topleft)
+        # Dibujar los tachos dentro del cuadro
+        for tipo_basura, tacho in tachos_jugadores.items():
+            Pantalla.blit(Sprite_Tacho_de_Reciclaje_1 if tipo_basura == "vidrio" else
+                          Sprite_Tacho_de_Reciclaje_2 if tipo_basura == "metal" else
+                          Sprite_Tacho_de_Reciclaje_3, (tacho.x, cuadro_y + cuadro_alto - 150))
 
-        # Mover y dibujar el desecho
-        if basura_actual["type"] == "plástico":
-            waste_sprite = Sprite_Basura_Plastico
-        elif basura_actual["type"] == "vidrio":
-            waste_sprite = Sprite_Basura_Vidrio
-        else:
-            waste_sprite = Sprite_Basura_Metal
+            # Dibujar el sprite del desecho correspondiente debajo de cada tacho
+            waste_sprite = obtener_sprite_basura(tipo_basura)  # Obtener el sprite del desecho correspondiente
+            Pantalla.blit(waste_sprite, (250, cuadro_y + cuadro_alto + 75))  # Dibuja el sprite del desecho
 
+        # Mover y dibujar el desecho que cae
         basura_actual["rect"].y += 3  # Velocidad de caída del desecho
-        Pantalla.blit(waste_sprite, basura_actual["rect"].topleft)  # Dibuja el sprite del desecho
+        Pantalla.blit(obtener_sprite_basura(basura_actual["type"]), basura_actual["rect"].topleft)  # Dibuja el sprite del desecho
 
-        # Detectar colisiones entre el desecho y los tachos
+        # Detectar colisiones entre el desecho que cae y los tachos
         for tipo_basura, tacho in tachos_jugadores.items():
             if basura_actual["rect"].colliderect(tacho):
                 if basura_actual["type"] == tipo_basura:
@@ -101,12 +112,12 @@ def play_minigame():
                 basura_actual = Generar_Basura_random()  # Generar nuevo desecho
                 break  # Salir del bucle tras detectar colisión
 
-        # Eliminar desechos que caen fuera de la pantalla
+        # Eliminar desechos que caen fuera del cuadro
         if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:
             basura_actual = Generar_Basura_random()  # Generar nuevo desecho si se cae fuera
 
         # Dibujar las vidas en la pantalla (fuera del área de juego)
-        dibujar_vidas(Pantalla, vida, Sprite_Corazon, cuadro_x, cuadro_y - 50)  # Mostrar arriba del cuadro
+        dibujar_vidas(Pantalla, vida, Sprite_Corazon, 50, cuadro_y + 10)  # Mostrar en el centro del espacio fuera del cuadro
 
         # Fin del juego si se quedan sin vidas
         if vida <= 0:

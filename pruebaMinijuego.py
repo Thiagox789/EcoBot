@@ -22,6 +22,10 @@ cuadro_y = 0  # Pegado al borde superior de la pantalla
 cuadro_ancho = Ancho_Pantalla - cuadro_x - margen_derecha  # Desde cuadro_x hasta el borde derecho
 cuadro_alto = 600  # Altura total del cuadro
 
+# Inicializar el puntaje
+puntaje = 0
+font = pygame.font.Font(None, 36)  # Fuente para el puntaje
+
 # Función para dibujar las vidas fuera del área del minijuego
 def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
     for i in range(vida):
@@ -118,6 +122,10 @@ def play_minigame():
 
         # Dibujar las vidas en la pantalla (fuera del área de juego)
         dibujar_vidas(Pantalla, vida, Sprite_Corazon, 50, cuadro_y + 10)  # Mostrar en el centro del espacio fuera del cuadro
+
+        # Dibujar el contador de puntaje
+        texto_puntaje = font.render(f"Puntaje: {puntaje}", True, (0, 0, 0))  # Texto en negro
+        Pantalla.blit(texto_puntaje, (cuadro_x + 10, cuadro_y + 10))  # Posición del contador
 
         # Fin del juego si se quedan sin vidas
         if vida <= 0:

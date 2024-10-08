@@ -115,22 +115,6 @@ def Generar_Tachos(Num_Tachos, Sprite_Tamano, Posiciones_Basura):
         Tachos.append(Nuevo_Tacho)
     return Tachos
 
-# parte de la solucion para los contadores
-
-# def recoger_basura(Posiciones_Basura, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico):
-#     for basura in Basuras:
-#         if Rect_EcoBot.colliderect(basura.rect):  # Verifica colisión con el rectángulo de la basura
-#             # Actualiza el contador según el tipo de basura
-#             if basura.Tipo() == "Metal":  # Asegúrate de que coincidan los nombres
-#                 Contador_Basura_Metal += 1
-#             elif basura.Tipo() == "Vidrio":
-#                 Contador_Basura_Vidrio += 1
-#             elif basura.Tipo() == "Plastico":
-#                 Contador_Basura_Plastico += 1
-            
-#             Basuras.remove(basura)  # Elimina la basura recogida
-#             break  # Sale del bucle después de recoger una basura
-
 
 # -------------------------------------------------------------------------------------------------------------
 # Configuraciones para el Minijuego

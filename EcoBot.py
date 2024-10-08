@@ -1,11 +1,8 @@
 from Assets_Librerias import *
 from Configs import *
 
-
 #Poner musica
-pygame.mixer.music.load('Assets/Musica/Musica_EcoBot.mp3')
-pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.3)
+Reproducir_Musica(Musica_EcoBot, 0.4)
 
 # Inicializar el estado del juego 
 def Inicializar_Juego():

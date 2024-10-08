@@ -7,8 +7,7 @@ Reproducir_Musica(Musica_EcoBot, 0.4)
 # Inicializar el estado del juego 
 def Inicializar_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Sprite_Actual_EcoBot
-    global Ultima_Generacion_Tacho, Contador_Tachos_Generados
+    global Sprite_Actual_EcoBot, Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Ultima_Generacion_Tacho, Contador_Tachos_Generados
 
     Game_Over = False
     Juego_Iniciado = False
@@ -33,8 +32,7 @@ def Inicializar_Juego():
 
 def Ciclo_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
-    global Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Sprite_Actual_EcoBot
-    global Ultima_Generacion_Tacho, Contador_Tachos_Generados
+    global Sprite_Actual_EcoBot, Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Ultima_Generacion_Tacho, Contador_Tachos_Generados
 
     Inicializar_Juego()
 

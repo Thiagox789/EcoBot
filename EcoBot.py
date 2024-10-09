@@ -144,34 +144,54 @@ def Ciclo_Juego():
                             break
 
                     if Basura_Recogida is not None:
-                        # Genera una nueva posición y rotación para la basura recogida
-                        Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
-                        nueva_rotacion = random.randint(-60, 60)
-                        Posiciones_Basura[Basura_Recogida] = (Posiciones_Basura[Basura_Recogida][0], Posiciones_Basura[Basura_Recogida][1], nueva_rotacion)
+                        # Registrar el tipo de basura recogido antes de cambiar el tipo
+                        tipo_basura_recogida = Tipos_Basuras_Generada[Basura_Recogida].Tipo
 
-                        # Genera un nuevo tipo de basura aleatoriamente
-                        #nuevo_tipo_basura = random.choice(Tipos_Basuras)()
-                        #Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
-
-                        # Incrementa el contador correspondiente usando el atributo tipo
-                        if Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Metal":
+                        # Incrementar el contador correspondiente usando el tipo de basura recogido
+                        if tipo_basura_recogida == "Metal":
                             Contador_Basura_Metal += 1
-                        elif Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Plastico":
+                        elif tipo_basura_recogida == "Plastico":
                             Contador_Basura_Plastico += 1
-                        elif Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Vidrio":
+                        elif tipo_basura_recogida == "Vidrio":
                             Contador_Basura_Vidrio += 1
+                        
                         CBM = Contador_Basura_Metal
                         CBP = Contador_Basura_Plastico
                         CBV = Contador_Basura_Vidrio
+
                         with open("CBM.txt","w") as archivo:
                             archivo.write(str(CBM))
                         with open("CBP.txt","w") as archivo:
                             archivo.write(str(CBP))
                         with open("CBV.txt","w") as archivo:
                             archivo.write(str(CBV))
+
+                        CBM = Contador_Basura_Metal
+                        CBP = Contador_Basura_Plastico
+                        CBV = Contador_Basura_Vidrio
+                        
+                        with open("CBM.txt","w") as archivo:
+                            archivo.write(str(CBM))
+                        with open("CBP.txt","w") as archivo:
+                            archivo.write(str(CBP))
+                        with open("CBV.txt","w") as archivo:
+                            archivo.write(str(CBV))
+
+                        # Generar una nueva posición y rotación para la basura recogida
+                        Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
+                        nueva_rotacion = random.randint(-60, 60)
+                        Posiciones_Basura[Basura_Recogida] = (Posiciones_Basura[Basura_Recogida][0], Posiciones_Basura[Basura_Recogida][1], nueva_rotacion)
+
+                        # Generar un nuevo tipo de basura aleatoriamente
+                        nuevo_tipo_basura = random.choice(Tipos_Basuras)()
+                        Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
+
+                        
+
                 tiempo_actual = pygame.time.get_ticks()
                 # Verifica si ha pasado el tiempo para generar un nuevo tacho y si el EcoBot está en movimiento
                 if EcoBot_en_Movimiento and tiempo_actual - Ultima_Generacion_Tacho > Tiempo_Para_Generar_Tachos and Contador_Tachos_Generados < Num_Tachos:
+                    
                     # Genera un solo nuevo tacho
                     nuevo_tacho = Generar_Tachos(1, Tamaño_Sprite_Grandes, Posiciones_Basura)
                     Posiciones_Tachos.append(nuevo_tacho[0])  # Agrega el nuevo tacho a la lista

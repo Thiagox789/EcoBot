@@ -1,4 +1,5 @@
 from Minijuego import *
+
 with open("CBM.txt","w") as archivo:
     archivo.write(str(0))
 with open("CBP.txt","w") as archivo:
@@ -184,8 +185,7 @@ def Ciclo_Juego():
 
                         # Generar un nuevo tipo de basura aleatoriamente
                         nuevo_tipo_basura = random.choice(Tipos_Basuras)()
-                        Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura                      
-
+                        Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
                 tiempo_actual = pygame.time.get_ticks()
                 # Verifica si ha pasado el tiempo para generar un nuevo tacho y si el EcoBot está en movimiento
                 if EcoBot_en_Movimiento and tiempo_actual - Ultima_Generacion_Tacho > Tiempo_Para_Generar_Tachos and Contador_Tachos_Generados < Num_Tachos:

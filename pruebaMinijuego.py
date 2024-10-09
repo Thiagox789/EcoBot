@@ -96,8 +96,18 @@ def dibujar_contadores(Pantalla, contador_plastico, contador_vidrio, contador_me
 def Generar_Basura_random():
     tipos = ["plástico", "vidrio", "metal"]
     tipo_basura = random.choice(tipos)
+    
+    if contador_plastico == 0:
+        tipos.remove("plástico")
+    elif contador_metal == 0:
+        tipos.remove("metal")
+    elif contador_vidrio == 0:
+        tipos.remove("vidrio")
+    
     rect = pygame.Rect(random.randint(cuadro_x + 10, cuadro_x + cuadro_ancho - 10), cuadro_y + 10, 30, 30)
     return {"type": tipo_basura, "rect": rect}
+
+    
 
 # Obtener el sprite correspondiente al tipo de basura
 def obtener_sprite_basura(tipo):
@@ -114,10 +124,14 @@ def play_minijuego():
     
     with open("CBP.txt","r") as archivo:
         contador_plastico=archivo.read()
+        
     with open("CBV.txt","r") as archivo:
         contador_vidrio=archivo.read()
+        print(contador_vidrio)
+        
     with open("CBM.txt","r") as archivo:
         contador_metal=archivo.read()
+        
     contador_plastico=int(contador_plastico)
     contador_metal=int(contador_metal)
     contador_vidrio=int(contador_vidrio)

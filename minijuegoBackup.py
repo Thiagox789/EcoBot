@@ -111,11 +111,11 @@ def obtener_sprite_basura(tipo):
 # Función principal del minijuego
 def play_minijuego():
     global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
-    
     with open("CBP.txt","r") as archivo:
         contador_plastico=archivo.read()
     with open("CBV.txt","r") as archivo:
         contador_vidrio=archivo.read()
+        print(contador_vidrio)
     with open("CBM.txt","r") as archivo:
         contador_metal=archivo.read()
     contador_plastico=int(contador_plastico)
@@ -180,8 +180,6 @@ def play_minijuego():
             basura_actual["rect"].y += 3
             Pantalla.blit(obtener_sprite_basura(basura_actual["type"]), basura_actual["rect"].topleft)
 
-            
-            
             # Colisiones
             for tipo_basura, tacho in tachos_jugadores.items():
                 if basura_actual["rect"].colliderect(tacho):

@@ -31,7 +31,7 @@ Zona_Spawneable = pygame.Rect(Grosor_Pared + 50, Grosor_Pared + 50, Ancho_Pantal
 Zona_Reciclaje = pygame.Rect(480, Alto_Pantalla - Grosor_Pared_Gruesa - Grosor_Pared, 405, Grosor_Pared_Gruesa)
 
 # Fuente para el texto
-Fuente_Titulos = pygame.font.SysFont('rockwell', 300) 
+Fuente_Titulos = pygame.font.SysFont('rockwell', 250) 
 Posicion_Titulos = Centro_Pantalla_X, Centro_Pantalla_Y - 75
 Fuente_Texto = pygame.font.SysFont('rockwell', 50)
 Posicion_Texto = Centro_Pantalla_X, Centro_Pantalla_Y + 125

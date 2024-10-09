@@ -1,5 +1,8 @@
 from Configs import *
 
+with open("CC.txt","w") as archivo:
+    archivo.write(str(0))
+    
 # Configurar música
 Reproducir_Musica(Musica_Minijuego, 0.1)
 
@@ -39,12 +42,8 @@ fuente_puntaje = pygame.font.Font(None, 50)
 
 with open("CBP.txt","r") as archivo:
     contador_plastico=archivo.read()
-print(contador_plastico)
-
 with open("CBV.txt","r") as archivo:
     contador_vidrio=archivo.read()
-print(contador_vidrio)
-
 with open("CBM.txt","r") as archivo:
     contador_metal=archivo.read()
 
@@ -128,10 +127,10 @@ def play_minijuego():
 
     while True:
         while game_active:
-            Pantalla.fill((0, 200, 0))  # Fondo fuera del área de juego
+            Pantalla.fill((Color_Pared))  # Fondo fuera del área de juego
 
             # Dibujar el área de juego
-            pygame.draw.rect(Pantalla, (0, 100, 0), (cuadro_x, cuadro_y, cuadro_ancho, cuadro_alto + espacio_abajo))  # Verde oscuro
+            pygame.draw.rect(Pantalla, (Color_Fondo), (cuadro_x, cuadro_y, cuadro_ancho, cuadro_alto + espacio_abajo))  # Verde oscuro
 
             # Eventos
             for event in pygame.event.get():
@@ -189,11 +188,11 @@ def play_minijuego():
                         puntaje += 1
                         # Incrementar el contador correspondiente
                         if tipo_basura == "plástico":
-                            contador_plastico += 1
+                            contador_plastico -= 1
                         elif tipo_basura == "vidrio":
-                            contador_vidrio += 1
+                            contador_vidrio -= 1
                         elif tipo_basura == "metal":
-                            contador_metal += 1
+                            contador_metal -= 1
                     else:
                         Poner_Mal_Tacho.play()
                         vida -= 1

@@ -184,9 +184,7 @@ def Ciclo_Juego():
 
                         # Generar un nuevo tipo de basura aleatoriamente
                         nuevo_tipo_basura = random.choice(Tipos_Basuras)()
-                        Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
-
-                        
+                        Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura                      
 
                 tiempo_actual = pygame.time.get_ticks()
                 # Verifica si ha pasado el tiempo para generar un nuevo tacho y si el EcoBot está en movimiento

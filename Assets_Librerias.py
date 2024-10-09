@@ -3,6 +3,10 @@ import pygame
 import random
 import os
 import time
+Contador_Basura_Metal = 0
+Contador_Basura_Vidrio = 0
+Contador_Basura_Plastico = 0
+
 
 
 # Inicializacion Pygame y Pygame Mixer

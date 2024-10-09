@@ -3,8 +3,6 @@ from Configs import *
 # Configurar música
 Reproducir_Musica(Musica_Minijuego, 0.1)
 
-
-##Configs
 # Definimos los tipos de desechos
 tipos_de_basura = ["plástico", "vidrio", "metal"]
 
@@ -38,11 +36,24 @@ cuadro_alto = 600
 fuente_puntaje = pygame.font.Font(None, 50)
 
 # Contadores de basura reciclada
-contador_plastico = 0
-contador_vidrio = 0
-contador_metal = 0
-##Configs
 
+with open("CBP.txt","r") as archivo:
+    contador_plastico=archivo.read()
+print(contador_plastico)
+
+with open("CBV.txt","r") as archivo:
+    contador_vidrio=archivo.read()
+print(contador_vidrio)
+
+with open("CBM.txt","r") as archivo:
+    contador_metal=archivo.read()
+
+contador_plastico=int(contador_plastico)
+contador_metal=int(contador_metal)
+contador_vidrio=int(contador_vidrio)
+
+
+print(contador_metal)
 
 # Función para dibujar vidas
 def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
@@ -52,12 +63,12 @@ def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
 # Función para reiniciar el juego
 def reiniciar_juego():
     global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
-    global contador_plastico, contador_vidrio, contador_metal
+    #global contador_plastico, contador_vidrio, contador_metal
     vida, puntaje = 3, 0
     game_active = True
     basura_actual = Generar_Basura_random()
     selected_tacho = previous_tacho = None
-    contador_plastico, contador_vidrio, contador_metal = 0, 0, 0
+    #contador_plastico, contador_vidrio, contador_metal = 0, 0, 0
 
 # Dibujar la corona con puntaje
 def dibujar_corona_con_puntaje(Pantalla, puntaje, Sprite_Corona, x, y):
@@ -101,7 +112,17 @@ def obtener_sprite_basura(tipo):
 # Función principal del minijuego
 def play_minijuego():
     global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
-    global contador_plastico, contador_vidrio, contador_metal
+    with open("CBP.txt","r") as archivo:
+        contador_plastico=archivo.read()
+    with open("CBV.txt","r") as archivo:
+        contador_vidrio=archivo.read()
+        print(contador_vidrio)
+    with open("CBM.txt","r") as archivo:
+        contador_metal=archivo.read()
+    contador_plastico=int(contador_plastico)
+    contador_metal=int(contador_metal)
+    contador_vidrio=int(contador_vidrio)
+
 
     reiniciar_juego()
 
@@ -116,10 +137,11 @@ def play_minijuego():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    return  # Cambiar quit() por return para salir del bucle
+                    quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        return  # Cambiar quit() por return para salir del bucle
+                        pygame.quit()
+                        quit()
                     if event.key in (pygame.K_1, pygame.K_2, pygame.K_3):
                         previous_tacho = selected_tacho
                         selected_tacho = tipos_de_basura[event.key - pygame.K_1]
@@ -201,7 +223,8 @@ def play_minijuego():
         # Reiniciar al presionar 'R'
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return  # Cambiar quit() por return para salir del bucle
+                pygame.quit()
+                quit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 reiniciar_juego()
                 break

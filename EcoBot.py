@@ -1,4 +1,10 @@
 from Minijuego import *
+with open("CBM.txt","w") as archivo:
+    archivo.write(str(0))
+with open("CBP.txt","w") as archivo:
+    archivo.write(str(0))
+with open("CBV.txt","w") as archivo:
+    archivo.write(str(0))
 
 #Poner musica
 Reproducir_Musica(Musica_EcoBot, 0.4)
@@ -13,9 +19,9 @@ def Inicializar_Juego():
     EcoBot_en_Movimiento = False
     Zona_Reciclaje_Tocada = False
 
-    Contador_Basura_Metal = 0
-    Contador_Basura_Vidrio = 0
-    Contador_Basura_Plastico = 0  
+    #Contador_Basura_Metal = 0
+    #Contador_Basura_Vidrio = 0
+    #Contador_Basura_Plastico = 0  
 
     Sprite_Actual_EcoBot = Sprite_EcoBot_Frente
     Posicion_EcoBot = Centrar_Sprite(Sprite_Actual_EcoBot, [Centro_Pantalla_X, Centro_Pantalla_Y])
@@ -73,9 +79,9 @@ def Ciclo_Juego():
                         Direccion = 'UP'
                         Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
                         EcoBot_en_Movimiento = True
-                        Contador_Basura_Metal = 0
-                        Contador_Basura_Vidrio = 0
-                        Contador_Basura_Plastico = 0  
+                        #Contador_Basura_Metal = 0
+                        #Contador_Basura_Vidrio = 0
+                        #Contador_Basura_Plastico = 0  
                     continue
 
                 # Manejo de los controles del EcoBot
@@ -144,7 +150,7 @@ def Ciclo_Juego():
                         Posiciones_Basura[Basura_Recogida] = (Posiciones_Basura[Basura_Recogida][0], Posiciones_Basura[Basura_Recogida][1], nueva_rotacion)
 
                         # Genera un nuevo tipo de basura aleatoriamente
-                       # nuevo_tipo_basura = random.choice(Tipos_Basuras)()
+                        #nuevo_tipo_basura = random.choice(Tipos_Basuras)()
                         #Tipos_Basuras_Generada[Basura_Recogida] = nuevo_tipo_basura
 
                         # Incrementa el contador correspondiente usando el atributo tipo
@@ -154,7 +160,15 @@ def Ciclo_Juego():
                             Contador_Basura_Plastico += 1
                         elif Tipos_Basuras_Generada[Basura_Recogida].Tipo == "Vidrio":
                             Contador_Basura_Vidrio += 1
-                
+                        CBM = Contador_Basura_Metal
+                        CBP = Contador_Basura_Plastico
+                        CBV = Contador_Basura_Vidrio
+                        with open("CBM.txt","w") as archivo:
+                            archivo.write(str(CBM))
+                        with open("CBP.txt","w") as archivo:
+                            archivo.write(str(CBP))
+                        with open("CBV.txt","w") as archivo:
+                            archivo.write(str(CBV))
                 tiempo_actual = pygame.time.get_ticks()
                 # Verifica si ha pasado el tiempo para generar un nuevo tacho y si el EcoBot está en movimiento
                 if EcoBot_en_Movimiento and tiempo_actual - Ultima_Generacion_Tacho > Tiempo_Para_Generar_Tachos and Contador_Tachos_Generados < Num_Tachos:

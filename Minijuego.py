@@ -52,8 +52,6 @@ contador_metal=int(contador_metal)
 contador_vidrio=int(contador_vidrio)
 
 
-print(contador_metal)
-
 # Función para dibujar vidas
 def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
     for i in range(vida):
@@ -188,27 +186,26 @@ def play_minijuego():
                     if basura_actual["type"] == tipo_basura:
                         Ganar_Tachos.play()
                         puntaje += 1
-                        # Incrementar el contador correspondiente
                         if tipo_basura == "plástico":
-                            contador_plastico -= 1
+                            contador_plastico = max(0, contador_plastico - 1)
                         elif tipo_basura == "vidrio":
-                            contador_vidrio -= 1
+                            contador_vidrio = max(0, contador_vidrio - 1)
                         elif tipo_basura == "metal":
-                            contador_metal -= 1
+                            contador_metal = max(0, contador_metal - 1)
                     else:
                         Poner_Mal_Tacho.play()
                         vida -= 1
                     basura_actual = Generar_Basura_random()
                     break
                 
-            if contador_vidrio < 0:
-                contador_vidrio = 0 
+           # if contador_vidrio < 0:
+           #     contador_vidrio = 0 
                 
-            elif contador_metal < 0:
-                contador_metal = 0
+           # elif contador_metal < 0:
+           #     contador_metal = 0
                  
-            elif contador_plastico < 0:
-                contador_plastico = 0
+           # elif contador_plastico < 0:
+           #     contador_plastico = 0
             # Basura fuera del cuadro
             if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:
                 basura_actual = Generar_Basura_random()

@@ -2,7 +2,8 @@ from Configs import *
 
 with open("CC.txt","w") as archivo:
     archivo.write(str(0))
-    
+
+
 # Configurar música
 Reproducir_Musica(Musica_Minijuego, 0.1)
 
@@ -59,9 +60,9 @@ def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
 
 # Función para reiniciar el juego
 def reiniciar_juego():
-    global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
+    global vida, game_active, basura_actual, selected_tacho, previous_tacho
     #global contador_plastico, contador_vidrio, contador_metal
-    vida, puntaje = 3, 0
+    vida= 3 
     game_active = True
     basura_actual = Generar_Basura_random()
     selected_tacho = previous_tacho = None
@@ -108,7 +109,7 @@ def obtener_sprite_basura(tipo):
 
 # Función principal del minijuego
 def play_minijuego():
-    global vida, puntaje, game_active, basura_actual, selected_tacho, previous_tacho
+    global vida,puntaje, game_active, basura_actual, selected_tacho, previous_tacho
     
     with open("CBP.txt","r") as archivo:
         contador_plastico=archivo.read()
@@ -179,7 +180,6 @@ def play_minijuego():
             Pantalla.blit(obtener_sprite_basura(basura_actual["type"]), basura_actual["rect"].topleft)
 
             
-            
             # Colisiones
             for tipo_basura, tacho in tachos_jugadores.items():
                 if basura_actual["rect"].colliderect(tacho):
@@ -197,15 +197,9 @@ def play_minijuego():
                         vida -= 1
                     basura_actual = Generar_Basura_random()
                     break
-                
-           # if contador_vidrio < 0:
-           #     contador_vidrio = 0 
-                
-           # elif contador_metal < 0:
-           #     contador_metal = 0
-                 
-           # elif contador_plastico < 0:
-           #     contador_plastico = 0
+            CC=puntaje
+            with open("CC.txt","w") as archivo:
+                            archivo.write(str(CC))
             # Basura fuera del cuadro
             if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:
                 basura_actual = Generar_Basura_random()

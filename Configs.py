@@ -26,7 +26,8 @@ Num_Basuras = 3
 Num_Tachos = 3
 Tiempo_Para_Generar_Tachos = 20000
 
-# Contadores Basura
+# Contadores Basura y puntaje
+puntaje=0
 
 Contador_Basura_Metal = 0
 Contador_Basura_Vidrio = 0

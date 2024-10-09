@@ -166,18 +166,6 @@ def Ciclo_Juego():
                             archivo.write(str(CBP))
                         with open("CBV.txt","w") as archivo:
                             archivo.write(str(CBV))
-
-                        CBM = Contador_Basura_Metal
-                        CBP = Contador_Basura_Plastico
-                        CBV = Contador_Basura_Vidrio
-                        
-                        with open("CBM.txt","w") as archivo:
-                            archivo.write(str(CBM))
-                        with open("CBP.txt","w") as archivo:
-                            archivo.write(str(CBP))
-                        with open("CBV.txt","w") as archivo:
-                            archivo.write(str(CBV))
-
                         # Generar una nueva posición y rotación para la basura recogida
                         Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
                         nueva_rotacion = random.randint(-60, 60)
@@ -255,6 +243,7 @@ def Ciclo_Juego():
                         Zona_Reciclaje_Tocada = True  # Pausa el juego y pone la pantalla en blanco
 
                     # Dentro de la sección que dibuja la pantalla
+                    dibujar_corona_con_puntaje(Pantalla, puntaje, Sprite_Corona,250,750)
                     Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico)
 
             if Game_Over:

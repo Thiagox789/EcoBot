@@ -3,7 +3,7 @@ import pygame
 import random
 import os
 import time
-
+#puntaje=0
 # Inicializacion Pygame y Pygame Mixer
 pygame.init()
 pygame.mixer.init()

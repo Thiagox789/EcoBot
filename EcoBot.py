@@ -243,6 +243,11 @@ def Ciclo_Juego():
                         Zona_Reciclaje_Tocada = True  # Pausa el juego y pone la pantalla en blanco
 
                     # Dentro de la sección que dibuja la pantalla
+                    with open("CC.txt","r") as archivo:
+                        CC=archivo.read()
+                    CC=int(CC)
+                    #print(CC)
+                    puntaje=CC
                     Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico)
 
             if Game_Over:

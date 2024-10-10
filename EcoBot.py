@@ -243,7 +243,6 @@ def Ciclo_Juego():
                         Zona_Reciclaje_Tocada = True  # Pausa el juego y pone la pantalla en blanco
 
                     # Dentro de la sección que dibuja la pantalla
-                    dibujar_corona_con_puntaje(Pantalla, puntaje, Sprite_Corona, 50, 625)
                     Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico)
 
             if Game_Over:

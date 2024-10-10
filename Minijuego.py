@@ -1,5 +1,7 @@
 from Configs import *
 
+with open("CC.txt","w") as archivo:
+    archivo.write(str(0))
 
 
 # Configurar música
@@ -209,6 +211,9 @@ def play_minijuego():
                     basura_actual = Generar_Basura_random()
                     break
 
+            CC = puntaje
+            with open("CC.txt","w") as archivo:
+                            archivo.write(str(CC))
 
             # Basura fuera del cuadro
             if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:

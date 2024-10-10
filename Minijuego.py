@@ -177,6 +177,19 @@ def play_minijuego():
 
             # Caída de la basura
             basura_actual["rect"].y += 3
+
+            if contador_vidrio == 0 and basura_actual["type"] == "vidrio":
+                basura_actual = Generar_Basura_random()
+                Pantalla.blit(obtener_sprite_basura(basura_actual["type"]), basura_actual["rect"].topleft)
+                
+            elif contador_metal == 0 and basura_actual["type"] == "metal":
+                basura_actual = Generar_Basura_random()
+                Pantalla.blit(obtener_sprite_basura(basura_actual["type"]), basura_actual["rect"].topleft)
+
+            elif contador_plastico == 0 and basura_actual["type"] == "plástico":
+                basura_actual = Generar_Basura_random()
+                Pantalla.blit(obtener_sprite_basura(basura_actual["type"]), basura_actual["rect"].topleft)
+
             Pantalla.blit(obtener_sprite_basura(basura_actual["type"]), basura_actual["rect"].topleft)
 
             
@@ -197,9 +210,11 @@ def play_minijuego():
                         vida -= 1
                     basura_actual = Generar_Basura_random()
                     break
-            CC=puntaje
+
+            CC = puntaje
             with open("CC.txt","w") as archivo:
                             archivo.write(str(CC))
+
             # Basura fuera del cuadro
             if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:
                 basura_actual = Generar_Basura_random()

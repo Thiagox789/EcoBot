@@ -9,13 +9,6 @@ with open("CBV.txt","w") as archivo:
 
 #Poner musica
 Reproducir_Musica(Musica_EcoBot, 0.4)
-def _Dibujar_Reseteador(screen):
-    x, y, width, height = 220, 190, 200, 80
-    pygame.draw.rect(screen, Color_Blanco, (x, y, width, height))
-    
-    button_text = font.render("Resetear", True, Color_Negro)
-    screen.blit(button_text, (x + (width - button_text.get_width()) // 2, y + (height - button_text.get_height()) // 2))
-
 
 # Inicializar el estado del juego 
 def Inicializar_Juego():
@@ -26,7 +19,7 @@ def Inicializar_Juego():
     Juego_Iniciado = False
     EcoBot_en_Movimiento = False
     Zona_Reciclaje_Tocada = False
-    _Dibujar_Reseteador(screen)
+
     #Contador_Basura_Metal = 0
     #Contador_Basura_Vidrio = 0
     #Contador_Basura_Plastico = 0  
@@ -48,7 +41,7 @@ def Ciclo_Juego():
     global Sprite_Actual_EcoBot, Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Ultima_Generacion_Tacho, Contador_Tachos_Generados
 
     Inicializar_Juego()
-    
+
     while True:
 
         for Event in pygame.event.get():

@@ -245,7 +245,6 @@ def play_minijuego():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                
                 EcoBot.Ciclo_Juego()
                 return
                 #reiniciar_juego()

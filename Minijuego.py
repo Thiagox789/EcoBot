@@ -236,9 +236,8 @@ def play_minijuego():
             if contador_metal == 0 and contador_plastico == 0 and contador_vidrio == 0:
                 EcoBot.Ciclo_Juego()
                 return
-
             pygame.display.flip()
-        
+            
         # Reiniciar al presionar 'R'
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

@@ -1,5 +1,5 @@
 from Configs import *
-from prueba import Ciclo_Juego
+import EcoBot
 with open("CC.txt","w") as archivo:
     archivo.write(str(0))
 
@@ -234,9 +234,8 @@ def play_minijuego():
                 game_active = False
                 
             if contador_metal == 0 and contador_plastico == 0 and contador_vidrio == 0:
-                Ciclo_Juego()
-                pygame.quit()
-                quit()
+                EcoBot.Ciclo_Juego()
+                return
 
             pygame.display.flip()
         
@@ -246,5 +245,8 @@ def play_minijuego():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                reiniciar_juego()
-                break
+                
+                EcoBot.Ciclo_Juego()
+                return
+                #reiniciar_juego()
+                #break

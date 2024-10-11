@@ -3,6 +3,15 @@ from Assets_Librerias import *
 # -------------------------------------------------------------------------------------------------------------
 # Configuraciones para el juego
 # -------------------------------------------------------------------------------------------------------------
+font = pygame.font.SysFont(None, 48)
+def _Dibujar_Reseteador(screen):
+    x, y, width, height = 220, 190, 200, 80
+    pygame.draw.rect(screen, Color_Blanco, (x, y, width, height))
+    
+    button_text = font.render("Resetear", True, Color_Negro)
+    screen.blit(button_text, (x + (width - button_text.get_width()) // 2, y + (height - button_text.get_height()) // 2))
+
+
 
 # Contadores Basura y puntaje
 with open("CBM.txt","r") as archivo:

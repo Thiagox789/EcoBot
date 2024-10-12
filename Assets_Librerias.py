@@ -3,11 +3,10 @@ import pygame
 import random
 import os
 import time
-#puntaje=0
+
 # Inicializacion Pygame y Pygame Mixer
 pygame.init()
 pygame.mixer.init()
-
 
 # Colores
 Color_Blanco = (225, 225, 225)
@@ -16,7 +15,6 @@ Color_Gris = (50, 50, 50)
 Color_Rojo = (200, 0, 0)
 Color_Fondo = (0, 200, 0)
 Color_Pared = (0, 150, 0)
-
 
 # Funcion para cargar assets
 def Cargar_Asset(Carpeta_Asset, Nombre_Asset):
@@ -31,20 +29,17 @@ def Cargar_Asset(Carpeta_Asset, Nombre_Asset):
     elif Carpeta_Asset == 'Musica':
         return Ruta_Asset
 
-
 # Funcion para centrar sprites (actualmente solo se usa para el EcoBot)
 def Centrar_Sprite(Sprite, Posicion):
     Ancho_Sprite, Alto_Sprite = Sprite.get_size()
     Posicion_Centrada = [Posicion[0] - Ancho_Sprite // 2, Posicion[1] - Alto_Sprite // 2]
     return Posicion_Centrada
 
-
 # Función para reproducir música
 def Reproducir_Musica(Ruta_Musica, Volumen):
     pygame.mixer.music.load(Ruta_Musica)
     pygame.mixer.music.set_volume(Volumen)
     pygame.mixer.music.play(-1)
-
 
 # Sprites Cargados
 Sprite_EcoBot_Menu = Cargar_Asset('Sprites', 'EcoBot - Menu.png')
@@ -68,7 +63,6 @@ Sprite_Corazon = Cargar_Asset('Sprites', 'Corazon.png')
 Sprite_Cartel_Peligro = Cargar_Asset('Sprites', 'Cartel Peligro.png')
 Sprite_Corona = Cargar_Asset('Sprites', 'Corona.png') 
 
-
 # Sonidos Cargados
 Agarrar_Plastico = Cargar_Asset('Sonidos', 'Agarrar_Plastico.mp3')
 Agarrar_Vidrio = Cargar_Asset('Sonidos', 'Agarrar_Vidrio.mp3')
@@ -79,12 +73,6 @@ Perder_Partida = Cargar_Asset('Sonidos', 'Perder_Partida.mp3')
 Ganar_Tachos = Cargar_Asset('Sonidos', 'Ganar_Tachos.mp3')
 Poner_Mal_Tacho = Cargar_Asset('Sonidos', 'Poner_Mal_Tacho.mp3')
 
-
-# Musica Cargada
-Musica_EcoBot = Cargar_Asset('Musica', 'Musica_EcoBot.mp3')
-Musica_Minijuego = Cargar_Asset('Musica', 'Musica_Minijuego.mp3')
-
-
 # Ajustar Volumen Sonidos
 Agarrar_Plastico.set_volume(0.2)  
 Agarrar_Vidrio.set_volume(0.2)
@@ -92,4 +80,8 @@ Agarrar_Metal.set_volume(0.1)
 
 Perder_Partida.set_volume(0.3)
 Ganar_Tachos.set_volume(0.2)  
-Poner_Mal_Tacho.set_volume(0.2) 
+Poner_Mal_Tacho.set_volume(0.2)
+
+# Musica Cargada
+Musica_EcoBot = Cargar_Asset('Musica', 'Musica_EcoBot.mp3')
+Musica_Minijuego = Cargar_Asset('Musica', 'Musica_Minijuego.mp3')

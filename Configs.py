@@ -3,24 +3,6 @@ from Assets_Librerias import *
 # -------------------------------------------------------------------------------------------------------------
 # Configuraciones para el juego
 # -------------------------------------------------------------------------------------------------------------
-font = pygame.font.SysFont(None, 48)
-def _Dibujar_Reseteador(screen):
-    x, y, width, height = 220, 190, 200, 80
-    pygame.draw.rect(screen, Color_Blanco, (x, y, width, height))
-    
-    button_text = font.render("Resetear", True, Color_Negro)
-    screen.blit(button_text, (x + (width - button_text.get_width()) // 2, y + (height - button_text.get_height()) // 2))
-
-
-
-# Contadores Basura y puntaje
-with open("CBM.txt","r") as archivo:
-    CC=archivo.read()
-puntaje=int(CC)
-
-Contador_Basura_Metal = 0
-Contador_Basura_Vidrio = 0
-Contador_Basura_Plastico = 0
 
 # Configuración de la pantalla completa
 pygame.display.set_caption("EcoBot")
@@ -70,28 +52,26 @@ def Renderizar_Texto(Texto, Fuente, Color, Grosor_Borde, Color_Borde, X, Y, Pant
     Pantalla.blit(Borde_Superficie, (X - Ancho_Texto // 2 - Grosor_Borde, Y - Alto_Texto // 2 - Grosor_Borde))
 
 # Función para dibujar los contadores de basura
-def Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico):
-    # Espaciado horizontal entre los contadores
-    espaciado = 125  # Ajusta este valor según lo que necesites
-
-    # Posición Y del primer contador (basura metálica)
-    posicion_y = Alto_Pantalla - 40  # Cambia esto a la altura deseada
-
-    # Contador Puntaje
-    Renderizar_Texto(str(puntaje), Fuente_Texto, Color_Blanco, 5, Color_Negro, 370 - espaciado, posicion_y, Pantalla)
-    Pantalla.blit(Sprite_Corona, (207.5, Alto_Pantalla - 150))  # Imagen debajo del contador
+def Dibujar_Contadores(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico):
+   
+    espaciado = 125 # Espaciado horizontal entre los contadores de basura  
+    posicion_y = Alto_Pantalla - 40 # Posición Y del primer contador (basura metálica)
 
     # Contador de Metal
     Renderizar_Texto(str(Contador_Basura_Metal), Fuente_Texto, Color_Blanco, 5, Color_Negro, Ancho_Pantalla - 370, posicion_y, Pantalla)
-    Pantalla.blit(Sprite_Basura_Metal, (Ancho_Pantalla - 407.5, Alto_Pantalla - 150))  # Imagen debajo del contador
+    Pantalla.blit(Sprite_Basura_Metal, (Ancho_Pantalla - 407.5, Alto_Pantalla - 150))  
 
     # Contador de Vidrio
     Renderizar_Texto(str(Contador_Basura_Vidrio), Fuente_Texto, Color_Blanco, 5, Color_Negro, Ancho_Pantalla - 370 + espaciado, posicion_y, Pantalla)
-    Pantalla.blit(Sprite_Basura_Vidrio, (Ancho_Pantalla - 407.5 + espaciado, Alto_Pantalla - 150))  # Imagen debajo del contador
+    Pantalla.blit(Sprite_Basura_Vidrio, (Ancho_Pantalla - 407.5 + espaciado, Alto_Pantalla - 150))
 
     # Contador de Plástico
     Renderizar_Texto(str(Contador_Basura_Plastico), Fuente_Texto, Color_Blanco, 5, Color_Negro, Ancho_Pantalla - 370 + espaciado * 2, posicion_y, Pantalla)
-    Pantalla.blit(Sprite_Basura_Plastico, (Ancho_Pantalla - 407.5 + espaciado * 2, Alto_Pantalla - 150))  # Imagen debajo del contador
+    Pantalla.blit(Sprite_Basura_Plastico, (Ancho_Pantalla - 407.5 + espaciado * 2, Alto_Pantalla - 150))
+
+    # Contador Puntaje
+    Renderizar_Texto(str(puntaje), Fuente_Texto, Color_Blanco, 5, Color_Negro, 370 - espaciado, posicion_y, Pantalla)
+    Pantalla.blit(Sprite_Corona, (207.5, Alto_Pantalla - 150)) 
 
 # Muestra la pantalla de inicio
 def Mostrar_Pantalla_Inicio():
@@ -124,9 +104,8 @@ def Generar_Basuras(Num_Basuras, Sprite_Tamano, Posiciones_Tachos):
     while len(Basuras) < Num_Basuras:
         Nueva_Basura = Generador_Posicion(Sprite_Tamano, Basuras + Posiciones_Tachos)
         if Nueva_Basura not in Basuras and Nueva_Basura not in Posiciones_Tachos:
-            # Añadir también una rotación aleatoria junto con la posición
             angulo_rotacion = random.randint(-60, 60)
-            Basuras.append((Nueva_Basura[0], Nueva_Basura[1], angulo_rotacion))  # Incluye la rotación en la lista
+            Basuras.append((Nueva_Basura[0], Nueva_Basura[1], angulo_rotacion)) 
     return Basuras
 
 # Generar múltiples Tachos de Basura

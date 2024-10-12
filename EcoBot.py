@@ -248,7 +248,7 @@ def Ciclo_Juego():
                     CC=int(CC)
                     #print(CC)
                     puntaje=CC
-                    Dibujar_Contador_Basura(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico)
+                    Dibujar_Contadores(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico)
 
             if Game_Over:
                 Mostrar_Pantalla_Game_Over()

@@ -37,9 +37,12 @@ def Inicializar_Juego():
     Ultima_Generacion_Tacho = pygame.time.get_ticks()
     Contador_Tachos_Generados = 0
 
+verificarInicio = False
+
 def Ciclo_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
     global Sprite_Actual_EcoBot, Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Ultima_Generacion_Tacho, Contador_Tachos_Generados
+    global verificarInicio
 
     with open("CBP.txt","r") as archivo:
         Contador_Basura_Plastico=archivo.read()
@@ -54,7 +57,6 @@ def Ciclo_Juego():
     Inicializar_Juego()
 
     while True:
-
         for Event in pygame.event.get():
             if Event.type == pygame.QUIT:
                 pygame.quit()
@@ -122,8 +124,9 @@ def Ciclo_Juego():
                         EcoBot_en_Movimiento = True
                         Ultima_Generacion_Tacho = pygame.time.get_ticks()
 
-        if not Juego_Iniciado:
+        if Juego_Iniciado == False and verificarInicio == False:
             Mostrar_Pantalla_Inicio()
+            verificarInicio == True
 
         else:
             if not Game_Over:

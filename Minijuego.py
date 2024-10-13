@@ -111,6 +111,8 @@ def obtener_sprite_basura(tipo):
 def play_minijuego():
     global vida,puntaje, game_active, basura_actual, selected_tacho, previous_tacho
     
+
+
     with open("CBP.txt","r") as archivo:
         contador_plastico=archivo.read()
     with open("CBV.txt","r") as archivo:
@@ -215,6 +217,13 @@ def play_minijuego():
             with open("CC.txt","w") as archivo:
                             archivo.write(str(CC))
 
+            with open("CBM.txt","w") as archivo:
+                archivo.write(str(contador_metal))
+            with open("CBP.txt","w") as archivo:
+                archivo.write(str(Contador_Basura_Plastico))
+            with open("CBV.txt","w") as archivo:
+                archivo.write(str(Contador_Basura_Vidrio))
+  
             # Basura fuera del cuadro
             if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:
                 basura_actual = Generar_Basura_random()

@@ -3,19 +3,6 @@ from Assets_Librerias import *
 # -------------------------------------------------------------------------------------------------------------
 # Configuraciones para el juego
 # -------------------------------------------------------------------------------------------------------------
-#No borrar
-# Contadores Basura y puntaje
-with open("CBM.txt","r") as archivo:
-    CC=archivo.read()
-puntaje=int(CC)
-
-Contador_Basura_Metal = 0
-Contador_Basura_Vidrio = 0
-Contador_Basura_Plastico = 0
-
-
-
-
 
 # Configuración de la pantalla completa
 pygame.display.set_caption("EcoBot")
@@ -38,6 +25,15 @@ Velocidad_EcoBot = 5
 Num_Basuras = 3
 Num_Tachos = 3
 Tiempo_Para_Generar_Tachos = 20000
+
+# Contadores basuras y puntaje
+with open("CBM.txt","r") as archivo:
+    CC=archivo.read()
+puntaje=int(CC)
+
+Contador_Basura_Metal = 0
+Contador_Basura_Vidrio = 0
+Contador_Basura_Plastico = 0
 
 # Definicion de la zona donde los objetos pueden spawnear y la zona de los Tachos de reciclaje
 Zona_Spawneable = pygame.Rect(Grosor_Pared + 50, Grosor_Pared + 50, Ancho_Pantalla - 150 , Alto_Pantalla - 300)

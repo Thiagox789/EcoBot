@@ -3,7 +3,7 @@ from Assets_Librerias import *
 # -------------------------------------------------------------------------------------------------------------
 # Configuraciones para el juego
 # -------------------------------------------------------------------------------------------------------------
-
+#No borrar
 # Contadores Basura y puntaje
 with open("CBM.txt","r") as archivo:
     CC=archivo.read()

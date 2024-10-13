@@ -6,7 +6,8 @@ with open("CBP.txt","w") as archivo:
     archivo.write(str(0))
 with open("CBV.txt","w") as archivo:
     archivo.write(str(0))
-
+with open("CC.txt","w") as archivo:
+    archivo.write(str(0))
 #Poner musica
 Reproducir_Musica(Musica_EcoBot, 0.4)
 

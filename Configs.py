@@ -4,6 +4,19 @@ from Assets_Librerias import *
 # Configuraciones para el juego
 # -------------------------------------------------------------------------------------------------------------
 
+# Contadores Basura y puntaje
+with open("CBM.txt","r") as archivo:
+    CC=archivo.read()
+puntaje=int(CC)
+
+Contador_Basura_Metal = 0
+Contador_Basura_Vidrio = 0
+Contador_Basura_Plastico = 0
+
+
+
+
+
 # Configuración de la pantalla completa
 pygame.display.set_caption("EcoBot")
 Pantalla = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)

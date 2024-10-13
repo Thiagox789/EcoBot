@@ -80,9 +80,6 @@ def Ciclo_Juego():
                         Direccion = 'UP'
                         Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
                         EcoBot_en_Movimiento = True
-                        #Contador_Basura_Metal = 0
-                        #Contador_Basura_Vidrio = 0
-                        #Contador_Basura_Plastico = 0  
                     continue
 
                 # Manejo de los controles del EcoBot
@@ -245,10 +242,20 @@ def Ciclo_Juego():
                     # Dentro de la sección que dibuja la pantalla
                     with open("CC.txt","r") as archivo:
                         CC=archivo.read()
+                    with open("CBM.txt","r") as archivo:
+                        CBM=archivo.read()
+                    with open("CBP.txt","r") as archivo:
+                        CBP=archivo.read()
+                    with open("CBV.txt","r") as archivo:
+                        CBV=archivo.read()
                     CC=int(CC)
+                    CBM=int(CBM)
+                    CBP=int(CBP)
+                    CBV=int(CBV)
+                    print(CBM)
                     #print(CC)
                     puntaje=CC
-                    Dibujar_Contadores(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico)
+                    Dibujar_Contadores(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, CBM, CBV, CBP)
 
             if Game_Over:
                 Mostrar_Pantalla_Game_Over()

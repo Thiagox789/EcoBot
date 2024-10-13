@@ -252,8 +252,6 @@ def Ciclo_Juego():
                     CBM=int(CBM)
                     CBP=int(CBP)
                     CBV=int(CBV)
-                    print(CBM)
-                    #print(CC)
                     puntaje=CC
                     Dibujar_Contadores(Pantalla, Fuente_Texto, Ancho_Pantalla, Alto_Pantalla, puntaje, CBM, CBV, CBP)
 

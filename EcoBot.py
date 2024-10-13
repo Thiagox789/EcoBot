@@ -40,6 +40,16 @@ def Ciclo_Juego():
     global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
     global Sprite_Actual_EcoBot, Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Ultima_Generacion_Tacho, Contador_Tachos_Generados
 
+    with open("CBP.txt","r") as archivo:
+        Contador_Basura_Plastico=archivo.read()
+    with open("CBV.txt","r") as archivo:
+        Contador_Basura_Vidrio=archivo.read()
+    with open("CBM.txt","r") as archivo:
+        Contador_Basura_Metal=archivo.read()
+    Contador_Basura_Plastico=int(Contador_Basura_Plastico)
+    Contador_Basura_Metal=int(Contador_Basura_Metal)
+    Contador_Basura_Vidrio=int(Contador_Basura_Vidrio)
+
     Inicializar_Juego()
 
     while True:
@@ -140,7 +150,7 @@ def Ciclo_Juego():
                             Basura_Recogida = i
                             Tipos_Basuras_Generada[i].Sonido.play()
                             break
-
+                    
                     if Basura_Recogida is not None:
                         # Registrar el tipo de basura recogido antes de cambiar el tipo
                         tipo_basura_recogida = Tipos_Basuras_Generada[Basura_Recogida].Tipo
@@ -153,16 +163,16 @@ def Ciclo_Juego():
                         elif tipo_basura_recogida == "Vidrio":
                             Contador_Basura_Vidrio += 1
                         
-                        CBM = Contador_Basura_Metal
-                        CBP = Contador_Basura_Plastico
-                        CBV = Contador_Basura_Vidrio
+                        #CBM = Contador_Basura_Metal
+                        #CBP = Contador_Basura_Plastico
+                        #CBV = Contador_Basura_Vidrio
 
                         with open("CBM.txt","w") as archivo:
-                            archivo.write(str(CBM))
+                            archivo.write(str(Contador_Basura_Metal))
                         with open("CBP.txt","w") as archivo:
-                            archivo.write(str(CBP))
+                            archivo.write(str(Contador_Basura_Plastico))
                         with open("CBV.txt","w") as archivo:
-                            archivo.write(str(CBV))
+                            archivo.write(str(Contador_Basura_Vidrio))
                         # Generar una nueva posición y rotación para la basura recogida
                         Posiciones_Basura[Basura_Recogida] = Generador_Posicion(Tamaño_Basura, Posiciones_Basura + Posiciones_Tachos)
                         nueva_rotacion = random.randint(-60, 60)

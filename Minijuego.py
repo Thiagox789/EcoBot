@@ -215,15 +215,14 @@ def play_minijuego():
 
             CC = puntaje
             with open("CC.txt","w") as archivo:
-                            archivo.write(str(CC))
-
+                archivo.write(str(CC))
             with open("CBM.txt","w") as archivo:
                 archivo.write(str(contador_metal))
             with open("CBP.txt","w") as archivo:
-                archivo.write(str(Contador_Basura_Plastico))
+                archivo.write(str(contador_vidrio))
             with open("CBV.txt","w") as archivo:
-                archivo.write(str(Contador_Basura_Vidrio))
-  
+                archivo.write(str(contador_vidrio))
+            
             # Basura fuera del cuadro
             if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:
                 basura_actual = Generar_Basura_random()

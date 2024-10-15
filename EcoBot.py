@@ -70,16 +70,19 @@ def Ciclo_Juego():
 
                 # Manejo del inicio del juego
                 if not Juego_Iniciado:
-
+                    
+                    #Pulsar enter para iniciar el juego
                     if Event.key == pygame.K_RETURN:
                         Abrir_Menu.play()
                         Juego_Iniciado = True
+                        verificarInicio = True
                         EcoBot_en_Movimiento = False
                     continue
 
                 # Manejo del reinicio del juego
                 if Game_Over:
                     
+                    #Reiniciar el juego con la tecla "R" o "Enter"
                     if Event.key == pygame.K_r or Event.key == pygame.K_RETURN:  # K_RETURN es la tecla "Enter"
                         Inicializar_Juego()
                         Juego_Iniciado = True
@@ -88,6 +91,7 @@ def Ciclo_Juego():
                 # Si la zona de reciclaje fue tocada, el juego se pausa y entra al minijuego
                 if Zona_Reciclaje_Tocada:
                    
+                   #Al pulsar enter al inicio, que EcoBot se mueva hacia arriba
                     if Event.key == pygame.K_RETURN:
                         Zona_Reciclaje_Tocada = False
                         Direccion = 'UP'
@@ -124,6 +128,7 @@ def Ciclo_Juego():
                         EcoBot_en_Movimiento = True
                         Ultima_Generacion_Tacho = pygame.time.get_ticks()
 
+        #Verificar que la pantalla de inicio ya se halla mostrado, si no se ha mostrado ya, se muestra
         if Juego_Iniciado == False and verificarInicio == False:
             Mostrar_Pantalla_Inicio()
             verificarInicio == True

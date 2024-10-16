@@ -37,19 +37,9 @@ def Inicializar_Juego():
 verificarInicio = False
 
 def Ciclo_Juego():
-    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada, Contador_Basura_Metal, Contador_Basura_Vidrio, Contador_Basura_Plastico
+    global Game_Over, Juego_Iniciado, EcoBot_en_Movimiento, Zona_Reciclaje_Tocada
     global Sprite_Actual_EcoBot, Posicion_EcoBot, Direccion, Posiciones_Basura, Tipos_Basuras_Generada, Posiciones_Tachos, Ultima_Generacion_Tacho, Contador_Tachos_Generados
     global verificarInicio
-
-    with open("CBP.txt","r") as archivo:
-        Contador_Basura_Plastico=archivo.read()
-    with open("CBV.txt","r") as archivo:
-        Contador_Basura_Vidrio=archivo.read()
-    with open("CBM.txt","r") as archivo:
-        Contador_Basura_Metal=archivo.read()
-    Contador_Basura_Plastico=int(Contador_Basura_Plastico)
-    Contador_Basura_Metal=int(Contador_Basura_Metal)
-    Contador_Basura_Vidrio=int(Contador_Basura_Vidrio)
 
     Inicializar_Juego()
 
@@ -168,6 +158,17 @@ def Ciclo_Juego():
                     if Basura_Recogida is not None:
                         # Registrar el tipo de basura recogido antes de cambiar el tipo
                         tipo_basura_recogida = Tipos_Basuras_Generada[Basura_Recogida].Tipo
+
+                        with open("CBP.txt","r") as archivo:
+                            Contador_Basura_Plastico=archivo.read()
+                        with open("CBV.txt","r") as archivo:
+                            Contador_Basura_Vidrio=archivo.read()
+                        with open("CBM.txt","r") as archivo:
+                            Contador_Basura_Metal=archivo.read()
+
+                        Contador_Basura_Plastico=int(Contador_Basura_Plastico)
+                        Contador_Basura_Metal=int(Contador_Basura_Metal)
+                        Contador_Basura_Vidrio=int(Contador_Basura_Vidrio)
 
                         # Incrementar el contador correspondiente usando el tipo de basura recogido
                         if tipo_basura_recogida == "Metal":

@@ -1,8 +1,8 @@
 from Configs import *
 import EcoBot
+
 with open("CC.txt","w") as archivo:
     archivo.write(str(0))
-
 
 # Configurar música
 Reproducir_Musica(Musica_Minijuego, 0.1)
@@ -52,7 +52,6 @@ contador_plastico=int(contador_plastico)
 contador_metal=int(contador_metal)
 contador_vidrio=int(contador_vidrio)
 
-
 # Función para dibujar vidas
 def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
     for i in range(vida):
@@ -61,12 +60,10 @@ def dibujar_vidas(Pantalla, vida, Sprite_Corazon, x, y):
 # Función para reiniciar el juego
 def reiniciar_juego():
     global vida, game_active, basura_actual, selected_tacho, previous_tacho
-    #global contador_plastico, contador_vidrio, contador_metal
     vida= 3 
     game_active = True
     basura_actual = Generar_Basura_random()
     selected_tacho = previous_tacho = None
-    #contador_plastico, contador_vidrio, contador_metal = 0, 0, 0
 
 # Dibujar la corona con puntaje
 def dibujar_corona_con_puntaje(Pantalla, puntaje, Sprite_Corona, x, y):
@@ -111,18 +108,19 @@ def obtener_sprite_basura(tipo):
 def play_minijuego():
     global vida,puntaje, game_active, basura_actual, selected_tacho, previous_tacho
     
-
-
+    with open("CC.txt","r") as archivo:
+        puntaje = archivo.read()
     with open("CBP.txt","r") as archivo:
         contador_plastico=archivo.read()
     with open("CBV.txt","r") as archivo:
         contador_vidrio=archivo.read()
     with open("CBM.txt","r") as archivo:
         contador_metal=archivo.read()
+  
     contador_plastico=int(contador_plastico)
     contador_metal=int(contador_metal)
     contador_vidrio=int(contador_vidrio)
-
+    puntaje = int(puntaje)
 
     reiniciar_juego()
 
@@ -201,28 +199,29 @@ def play_minijuego():
                     if basura_actual["type"] == tipo_basura:
                         Ganar_Tachos.play()
                         puntaje += 1
+                        with open("CC.txt","w") as archivo:
+                            archivo.write(str(puntaje))
+
                         if tipo_basura == "plástico":
                             contador_plastico = max(0, contador_plastico - 1)
                         elif tipo_basura == "vidrio":
                             contador_vidrio = max(0, contador_vidrio - 1)
                         elif tipo_basura == "metal":
                             contador_metal = max(0, contador_metal - 1)
+                        
+                        with open("CBM.txt","w") as archivo:
+                            archivo.write(str(contador_metal))
+                        with open("CBP.txt","w") as archivo:
+                            archivo.write(str(contador_vidrio))
+                        with open("CBV.txt","w") as archivo:
+                            archivo.write(str(contador_vidrio))
+                            
                     else:
                         Poner_Mal_Tacho.play()
                         vida -= 1
                     basura_actual = Generar_Basura_random()
                     break
 
-            CC = puntaje
-            with open("CC.txt","w") as archivo:
-                archivo.write(str(CC))
-            with open("CBM.txt","w") as archivo:
-                archivo.write(str(contador_metal))
-            with open("CBP.txt","w") as archivo:
-                archivo.write(str(contador_vidrio))
-            with open("CBV.txt","w") as archivo:
-                archivo.write(str(contador_vidrio))
-            
             # Basura fuera del cuadro
             if basura_actual["rect"].y > cuadro_y + cuadro_alto + espacio_abajo:
                 basura_actual = Generar_Basura_random()
@@ -240,6 +239,14 @@ def play_minijuego():
                 Mostrar_Pantalla_Game_Over()
                 pygame.time.delay(2000)
                 game_active = False
+                with open("CC.txt","w") as archivo:
+                    archivo.write(str(0))
+                with open("CBM.txt","w") as archivo:
+                    archivo.write(str(0))
+                with open("CBP.txt","w") as archivo:
+                    archivo.write(str(0))
+                with open("CBV.txt","w") as archivo:
+                    archivo.write(str(0))
                 
             if contador_metal == 0 and contador_plastico == 0 and contador_vidrio == 0:
                 EcoBot.Ciclo_Juego()
@@ -248,11 +255,9 @@ def play_minijuego():
             
         # Reiniciar al presionar 'R'
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+            EcoBot.Ciclo_Juego()
+
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 EcoBot.Ciclo_Juego()
-                return
-                #reiniciar_juego()
-                #break
+                reiniciar_juego()
+                break

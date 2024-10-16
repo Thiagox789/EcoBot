@@ -56,7 +56,7 @@ def Ciclo_Juego():
                     quit()
 
                 # Manejo del inicio del juego
-                if not Juego_Iniciado:
+                if not verificarInicio:
                     
                     #Pulsar enter para iniciar el juego
                     if Event.key == pygame.K_RETURN:
@@ -81,17 +81,6 @@ def Ciclo_Juego():
                             archivo.write(str(0))
                         with open("CC.txt","w") as archivo:
                             archivo.write(str(0))
-                    continue
-
-                # Si la zona de reciclaje fue tocada, el juego se pausa y entra al minijuego
-                if Zona_Reciclaje_Tocada:
-                   
-                   #Al pulsar enter al inicio, que EcoBot se mueva hacia arriba
-                    if Event.key == pygame.K_RETURN:
-                        Zona_Reciclaje_Tocada = False
-                        Direccion = 'UP'
-                        Sprite_Actual_EcoBot = Sprite_EcoBot_Espalda
-                        EcoBot_en_Movimiento = True
                     continue
 
                 # Manejo de los controles del EcoBot
@@ -126,7 +115,7 @@ def Ciclo_Juego():
         #Verificar que la pantalla de inicio ya se halla mostrado, si no se ha mostrado ya, se muestra
         if Juego_Iniciado == False and verificarInicio == False:
             Mostrar_Pantalla_Inicio()
-            verificarInicio == True
+            verificarInicio = True
 
         else:
             if not Game_Over:

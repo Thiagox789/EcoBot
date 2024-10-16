@@ -1,3 +1,7 @@
+# -------------------------------------------------------------------------------------------------------------
+# Librerias y Otras Cosas para el Juego
+# -------------------------------------------------------------------------------------------------------------
+
 # Librerias
 import pygame
 import random
@@ -15,6 +19,11 @@ Color_Gris = (50, 50, 50)
 Color_Rojo = (200, 0, 0)
 Color_Fondo = (0, 200, 0)
 Color_Pared = (0, 150, 0)
+
+
+# -------------------------------------------------------------------------------------------------------------
+# Funciones para Cargar y Modificar Assets
+# -------------------------------------------------------------------------------------------------------------
 
 # Funcion para cargar assets
 def Cargar_Asset(Carpeta_Asset, Nombre_Asset):
@@ -40,6 +49,11 @@ def Reproducir_Musica(Ruta_Musica, Volumen):
     pygame.mixer.music.load(Ruta_Musica)
     pygame.mixer.music.set_volume(Volumen)
     pygame.mixer.music.play(-1)
+
+
+# -------------------------------------------------------------------------------------------------------------
+# Assets Cargados y Ajustados
+# -------------------------------------------------------------------------------------------------------------
 
 # Sprites Cargados
 Sprite_EcoBot_Menu = Cargar_Asset('Sprites', 'EcoBot - Menu.png')

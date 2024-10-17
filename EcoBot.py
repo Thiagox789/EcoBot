@@ -82,7 +82,8 @@ def Ciclo_Juego():
                         with open("CC.txt","w") as archivo:
                             archivo.write(str(0))
                     continue
-
+            
+            
                 # Manejo de los controles del EcoBot
                 if Event.key in [pygame.K_UP, pygame.K_w] and Direccion != 'DOWN':
                     Direccion = 'UP'
@@ -115,7 +116,7 @@ def Ciclo_Juego():
         #Verificar que la pantalla de inicio ya se halla mostrado, si no se ha mostrado ya, se muestra
         if Juego_Iniciado == False and verificarInicio == False:
             Mostrar_Pantalla_Inicio()
-            verificarInicio = True
+            verificarInicio == True
 
         else:
             if not Game_Over:
